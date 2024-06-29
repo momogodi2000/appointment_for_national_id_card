@@ -1,6 +1,8 @@
 from django.urls import path
 from . import views
 from django.contrib.auth import views as auth_views  # Add this import
+from .views import user_panel, book_appointment, upload_document, MissingIDCardForm
+
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -13,4 +15,10 @@ urlpatterns = [
     path('admin_panel/', views.admin_panel, name='admin_panel'),
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='password_reset_confirm.html'), name='password_reset_confirm'),
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='password_reset_complete.html'), name='password_reset_complete'),
+    path('user/book-appointment/', views.book_appointment, name='book_appointment'),
+    path('user/upload-document/', upload_document, name='upload_document'),
+    path('track-application/', views.track_application, name='track_application'),
+    path('security-settings/', views.security_settings, name='security_settings'),
+    path('insert_missing_id_card/', views.insert_missing_id_card, name='insert_missing_id_card'),
+    path('contact-us/', views.contact_us, name='contact_us'),
 ]

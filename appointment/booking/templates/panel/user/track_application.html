@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Track Application{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Track Application</h2>
+    <form>
+        <div class="form-group">
+            <label for="applicationId">Application ID</label>
+            <input type="text" class="form-control" id="applicationId" placeholder="Enter your application ID">
+        </div>
+        <button type="submit" class="btn btn-primary">Track</button>
+    </form>
+    <div id="applicationStatus" class="mt-4">
+        <!-- Application status will be displayed here -->
+    </div>
+</div>
+{% endblock %}
+
+{% block custom_js %}
+<script>
+$(document).ready(function(){
+    $('form').on('submit', function(event){
+        event.preventDefault();
+        // Placeholder for AJAX call to get application status
+        $('#applicationStatus').html('<p class="text-success">Application status: In Progress</p>');
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,79 @@
+/* Add your custom styles here */
+.dashboard {
+    display: flex;
+    height: 100vh;
+}
+.dashboard-nav {
+    width: 250px;
+    background-color: #343a40;
+    color: #fff;
+    position: relative;
+}
+.dashboard-nav header {
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid #475057;
+}
+.dashboard-nav .dashboard-nav-list {
+    padding: 0;
+    list-style: none;
+}
+.dashboard-nav .dashboard-nav-item {
+    padding: 15px 20px;
+    display: block;
+    color: #adb5bd;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+.dashboard-nav .dashboard-nav-item:hover {
+    background-color: #495057;
+}
+.dashboard-app {
+    flex-grow: 1;
+    background-color: #f8f9fa;
+}
+.dashboard-toolbar {
+    padding: 15px;
+    background-color: #e9ecef;
+    border-bottom: 1px solid #dee2e6;
+}
+.dashboard-content {
+    padding: 20px;
+}
+.dashboard-content h1 {
+    margin-bottom: 20px;
+}
+.form-group {
+    margin-bottom: 1rem;
+}
+.form-control,
+.form-control-file {
+    display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.form-control:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+.btn-primary {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+.btn-primary:hover {
+    color: #fff;
+    background-color: #0056b3;
+    border-color: #004085;
+}

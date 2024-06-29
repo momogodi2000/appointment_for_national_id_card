@@ -6,6 +6,19 @@ from django.contrib.auth import get_user_model
 from .forms import CustomUserCreationForm
 from .forms import ForgotPasswordForm  # Make sure to import your form
 from django.contrib.sites.shortcuts import get_current_site
+from django.http import JsonResponse
+from .models import Appointment
+from django.utils.timezone import now
+from .forms import AppointmentForm
+from .forms import DocumentUploadForm
+from .models import Document
+from django.http import HttpResponse
+from .forms import MissingIDCardForm  # Assuming you have a form for handling this
+from .forms import ContactUsForm
+from django.core.mail import send_mail
+from django.conf import settings      #try to access email backend
+
+
 
 
 User = get_user_model()
@@ -82,3 +95,82 @@ def officer_panel(request):
 @login_required
 def admin_panel(request):
     return render(request, 'panel/admin_panel.html')
+
+
+
+@login_required
+def book_appointment(request):
+    if request.method == 'POST':
+        form = AppointmentForm(request.POST)
+        if form.is_valid():
+            appointment = form.save(commit=False)
+            # Additional processing logic as needed
+            appointment.save()
+            return redirect('user_panel')  # Redirect to user panel or another appropriate view
+        else:
+            print(form.errors)  # Check form errors in console for debugging
+    else:
+        form = AppointmentForm()
+    return render(request, 'panel/user/book_appointment.html', {'form': form})
+
+
+
+@login_required
+def upload_document(request):
+    if request.method == 'POST':
+        form = DocumentUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            document = form.save(commit=False)
+            document.user = request.user
+            document.save()
+            return HttpResponse("Documents uploaded successfully")
+        else:
+            return HttpResponse("Error uploading documents. Please try again.")
+    else:
+        form = DocumentUploadForm()
+    return render(request, 'panel/user/upload_document.html', {'form': form})
+
+
+def track_application(request):
+    return render(request, 'panel/user/track_application.html')
+
+def security_settings(request):
+    return render(request, 'panel/user/security_settings.html')
+
+
+
+def insert_missing_id_card(request):
+    if request.method == 'POST':
+        form = MissingIDCardForm(request.POST, request.FILES)
+        if form.is_valid():
+            # Process the form data
+            form.save()
+            # Optionally, redirect to a success page or back to the dashboard
+            return redirect('user_panel')  # Replace with your dashboard URL name
+    else:
+        form = MissingIDCardForm()
+    
+    return render(request, 'panel/user/insert_missing_id_card.html', {'form': form})
+
+
+def contact_us(request):
+    if request.method == 'POST':
+        form = ContactUsForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            message = form.cleaned_data['message']
+
+            # Send email
+            send_mail(
+                'Contact Form Submission',
+                f'Name: {name}\nEmail: {email}\nMessage: {message}',
+                settings.DEFAULT_FROM_EMAIL,
+                [settings.DEFAULT_FROM_EMAIL],
+            )
+
+            return render(request, 'contact_us_success.html')  # Replace with your success template
+    else:
+        form = ContactUsForm()
+
+    return render(request, 'contact_us.html', {'form': form})

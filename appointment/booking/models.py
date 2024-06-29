@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.contrib.auth import get_user_model
 
 class User(AbstractUser):
     ROLE_CHOICES = [
@@ -26,7 +27,24 @@ class Appointment(models.Model):
     time = models.TimeField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
 
+
 class Document(models.Model):
-    appointment = models.ForeignKey(Appointment, related_name='documents', on_delete=models.CASCADE)
-    file = models.FileField(upload_to='documents/')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    birth_certificate = models.FileField(upload_to='documents/', blank=True, null=True)
+    proof_of_nationality = models.FileField(upload_to='documents/', blank=True, null=True)
+    passport_photos = models.FileField(upload_to='documents/', blank=True, null=True)
+    residence_permit = models.FileField(upload_to='documents/', blank=True, null=True)
+    marriage_certificate = models.FileField(upload_to='documents/', blank=True, null=True)
+    death_certificate = models.FileField(upload_to='documents/', blank=True, null=True)
+    sworn_statement = models.FileField(upload_to='documents/', blank=True, null=True)
     uploaded_at = models.DateTimeField(auto_now_add=True)
+
+
+class MissingIDCard(models.Model):
+    name = models.CharField(max_length=255)
+    email = models.EmailField()
+    phone = models.CharField(max_length=20)
+    id_card_image = models.ImageField(upload_to='missing_id_cards/')
+
+    def __str__(self):
+        return self.name

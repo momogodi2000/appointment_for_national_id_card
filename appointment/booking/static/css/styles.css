@@ -18,3 +18,34 @@ body {
     background-color: #f8f9fa;
     text-align: center;
 }
+
+
+
+
+
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-control-file {
+    display: block;
+    width: 100%;
+    margin-top: 0.5rem;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+}
+
+/* Add your custom styles here */
+.container {
+    margin-top: 50px;
+}

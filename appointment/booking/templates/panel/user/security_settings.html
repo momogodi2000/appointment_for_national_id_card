@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Security Settings{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Security Settings</h2>
+    <form>
+        <div class="form-group">
+            <label for="currentPassword">Current Password</label>
+            <input type="password" class="form-control" id="currentPassword" placeholder="Enter current password">
+        </div>
+        <div class="form-group">
+            <label for="newPassword">New Password</label>
+            <input type="password" class="form-control" id="newPassword" placeholder="Enter new password">
+        </div>
+        <div class="form-group">
+            <label for="confirmPassword">Confirm New Password</label>
+            <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm new password">
+        </div>
+        <button type="submit" class="btn btn-primary">Update Password</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block custom_js %}
+<script>
+$(document).ready(function(){
+    $('form').on('submit', function(event){
+        event.preventDefault();
+        // Placeholder for AJAX call to update password
+        alert('Password updated successfully!');
+    });
+});
+</script>
+{% endblock %}

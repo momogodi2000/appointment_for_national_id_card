@@ -33,7 +33,7 @@ EMAIL_HOST = 'smtp-relay.brevo.com'
 EMAIL_PORT =  587
 EMAIL_USE_TLS = True  # or False, depending on your email server configuration
 EMAIL_HOST_USER = '77978c001@smtp-brevo.com'
-EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST_PASSWORD = '7bImyKzWPav6CpVh'
 DEFAULT_FROM_EMAIL = 'yvangodimomo@gmail.com'
 
 

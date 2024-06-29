@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <h2>Book Appointment</h2>
+    <form id="appointmentForm" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="datepicker">Select Appointment Date:</label>
+            <input type="date" id="datepicker" name="date" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Book Appointment</button>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    // JavaScript code for datepicker initialization and form submission handling
+    $(document).ready(function() {
+        $('#appointmentForm').on('submit', function(event) {
+            event.preventDefault();
+            var formData = $(this).serialize();
+            $.ajax({
+                url: "{% url 'book_appointment' %}",
+                type: "POST",
+                data: formData,
+                success: function(response) {
+                    alert('Appointment booked successfully!');
+                    // Optionally redirect to another page or perform other actions
+                },
+                error: function(xhr, status, error) {
+                    alert('Error booking appointment. Please try again.');
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}
