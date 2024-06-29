@@ -1,0 +1,83 @@
+/* Reset and basic styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa; /* Light gray background */
+    margin: 0;
+    padding: 0;
+}
+
+/* Dashboard layout */
+.dashboard {
+    display: flex;
+    min-height: 100vh;
+}
+
+.dashboard-nav {
+    width: 250px;
+    background-color: #fff; /* White sidebar background */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-nav header {
+    padding: 20px;
+    background-color: #007bff; /* Blue header background */
+    color: #fff;
+}
+
+.dashboard-nav .brand-logo {
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.dashboard-nav .brand-logo i {
+    margin-right: 5px;
+}
+
+.dashboard-nav .dashboard-nav-list {
+    padding: 20px;
+}
+
+.dashboard-nav .dashboard-nav-item {
+    display: block;
+    color: #333;
+    text-decoration: none;
+    margin-bottom: 10px;
+}
+
+.dashboard-nav .dashboard-nav-item i {
+    margin-right: 8px;
+}
+
+.dashboard-nav .dashboard-nav-item:hover {
+    color: #007bff;
+}
+
+.dashboard-app {
+    flex: 1;
+    padding: 20px;
+}
+
+.dashboard-content {
+    margin-top: 20px;
+    background-color: #fff; /* White content background */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.btn-primary {
+    background-color: #007bff; /* Blue button background */
+    border-color: #007bff;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+
+.btn-primary:hover {
+    background-color: #0069d9;
+    border-color: #0062cc;
+}

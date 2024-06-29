@@ -5,8 +5,8 @@ class Command(BaseCommand):
     help = 'Create default super admin and police officer'
 
     def handle(self, *args, **kwargs):
-        if not User.objects.filter(username='momo').exists():
-            User.objects.create_superuser(username='momoyvan', password='momo1234', role='admin')
+        if not User.objects.filter(username='admin').exists():
+            User.objects.create_superuser(username='admin', password='admin1234', role='admin')
             self.stdout.write(self.style.SUCCESS('Successfully created super admin'))
         
         if not User.objects.filter(username='police').exists():

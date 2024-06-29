@@ -1,15 +1,51 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Police Officer Panel</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Police Panel</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/police_panel.css' %}">
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome to the Police Officer Panel</h1>
-        <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+    <div class="dashboard">
+        <div class="dashboard-nav">
+            <header>
+                <a href="#" class="brand-logo"><i class="fas fa-anchor"></i> <span>Police Panel</span></a>
+            </header>
+            <nav class="dashboard-nav-list">
+                <a href="#" class="dashboard-nav-item"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                <a href="#" class="dashboard-nav-item"><i class="fas fa-calendar-check"></i> Manage Appointments</a>
+                <a href="#" class="dashboard-nav-item"><i class="fas fa-users"></i> User Information</a>
+                <a href="#" class="dashboard-nav-item"><i class="fas fa-bell"></i> Notifications</a>
+                <a href="#" class="dashboard-nav-item"><i class="fas fa-cogs"></i> Settings</a>
+            </nav>
+            <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
+        </div>
+        <main class="dashboard-app">
+            <header class="dashboard-toolbar">
+                <a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a>
+            </header>
+            <div class="dashboard-content">
+                <h1>Welcome to the Police Panel!</h1>
+                <p>Here you can manage appointments, view user information, notifications, and settings.</p>
+                <!-- Additional content and features as needed -->
+            </div>
+        </main>
     </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Custom JavaScript -->
+    <script src="{% static 'js/police_panel.js' %}"></script>
 </body>
 </html>
