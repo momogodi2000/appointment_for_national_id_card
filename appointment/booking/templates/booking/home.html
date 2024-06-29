@@ -1,0 +1,151 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Appointment for National ID Card</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+        .navbar {
+            background-color: #007bff;
+        }
+        .navbar-brand, .nav-link {
+            color: #fff !important;
+        }
+        .jumbotron {
+            background: url('https://via.placeholder.com/1200x400') no-repeat center center;
+            background-size: cover;
+            color: #fff;
+            text-align: center;
+        }
+        .procedure {
+            margin-top: 30px;
+        }
+        .procedure h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .procedure ol {
+            list-style: none;
+            padding: 0;
+        }
+        .procedure li {
+            background: #fff;
+            margin-bottom: 10px;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        .procedure li:hover {
+            transform: translateY(-5px);
+        }
+        .footer {
+            background-color: #343a40;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        .footer p {
+            margin: 0;
+        }
+        .btn-social {
+            margin: 5px;
+        }
+        .btn-google {
+            background-color: #db4437;
+            color: #fff;
+        }
+        .btn-facebook {
+            background-color: #3b5998;
+            color: #fff;
+        }
+        .btn-apple {
+            background-color: #333;
+            color: #fff;
+        }
+        .btn-yahoo {
+            background-color: #400090;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="#">National ID Booking</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'register' %}">Register</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">Login</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4">Booking Appointment for National ID Card</h1>
+            <p class="lead">Case Study: Cameroon</p>
+        </div>
+    </div>
+
+    <div class="container procedure">
+        <h2>Procedure to Establish an Official National ID Card in Cameroon</h2>
+        <ol>
+            <li>
+                <h4>Step 1: Visit the nearest identification office or book online for an appointment</h4>
+                <p>Find the nearest office or use our online system to schedule an appointment at your convenience.</p>
+            </li>
+            <li>
+                <h4>Step 2: Provide the necessary documents</h4>
+                <ul>
+                    <li>Birth Certificate</li>
+                    <li>Proof of Residence</li>
+                    <li>Previous ID card (if applicable)</li>
+                    <li>Passport-size photographs</li>
+                </ul>
+            </li>
+            <li>
+                <h4>Step 3: Complete the application form</h4>
+                <p>Fill out the application form available at the identification office or online.</p>
+            </li>
+            <li>
+                <h4>Step 4: Submit the form and documents</h4>
+                <p>Submit the completed form along with the required documents to the designated officer.</p>
+            </li>
+            <li>
+                <h4>Step 5: Biometric data capture</h4>
+                <p>Undergo biometric data capture including fingerprints, photograph, and signature.</p>
+            </li>
+            <li>
+                <h4>Step 6: Receive acknowledgment slip</h4>
+                <p>Receive an acknowledgment slip with your application number for tracking.</p>
+            </li>
+            <li>
+                <h4>Step 7: Track application status</h4>
+                <p>Track the status of your application online using your application number.</p>
+            </li>
+            <li>
+                <h4>Step 8: Collect the National ID card</h4>
+                <p>Collect your National ID card upon notification from the identification office.</p>
+            </li>
+        </ol>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2024 National ID Card Booking System. All rights reserved.</p>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

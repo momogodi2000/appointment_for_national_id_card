@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        .form-container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .social-login {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h2>Login</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+            </form>
+            <div class="social-login text-center mt-3">
+                <h3>Or login with</h3>
+                <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn btn-google btn-block">Google</a>
+                <a href="{% url 'social:begin' 'facebook' %}" class="btn btn-facebook btn-block">Facebook</a>
+                <a href="{% url 'social:begin' 'apple' %}" class="btn btn-apple btn-block">Apple</a>
+                <a href="{% url 'social:begin' 'yahoo' %}" class="btn btn-yahoo btn-block">Yahoo</a>
+            </div>
+            <div class="text-center mt-3">
+                <p>Don't have an account? <a href="{% url 'register' %}">Register</a></p>
+                <p><a href="{% url 'forgot_password' %}">Forgot Password?</a></p>
+                <p><a href="{% url 'home' %}">Return Home</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
