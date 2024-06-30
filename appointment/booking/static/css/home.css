@@ -1,0 +1,101 @@
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f5f5;
+}
+.navbar {
+    background-color: #007bff;
+}
+.navbar-brand, .nav-link {
+    color: #fff !important;
+}
+.jumbotron {
+    background: url('https://via.placeholder.com/1200x400') no-repeat center center;
+    background-size: cover;
+    color: #fff;
+    text-align: center;
+    padding: 150px 0;
+}
+.procedure {
+    margin-top: 30px;
+}
+.procedure h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.procedure ol {
+    list-style: none;
+    padding: 0;
+}
+.procedure li {
+    background: #fff;
+    margin-bottom: 10px;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+.procedure li:hover {
+    transform: translateY(-5px);
+}
+.procedure img {
+    max-width: 100%;
+    border-radius: 5px;
+}
+.footer {
+    background-color: #343a40;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+.footer p {
+    margin: 0;
+}
+.btn-social {
+    margin: 5px;
+}
+.btn-google {
+    background-color: #db4437;
+    color: #fff;
+}
+.btn-facebook {
+    background-color: #3b5998;
+    color: #fff;
+}
+.btn-apple {
+    background-color: #333;
+    color: #fff;
+}
+.btn-yahoo {
+    background-color: #400090;
+    color: #fff;
+}
+.moto {
+    text-align: center;
+    margin: 20px 0;
+}
+.security-services {
+    margin: 40px 0;
+}
+.security-services h3 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.service-item {
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+.service-item h4 {
+    margin-bottom: 10px;
+}
+@media (max-width: 768px) {
+    .jumbotron {
+        padding: 100px 0;
+    }
+    .service-item {
+        padding: 10px;
+    }
+}

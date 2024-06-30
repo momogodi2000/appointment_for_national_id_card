@@ -1,0 +1,45 @@
+
+.dashboard-content {
+            padding: 20px;
+        }
+.police-corps {
+            display: flex;
+            flex-wrap: wrap;
+        }
+.corps-card {
+            flex: 1 1 calc(50% - 20px);
+            margin: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease-in-out;
+        }
+ .corps-card:hover {
+            transform: scale(1.05);
+        }
+ .corps-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+ .corps-card-body {
+            padding: 15px;
+        }
+ .corps-card-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+.corps-card-description {
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+ .btn-details {
+            display: inline-block;
+            padding: 10px 15px;
+            font-size: 0.9rem;
+            color: #fff;
+            background: #007bff;
+            border-radius: 5px;
+            text-decoration: none;
+        }

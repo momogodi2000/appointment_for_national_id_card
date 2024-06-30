@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/notification.css' %}">
+    <link rel="stylesheet" href="{% static 'css/user_panel.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+</head>
+<body>
+    <div class="dashboard">
+        <div class="dashboard-nav">
+            <header>
+                <a href="#" class="brand-logo"><i class="fas fa-anchor"></i> <span>Police Panel</span></a>
+            </header>
+            <nav class="dashboard-nav-list">
+                <a href="{% url 'officer_panel' %}" class="dashboard-nav-item"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                <a href="{% url 'manage_appointments' %}" class="dashboard-nav-item"><i class="fas fa-calendar-check"></i> Manage Appointments</a>
+                <a href="{% url 'user_information' %}" class="dashboard-nav-item"><i class="fas fa-users"></i> User Information</a>
+                <a href="{% url 'notifications' %}" class="dashboard-nav-item active"><i class="fas fa-bell"></i> Notifications</a>
+                <a href="#" class="dashboard-nav-item"><i class="fas fa-cogs"></i> Settings</a>
+            </nav>
+            <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
+        </div>
+        <main class="dashboard-app">
+            <header class="dashboard-toolbar">
+                <a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a>
+            </header>
+            <div class="dashboard-content">
+                <h1>Notifications</h1>
+                <div id="notification-container">
+                    {% for notification in notifications %}
+                    <div class="notification-card">
+                        <div class="date">{{ notification.created_at|date:"F j, Y, g:i a" }}</div>
+                        <div class="message">{{ notification.message }}</div>
+                        <div class="status">{% if notification.is_read %}Read{% else %}Unread{% endif %}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="statistics-section">
+                    <h2>Notification Statistics</h2>
+                    <canvas id="notificationChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+   
+</body>
+</html>

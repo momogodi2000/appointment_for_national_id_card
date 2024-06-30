@@ -7,9 +7,9 @@ from .forms import CustomUserCreationForm
 from .forms import ForgotPasswordForm  # Make sure to import your form
 from django.contrib.sites.shortcuts import get_current_site
 from django.http import JsonResponse
-from .models import Appointment
+from .models import Appointment, User
 from django.utils.timezone import now
-from .forms import AppointmentForm
+from .forms import AppointmentForm, UserForm
 from .forms import DocumentUploadForm
 from .models import Document
 from django.http import HttpResponse
@@ -17,6 +17,12 @@ from .forms import MissingIDCardForm  # Assuming you have a form for handling th
 from .forms import ContactUsForm
 from django.core.mail import send_mail
 from django.conf import settings      #try to access email backend
+from .models import Notification
+from django.db.models import Count
+from django.utils import timezone
+import calendar
+
+
 
 
 
@@ -174,3 +180,77 @@ def contact_us(request):
         form = ContactUsForm()
 
     return render(request, 'contact_us.html', {'form': form})
+
+ #police view
+
+
+@login_required
+def manage_appointments(request):
+    if request.user.role != 'officer':
+        return render(request, '403.html', status=403)
+
+    appointments = Appointment.objects.all()
+    return render(request, 'panel/police/manage_appointments.html', {'appointments': appointments})
+
+@login_required
+def user_information(request):
+    users = User.objects.all()
+    return render(request, 'panel/police/user_information.html', {'users': users})
+
+@login_required
+def edit_appointment(request, pk):
+    appointment = get_object_or_404(Appointment, pk=pk)
+    if request.method == "POST":
+        form = AppointmentForm(request.POST, instance=appointment)
+        if form.is_valid():
+            form.save()
+            return redirect('manage_appointments')
+    else:
+        form = AppointmentForm(instance=appointment)
+    return render(request, 'panel/police/edit_appointment.html', {'form': form})
+
+@login_required
+def delete_appointment(request, pk):
+    appointment = get_object_or_404(Appointment, pk=pk)
+    appointment.delete()
+    return redirect('manage_appointments')
+
+@login_required
+def edit_user(request, pk):
+    user = get_object_or_404(User, pk=pk)
+    if request.method == "POST":
+        form = UserForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('user_information')
+    else:
+        form = UserForm(instance=user)
+    return render(request, 'panel/police/edit_user.html', {'form': form})
+
+@login_required
+def delete_user(request, pk):
+    user = get_object_or_404(User, pk=pk)
+    user.delete()
+    return redirect('user_information')
+
+
+#notifier
+
+@login_required
+def notifications(request):
+    notifications = Notification.objects.filter(user=request.user)
+
+    # Gather data for chart
+    current_year = timezone.now().year
+    monthly_notifications = Notification.objects.filter(created_at__year=current_year).values('created_at__month').annotate(count=Count('id')).order_by('created_at__month')
+
+    notification_labels = [calendar.month_name[i['created_at__month']] for i in monthly_notifications]
+    notification_counts = [i['count'] for i in monthly_notifications]
+
+    context = {
+        'notifications': notifications,
+        'notification_labels': notification_labels,
+        'notification_counts': notification_counts,
+    }
+
+    return render(request, 'panel/police/notifications.html', context)

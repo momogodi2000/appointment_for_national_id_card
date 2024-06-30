@@ -1,0 +1,80 @@
+
+        .notification-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: transform 0.3s ease-in-out;
+        }
+        .notification-card:hover {
+            transform: scale(1.02);
+        }
+        .notification-card .date {
+            font-size: 0.9rem;
+            color: #888;
+        }
+        .notification-card .message {
+            font-size: 1rem;
+            margin: 10px 0;
+        }
+        .notification-card .status {
+            font-size: 0.9rem;
+            color: #28a745;
+        }
+
+       
+@media (max-width: 768px) {
+    .dashboard-nav {
+        flex-direction: column;
+    }
+    .dashboard-content {
+        padding: 10px;
+    }
+    .notification-card {
+        margin-bottom: 10px;
+    }
+}
+
+
+        .notification-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: transform 0.3s ease-in-out;
+        }
+        .notification-card:hover {
+            transform: scale(1.02);
+        }
+        .notification-card .date {
+            font-size: 0.9rem;
+            color: #888;
+        }
+        .notification-card .message {
+            font-size: 1rem;
+            margin: 10px 0;
+        }
+        .notification-card .status {
+            font-size: 0.9rem;
+            color: #28a745;
+        }
+        .statistics-section {
+            margin-top: 30px;
+        }
+
+
+
+        /* notification.css */
+.notification-card {
+    transition: transform 0.3s ease-in-out;
+}
+
+.notification-card:hover {
+    transform: scale(1.05);
+}
+
+.statistics-section {
+    margin-top: 30px;
+}

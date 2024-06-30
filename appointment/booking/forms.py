@@ -30,7 +30,7 @@ class ForgotPasswordForm(forms.Form):
 class AppointmentForm(forms.ModelForm):
     class Meta:
         model = Appointment
-        fields = ['date', 'time', 'office']  # Adjust fields as per your model definition
+        fields = ['user', 'date', 'time', 'status'] # Adjust fields as per your model definition
 
 
 
@@ -75,3 +75,8 @@ class ContactUsForm(forms.Form):
     name = forms.CharField(max_length=100)
     email = forms.EmailField()
     message = forms.CharField(widget=forms.Textarea)
+
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('username', 'name', 'email', 'phone', 'address', 'role')

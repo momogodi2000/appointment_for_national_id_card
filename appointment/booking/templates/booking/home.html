@@ -7,79 +7,16 @@
     <title>Booking Appointment for National ID Card</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-        }
-        .navbar {
-            background-color: #007bff;
-        }
-        .navbar-brand, .nav-link {
-            color: #fff !important;
-        }
-        .jumbotron {
-            background: url('https://via.placeholder.com/1200x400') no-repeat center center;
-            background-size: cover;
-            color: #fff;
-            text-align: center;
-        }
-        .procedure {
-            margin-top: 30px;
-        }
-        .procedure h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .procedure ol {
-            list-style: none;
-            padding: 0;
-        }
-        .procedure li {
-            background: #fff;
-            margin-bottom: 10px;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
-        }
-        .procedure li:hover {
-            transform: translateY(-5px);
-        }
-        .footer {
-            background-color: #343a40;
-            color: #fff;
-            padding: 20px;
-            text-align: center;
-        }
-        .footer p {
-            margin: 0;
-        }
-        .btn-social {
-            margin: 5px;
-        }
-        .btn-google {
-            background-color: #db4437;
-            color: #fff;
-        }
-        .btn-facebook {
-            background-color: #3b5998;
-            color: #fff;
-        }
-        .btn-apple {
-            background-color: #333;
-            color: #fff;
-        }
-        .btn-yahoo {
-            background-color: #400090;
-            color: #fff;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+   
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark">
         <a class="navbar-brand" href="#">National ID Booking</a>
-        <div class="collapse navbar-collapse">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'register' %}">Register</a>
@@ -98,6 +35,11 @@
         </div>
     </div>
 
+    <div class="container moto">
+        <h2>Moto of Cameroon: "Peace - Work - Fatherland"</h2>
+        <img src="{% static 'img/motto.jpeg' %}" alt="Cameroon Moto" class="img-fluid">
+    </div>
+
     <div class="container procedure">
         <h2>Procedure to Establish an Official National ID Card in Cameroon</h2>
         <ol>
@@ -113,6 +55,7 @@
                     <li>Previous ID card (if applicable)</li>
                     <li>Passport-size photographs</li>
                 </ul>
+                <img src="{% static 'img/birth.jpeg' %}" alt="Necessary Documents" class="img-fluid">
             </li>
             <li>
                 <h4>Step 3: Complete the application form</h4>
@@ -125,6 +68,7 @@
             <li>
                 <h4>Step 5: Biometric data capture</h4>
                 <p>Undergo biometric data capture including fingerprints, photograph, and signature.</p>
+                <img src="{% static 'img/bio.jpeg' %}" alt="Biometric Data Capture" class="img-fluid">
             </li>
             <li>
                 <h4>Step 6: Receive acknowledgment slip</h4>
@@ -141,11 +85,34 @@
         </ol>
     </div>
 
+    <div class="container security-services">
+        <h3>Different Security Level Services in Police</h3>
+        <div class="row">
+            <div class="col-md-4 service-item">
+                <h4>Service 1: Criminal Investigation</h4>
+                <p>Handles investigation of serious crimes and criminal activities.</p>
+                <img src="{% static 'img/police2.jpeg' %}" alt="Necessary Documents" class="img-fluid">
+            </div>
+            <div class="col-md-4 service-item">
+                <h4>Service 2: Traffic Control</h4>
+                <p>Ensures the safety and regulation of road traffic.</p>
+                <img src="{% static 'img/inspect.jpeg' %}" alt="Necessary Documents" class="img-fluid">
+            </div>
+            <div class="col-md-4 service-item">
+                <h4>Service 3: Cyber Crime</h4>
+                <p>Investigates and combats cyber-related crimes.</p>
+                <img src="{% static 'img/cyber.jpeg' %}" alt="Necessary Documents" class="img-fluid">
+            </div>
+        </div>
+    </div>
+
     <div class="footer">
         <p>&copy; 2024 National ID Card Booking System. All rights reserved.</p>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="{% static 'js/home.js' %}">
 </body>
 </html>

@@ -1,4 +1,4 @@
-from django.contrib.auth.models import AbstractUser
+from the original model(from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.contrib.auth import get_user_model
 
@@ -9,9 +9,6 @@ class User(AbstractUser):
         ('admin', 'Super Admin'),
     ]
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='user')
-    name = models.CharField(max_length=100, default='user')  # Provide a default value
-    phone = models.CharField(max_length=15, default='0000000000')  # Provide a default value
-    address = models.TextField(null=True, blank=True)  # Temporarily allow null
 
 class Office(models.Model):
     name = models.CharField(max_length=100)
@@ -51,12 +48,4 @@ class MissingIDCard(models.Model):
 
     def __str__(self):
         return self.name
-
-class Notification(models.Model):
-    appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE)
-    message = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    is_read = models.BooleanField(default=False)
-
-    def __str__(self):
-        return f"Notification for {self.appointment}"
+) update it so that it should take in the new information of the model above
