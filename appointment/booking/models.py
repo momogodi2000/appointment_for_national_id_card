@@ -48,8 +48,12 @@ class MissingIDCard(models.Model):
     email = models.EmailField()
     phone = models.CharField(max_length=20)
     id_card_image = models.ImageField(upload_to='missing_id_cards/')
+    
+@classmethod
+def get_all_missing_cards(cls):
+        return cls.objects.all()
 
-    def __str__(self):
+def __str__(self):
         return self.name
 
 class Notification(models.Model):

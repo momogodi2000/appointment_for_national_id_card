@@ -20,6 +20,14 @@ body {
 }
 
 
+.btn-social {
+    transition: transform 0.3s ease;
+}
+.btn-social:hover {
+    transform: scale(1.1);
+}
+
+
 
 
 

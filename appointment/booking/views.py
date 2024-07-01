@@ -22,6 +22,8 @@ from django.db.models import Count
 from django.utils import timezone
 import calendar
 from .forms import UserForm 
+from .models import MissingIDCard
+
 
 
 
@@ -146,19 +148,19 @@ def security_settings(request):
 
 
 
+@login_required
 def insert_missing_id_card(request):
     if request.method == 'POST':
         form = MissingIDCardForm(request.POST, request.FILES)
         if form.is_valid():
-            # Process the form data
             form.save()
-            # Optionally, redirect to a success page or back to the dashboard
-            return redirect('user_panel')  # Replace with your dashboard URL name
+            return redirect('user_panel')
     else:
         form = MissingIDCardForm()
-    
-    return render(request, 'panel/user/insert_missing_id_card.html', {'form': form})
 
+    found_id_cards = MissingIDCard.objects.all()
+    
+    return render(request, 'panel/user/insert_missing_id_card.html', {'form': form, 'found_id_cards': found_id_cards})
 
 def contact_us(request):
     if request.method == 'POST':

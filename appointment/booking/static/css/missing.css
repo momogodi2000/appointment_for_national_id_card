@@ -46,3 +46,42 @@
     background-color: #0056b3;
     border-color: #004085;
 }
+
+
+
+
+/* Custom CSS for Missing ID Card Page */
+
+.modal-lg {
+    max-width: 80%;
+}
+
+.img-thumbnail {
+    transition: transform 0.2s;
+}
+
+.img-thumbnail:hover {
+    transform: scale(1.1);
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+@media (max-width: 768px) {
+    .modal-lg {
+        max-width: 100%;
+    }
+}
+
+.needs-validation .form-control:invalid {
+    border-color: #dc3545;
+}
+
+.needs-validation .form-control:valid {
+    border-color: #28a745;
+}
+
+.invalid-feedback {
+    display: block;
+}

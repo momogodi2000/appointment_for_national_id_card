@@ -16,6 +16,13 @@
             border-radius: 5px;
             background-color: #f9f9f9;
         }
+        /* Responsive styles */
+        @media (max-width: 576px) {
+            .form-container {
+                margin: 20px;
+                padding: 15px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -28,10 +35,11 @@
                 <button type="submit" class="btn btn-primary btn-block">Register</button>
             </form>
             <div class="text-center mt-3">
-                <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
-                <p><a href="{% url 'forgot_password' %}">Forgot Password?</a></p>
-                <p><a href="{% url 'home' %}">Return Home</a></p>
+                <p>Already have an account? <a href="{% url 'login' %}" class="btn btn-primary">Login</a></p>
+                <p><a href="{% url 'forgot_password' %}" class="btn btn-primary">Forgot Password?</a></p>
+                <p><a href="{% url 'home' %}" class="btn btn-primary">Return Home</a></p>
             </div>
+            
         </div>
     </div>
 </body>
