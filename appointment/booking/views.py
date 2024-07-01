@@ -21,6 +21,7 @@ from .models import Notification
 from django.db.models import Count
 from django.utils import timezone
 import calendar
+from .forms import UserForm 
 
 
 
@@ -230,8 +231,10 @@ def edit_user(request, pk):
 @login_required
 def delete_user(request, pk):
     user = get_object_or_404(User, pk=pk)
-    user.delete()
-    return redirect('user_information')
+    if request.method == "POST":
+        user.delete()
+        return redirect('user_information')
+    return render(request, 'panel/police/delete_user.html', {'user': user})
 
 
 #notifier
