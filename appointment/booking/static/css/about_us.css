@@ -1,0 +1,54 @@
+.about-us-container {
+    padding: 20px;
+}
+
+.card {
+    margin-bottom: 30px;
+}
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.card-text {
+    font-size: 1rem;
+    color: #555;
+}
+
+.list-unstyled {
+    padding-left: 0;
+    list-style: none;
+}
+
+.list-unstyled li {
+    margin-bottom: 10px;
+}
+
+.list-unstyled a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.list-unstyled a:hover {
+    text-decoration: underline;
+}
+
+.mt-5 {
+    margin-top: 3rem !important;
+}
+
+.container {
+    max-width: 1140px;
+}
+
+@media (max-width: 768px) {
+    .card-img-top {
+        height: auto;
+    }
+}

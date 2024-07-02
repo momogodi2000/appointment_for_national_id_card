@@ -81,3 +81,101 @@ body {
     background-color: #0069d9;
     border-color: #0062cc;
 }
+
+
+/* admin pages*/
+
+.dashboard {
+    display: flex;
+    min-height: 100vh;
+}
+
+.dashboard-nav {
+    width: 250px;
+    background: #343a40;
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.dashboard-nav header {
+    padding: 1rem;
+    background: #212529;
+    text-align: center;
+}
+
+.dashboard-nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dashboard-nav-item {
+    padding: 0.75rem 1rem;
+    display: block;
+    color: #fff;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+
+.dashboard-nav-item:hover {
+    background: #495057;
+}
+
+.dashboard-app {
+    flex-grow: 1;
+    padding: 1rem;
+}
+
+.dashboard-toolbar {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem;
+    background: #f8f9fa;
+}
+
+.dashboard-content {
+    background: #fff;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+/* update for crud */
+
+@media (max-width: 768px) {
+    .dashboard-nav {
+        width: 100%;
+        height: auto;
+        display: none;
+    }
+    .dashboard-nav.active {
+        display: block;
+    }
+    .dashboard-app {
+        padding: 0.5rem;
+    }
+    .dashboard-toolbar {
+        justify-content: space-between;
+    }
+}
+
+.dashboard-nav-item {
+    transition: background 0.3s, transform 0.3s;
+}
+.dashboard-nav-item:hover {
+    transform: scale(1.05);
+}
+
+.dashboard-content {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

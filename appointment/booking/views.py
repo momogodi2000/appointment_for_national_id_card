@@ -23,6 +23,7 @@ from django.utils import timezone
 import calendar
 from .forms import UserForm 
 from .models import MissingIDCard
+from django.views.generic import TemplateView
 
 
 
@@ -132,12 +133,17 @@ def upload_document(request):
             document = form.save(commit=False)
             document.user = request.user
             document.save()
-            return HttpResponse("Documents uploaded successfully")
+            return redirect('payment_page')  # Redirect to the payment page
         else:
             return HttpResponse("Error uploading documents. Please try again.")
     else:
         form = DocumentUploadForm()
     return render(request, 'panel/user/upload_document.html', {'form': form})
+
+@login_required
+def payment_page(request):
+    return render(request, 'panel/user/payment_page.html')
+
 
 
 def track_application(request):
@@ -259,3 +265,70 @@ def notifications(request):
     }
 
     return render(request, 'panel/police/notifications.html', context)
+
+
+
+
+#admin view
+
+def manage_users(request):
+    users = User.objects.all()
+    return render(request, 'panel/admin/manage_users.html', {'users': users})
+
+def add_user(request):
+    if request.method == 'POST':
+        form = UserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('manage_users')
+    else:
+        form = UserForm()
+    return render(request, 'panel/admin/add_user.html', {'form': form})
+
+def edit_user(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    if request.method == 'POST':
+        form = UserForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('manage_users')
+    else:
+        form = UserForm(instance=user)
+    return render(request, 'panel/admin/edit_user.html', {'form': form})
+
+def delete_user(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    user.delete()
+    return redirect('manage_users')
+
+def manage_appointments(request):
+    appointments = Appointment.objects.all()
+    return render(request, 'panel/admin/manage_appointments.html', {'appointments': appointments})
+
+def approve_appointment(request, appointment_id):
+    appointment = get_object_or_404(Appointment, id=appointment_id)
+    appointment.status = 'Approved'
+    appointment.save()
+    return redirect('manage_appointments')
+
+def reject_appointment(request, appointment_id):
+    appointment = get_object_or_404(Appointment, id=appointment_id)
+    appointment.status = 'Rejected'
+    appointment.save()
+    return redirect('manage_appointments')
+
+def manage_documents(request):
+    documents = Document.objects.all()
+    return render(request, 'panel/admin/manage_documents.html', {'documents': documents})
+
+def delete_document(request, document_id):
+    document = get_object_or_404(Document, id=document_id)
+    document.delete()
+    return redirect('manage_documents')
+
+class AboutUsView(TemplateView):
+    template_name = 'panel/admin/about_us.html'
+
+
+
+

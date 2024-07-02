@@ -4,8 +4,8 @@
 
 {% block content %}
 <div class="container">
-    <h2 class="my-4">Upload Documents for National ID Card</h2>
-    <form method="POST" enctype="multipart/form-data">
+    <h2 class="my-4 animate__animated animate__fadeInDown">Upload Documents for National ID Card</h2>
+    <form method="POST" enctype="multipart/form-data" class="animate__animated animate__fadeInUp">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit" class="btn btn-primary">Upload Documents</button>

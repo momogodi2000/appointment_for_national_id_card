@@ -2,6 +2,8 @@ from django.urls import path
 from . import views
 from django.contrib.auth import views as auth_views  # Add this import
 from .views import user_panel, book_appointment, upload_document, MissingIDCardForm, manage_appointments, user_information
+from .views import payment_page, AboutUsView
+from .views import manage_users, add_user, edit_user, delete_user, manage_appointments, approve_appointment, reject_appointment, manage_documents, delete_document
 
 
 urlpatterns = [
@@ -17,6 +19,7 @@ urlpatterns = [
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='password_reset_complete.html'), name='password_reset_complete'),
     path('user/book-appointment/', views.book_appointment, name='book_appointment'),
     path('user/upload-document/', upload_document, name='upload_document'),
+    path('user/payment/', payment_page, name='payment_page'),
     path('track-application/', views.track_application, name='track_application'),
     path('security-settings/', views.security_settings, name='security_settings'),
     path('insert_missing_id_card/', views.insert_missing_id_card, name='insert_missing_id_card'),
@@ -31,5 +34,15 @@ urlpatterns = [
     path('notifications/', views.notifications, name='notifications'),
 
 
+    path('admin/manage-users/', manage_users, name='manage_users'),
+    path('admin/add-user/', add_user, name='add_user'),
+    path('admin/edit-user/<int:user_id>/', edit_user, name='edit_user'),
+    path('admin/delete-user/<int:user_id>/', delete_user, name='delete_user'),
+    path('admin/manage-appointments/', manage_appointments, name='manage_appointments'),
+    path('admin/approve-appointment/<int:appointment_id>/', approve_appointment, name='approve_appointment'),
+    path('admin/reject-appointment/<int:appointment_id>/', reject_appointment, name='reject_appointment'),
+    path('admin/manage-documents/', manage_documents, name='manage_documents'),
+    path('admin/delete-document/<int:document_id>/', delete_document, name='delete_document'),
+    path('about-us/', AboutUsView.as_view(), name='about_us'),
    
 ]

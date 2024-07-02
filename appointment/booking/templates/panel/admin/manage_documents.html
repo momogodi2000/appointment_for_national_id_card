@@ -1,0 +1,29 @@
+{% extends 'panel/admin/base_admin.html' %}
+{% block content %}
+<h1>Manage Documents</h1>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Document Name</th>
+                <th>Uploaded By</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for document in documents %}
+            <tr>
+                <td>{{ document.id }}</td>
+                <td>{{ document.name }}</td>
+                <td>{{ document.user.username }}</td>
+                <td>
+                    <a href="{{ document.file.url }}" class="btn btn-primary btn-sm"><i class="fas fa-eye"></i> View</a>
+                    <a href="{% url 'delete_document' document.id %}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -33,14 +33,13 @@ class Appointment(models.Model):
 
 class Document(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    birth_certificate = models.FileField(upload_to='documents/', blank=True, null=True)
-    proof_of_nationality = models.FileField(upload_to='documents/', blank=True, null=True)
-    passport_photos = models.FileField(upload_to='documents/', blank=True, null=True)
+    birth_certificate = models.FileField(upload_to='documents/')
+    proof_of_nationality = models.FileField(upload_to='documents/')
+    passport_photos = models.FileField(upload_to='documents/')
     residence_permit = models.FileField(upload_to='documents/', blank=True, null=True)
     marriage_certificate = models.FileField(upload_to='documents/', blank=True, null=True)
     death_certificate = models.FileField(upload_to='documents/', blank=True, null=True)
     sworn_statement = models.FileField(upload_to='documents/', blank=True, null=True)
-    uploaded_at = models.DateTimeField(auto_now_add=True)
 
 
 class MissingIDCard(models.Model):
