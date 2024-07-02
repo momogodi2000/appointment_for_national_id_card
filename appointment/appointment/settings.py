@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -30,7 +30,7 @@ ALLOWED_HOSTS = []
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp-relay.brevo.com'
-EMAIL_PORT =  587
+EMAIL_PORT = 587
 EMAIL_USE_TLS = True  # or False, depending on your email server configuration
 EMAIL_HOST_USER = '77978c001@smtp-brevo.com'
 EMAIL_HOST_PASSWORD = '7bImyKzWPav6CpVh'
@@ -44,7 +44,6 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.yahoo.YahooOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
-
 
 
 # Social Auth Keys and Secrets (You need to replace these with your own keys)
@@ -117,17 +116,29 @@ WSGI_APPLICATION = 'appointment.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'booking',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '3306',
+if os.environ.get('DB_ENGINE') and os.environ.get('DB_ENGINE') == "mysql":
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': os.getenv('DB_NAME', 'booking'),
+            'USER': os.getenv('DB_USERNAME', 'root'),
+            'PASSWORD': os.getenv('DB_PASS', ''),
+            'HOST': os.getenv('DB_HOST', 'localhost'),
+            'PORT': os.getenv('DB_PORT', 3306),
+        },
     }
-}
-
+else:
+    DATABASES = {
+        'default': {
+            # 'ENGINE': 'mysql.connector.django',  # Use this for MySQL versions 8.0+
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'booking',
+            'USER': 'root',
+            'PASSWORD': '',
+            'HOST': 'localhost',
+            'PORT': '3306',
+        }
+    }
 
 
 # Password validation
