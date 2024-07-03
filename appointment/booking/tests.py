@@ -1,70 +1,145 @@
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.contrib.auth.models import User
-from .models import Appointment, Notification
+from django.utils import timezone
+from .models import User, Appointment, Document, MissingIDCard, Office
+from .forms import RegistrationForm, LoginForm, CustomPasswordResetForm, AppointmentForm, DocumentUploadForm, ContactUsForm
 
-class UserPanelTests(TestCase):
+class UserTests(TestCase):
     def setUp(self):
         self.client = Client()
-        self.user = User.objects.create_user(username='user', password='password')
-        self.officer = User.objects.create_user(username='officer', password='password', role='officer')
-        
-        # Create test appointments
-        self.appointment = Appointment.objects.create(user=self.user, date='2024-07-01', time='10:00')
-        
-        # Create test notifications
-        self.notification = Notification.objects.create(appointment=self.appointment, message='Test notification')
+        self.user = User.objects.create_user(username='testuser', email='test@example.com', password='testpass')
+    
+    def test_user_registration(self):
+        form_data = {
+            'username': 'newuser',
+            'email': 'newuser@example.com',
+            'password1': 'newpassword',
+            'password2': 'newpassword',
+        }
+        form = RegistrationForm(data=form_data)
+        self.assertTrue(form.is_valid())
+        form.save()
+        self.assertTrue(User.objects.filter(username='newuser').exists())
 
-    def test_login_required(self):
-        response = self.client.get(reverse('user_information'))
-        self.assertRedirects(response, '/accounts/login/?next=/user-information/')
+    def test_user_login(self):
+        response = self.client.post(reverse('login'), {'username': 'testuser', 'password': 'testpass'})
+        self.assertEqual(response.status_code, 302)  # Redirect after login
+        self.assertRedirects(response, reverse('user_panel'))
 
-    def test_user_information_view(self):
-        self.client.login(username='officer', password='password')
-        response = self.client.get(reverse('user_information'))
+    def test_user_logout(self):
+        self.client.login(username='testuser', password='testpass')
+        response = self.client.get(reverse('logout'))
+        self.assertEqual(response.status_code, 302)  # Redirect after logout
+
+class AppointmentTests(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.user = User.objects.create_user(username='testuser', email='test@example.com', password='testpass')
+        self.office = Office.objects.create(name='Main Office', address='123 Main St')
+        self.appointment = Appointment.objects.create(user=self.user, office=self.office, date='2024-07-01', time='10:00:00')
+
+    def test_create_appointment(self):
+        self.client.login(username='testuser', password='testpass')
+        form_data = {
+            'user': self.user.id,
+            'office': self.office.id,
+            'date': '2024-07-02',
+            'time': '11:00:00',
+            'status': 'pending',
+        }
+        form = AppointmentForm(data=form_data)
+        self.assertTrue(form.is_valid())
+        response = self.client.post(reverse('book_appointment'), form_data)
+        self.assertEqual(response.status_code, 302)  # Redirect after creating appointment
+        self.assertTrue(Appointment.objects.filter(date='2024-07-02').exists())
+
+    def test_view_appointments(self):
+        self.client.login(username='testuser', password='testpass')
+        response = self.client.get(reverse('user_panel'))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'User Information')
+        self.assertContains(response, '2024-07-01')
 
-    def test_manage_appointments_view(self):
-        self.client.login(username='officer', password='password')
+class DocumentTests(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.user = User.objects.create_user(username='testuser', email='test@example.com', password='testpass')
+
+    def test_upload_document(self):
+        self.client.login(username='testuser', password='testpass')
+        with open('testfile.pdf', 'rb') as doc:
+            form_data = {
+                'birth_certificate': doc,
+                'proof_of_nationality': doc,
+                'passport_photos': doc,
+            }
+            form = DocumentUploadForm(data=form_data, files=form_data)
+            self.assertTrue(form.is_valid())
+            response = self.client.post(reverse('upload_document'), form_data)
+            self.assertEqual(response.status_code, 302)  # Redirect after uploading document
+            self.assertTrue(Document.objects.filter(user=self.user).exists())
+
+    def test_view_documents(self):
+        self.client.login(username='testuser', password='testpass')
+        response = self.client.get(reverse('user_panel'))
+        self.assertEqual(response.status_code, 200)
+
+class ContactUsTests(TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_contact_us_form(self):
+        form_data = {
+            'name': 'John Doe',
+            'email': 'johndoe@example.com',
+            'message': 'This is a test message.',
+        }
+        form = ContactUsForm(data=form_data)
+        self.assertTrue(form.is_valid())
+        response = self.client.post(reverse('contact_us'), form_data)
+        self.assertEqual(response.status_code, 200)
+
+class AdminPanelTests(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.admin = User.objects.create_superuser(username='admin', email='admin@example.com', password='adminpass')
+
+    def test_admin_login(self):
+        response = self.client.post(reverse('login'), {'username': 'admin', 'password': 'adminpass'})
+        self.assertEqual(response.status_code, 302)  # Redirect to admin panel
+        self.assertRedirects(response, reverse('admin_panel'))
+
+    def test_manage_users(self):
+        self.client.login(username='admin', password='adminpass')
+        response = self.client.get(reverse('manage_users'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_manage_appointments(self):
+        self.client.login(username='admin', password='adminpass')
         response = self.client.get(reverse('manage_appointments'))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Manage Appointments')
 
-    def test_edit_appointment_view(self):
-        self.client.login(username='officer', password='password')
-        response = self.client.get(reverse('edit_appointment', args=[self.appointment.id]))
+    def test_manage_documents(self):
+        self.client.login(username='admin', password='adminpass')
+        response = self.client.get(reverse('manage_documents'))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Edit Appointment')
 
-    def test_delete_appointment_view(self):
-        self.client.login(username='officer', password='password')
-        response = self.client.post(reverse('delete_appointment', args=[self.appointment.id]))
-        self.assertRedirects(response, reverse('manage_appointments'))
-        self.assertFalse(Appointment.objects.filter(id=self.appointment.id).exists())
+class MissingIDCardTests(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.user = User.objects.create_user(username='testuser', email='test@example.com', password='testpass')
 
-    def test_edit_user_view(self):
-        self.client.login(username='officer', password='password')
-        response = self.client.get(reverse('edit_user', args=[self.user.id]))
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Edit User')
-
-    def test_delete_user_view(self):
-        self.client.login(username='officer', password='password')
-        response = self.client.post(reverse('delete_user', args=[self.user.id]))
-        self.assertRedirects(response, reverse('user_information'))
-        self.assertFalse(User.objects.filter(id=self.user.id).exists())
-
-    def test_notifications_view(self):
-        self.client.login(username='officer', password='password')
-        response = self.client.get(reverse('notifications'))
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Notifications')
-        self.assertContains(response, 'Test notification')
-
-    def test_unauthorized_access(self):
-        self.client.login(username='user', password='password')
-        response = self.client.get(reverse('manage_appointments'))
-        self.assertEqual(response.status_code, 403)
-        response = self.client.get(reverse('user_information'))
-        self.assertEqual(response.status_code, 403)
+    def test_insert_missing_id_card(self):
+        self.client.login(username='testuser', password='testpass')
+        with open('testfile.jpg', 'rb') as img:
+            form_data = {
+                'name': 'John Doe',
+                'email': 'johndoe@example.com',
+                'phone': '1234567890',
+                'id_card_image': img,
+            }
+            form = MissingIDCardForm(data=form_data, files=form_data)
+            self.assertTrue(form.is_valid())
+            response = self.client.post(reverse('insert_missing_id_card'), form_data)
+            self.assertEqual(response.status_code, 302)  # Redirect after inserting missing ID card
+            self.assertTrue(MissingIDCard.objects.filter(name='John Doe').exists())

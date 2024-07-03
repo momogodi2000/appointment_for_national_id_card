@@ -160,17 +160,6 @@ body {
     }
 }
 
-.dashboard-nav-item {
-    transition: background 0.3s, transform 0.3s;
-}
-.dashboard-nav-item:hover {
-    transform: scale(1.05);
-}
-
-.dashboard-content {
-    animation: fadeIn 0.5s ease-in-out;
-}
-
 @keyframes fadeIn {
     from {
         opacity: 0;
