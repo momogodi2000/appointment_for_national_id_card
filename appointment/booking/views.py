@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
@@ -7,7 +7,7 @@ from .forms import CustomUserCreationForm
 from .forms import ForgotPasswordForm  # Make sure to import your form
 from django.contrib.sites.shortcuts import get_current_site
 from django.http import JsonResponse
-from .models import Appointment, User
+from .models import Appointment, User,Office
 from django.utils.timezone import now
 from .forms import AppointmentForm, UserForm
 from .forms import DocumentUploadForm
@@ -29,6 +29,17 @@ from campay.sdk import Client as CamPayClient
 from django.http import JsonResponse
 from django.core.serializers import serialize
 import json
+import yagmail
+
+# Replace with your Gmail credentials
+username = "kamsonganderson39@gmail.com"
+password = "zbci mysk xhds gjxe"
+
+# Create a yagmail object
+yag = yagmail.SMTP(username, password)
+
+
+
 
 User = get_user_model()
 campay = CamPayClient({
@@ -128,24 +139,34 @@ def book_appointment(request):
     print("post inner1")
     if request.method == 'POST':
         print(request.POST)
-        print(request.user.id)
+        print(request.user)
         # Replace with actual user retrieval
         user_id = request.user.id
-        # user = User.objects.get(pk=request.POST.get('user_id'))
+        user = User.objects.get(pk=user_id)
         officer = None  # Assuming officer can be null
         # Replace with actual office retrieval
-        office = None
+        office = Office.objects.create(
+            name="Mendong Office",
+            address="mendong"
+        )
         date = request.POST.get('date')
         time = "8:00"
 
+        # user = User.objects.create(
+        #     address="Mendong",
+        #     name="Anderson1"
+        # )
+        # # user.save()
+        print(office)
         # Create the appointment object
         appointment = Appointment.objects.create(
-            user=user_id,
+            user=user,
             officer=officer,
             office=office,
             date=date,
             time=time,
         )
+        # appointment.save
         context = {}
         return render(request, 'panel/user/payment_page.html', context)
         # form = AppointmentForm(request.POST)
@@ -155,7 +176,7 @@ def book_appointment(request):
         #     appointment.save()
         #     # Redirect to user panel or another appropriate view
         #     # return redirect('user_panel')
-            
+
         # else:
         #     print(form.errors)  # Check form errors in console for debugging
     else:
@@ -408,6 +429,14 @@ def approve_appointment(request, appointment_id):
     appointment = get_object_or_404(Appointment, id=appointment_id)
     appointment.status = 'Approved'
     appointment.save()
+    print(appointment.user)
+    # Compose and send an email
+    subject = "appointment approved"
+    body = "Your appointment have be approved"
+    recipients = ["kamsonganderson39@gmail.com"]
+
+    yag.send(to=recipients, subject=subject, contents=body)
+
     return redirect('manage_appointments')
 
 
@@ -415,6 +444,9 @@ def reject_appointment(request, appointment_id):
     appointment = get_object_or_404(Appointment, id=appointment_id)
     appointment.status = 'Rejected'
     appointment.save()
+    subject = "appointment rejected"
+    body = "Your appointment have be rejected"
+    recipients = ["kamsonganderson39@gmail.com"]
     return redirect('manage_appointments')
 
 
