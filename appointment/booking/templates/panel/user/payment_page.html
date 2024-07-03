@@ -31,8 +31,8 @@
                 {% csrf_token %}
                 {% if message %}
                 <div class="alert alert-danger" role="alert">
-                    An error occurred during payment processing.
-                    <b>error:</b>{{message}}<br>
+                    An error occurred during payment processing.<br>
+                    error:<b>{{message}}</b><br>
                     Please try again.
                 </div>
                 {% endif %}
@@ -89,27 +89,27 @@
             var formData = $(this).serialize();
             let phone = document.getElementById("mobileNumber").value
             // console.log(phone);
-            $.ajax({
-                url: "{% url 'payment_page' %}",
-                type: "POST",
-                data: formData,
-                dataType: 'json',
-                success: function (response) {
-                    console.log(response);
-                    const paymentInfo = JSON.parse(response);
-                    // alert(paymentInfo);
-                    console.log("paymentInfo: ", paymentInfo);
-                    // Optionally redirect to another page or perform other actions
-                    // window.location.href = "{% url 'user_panel' %}"
-                },
-                error: function (xhr, status, error) {
-                    // console.error(xhr.responseText);
-                    // console.error(error);
-                    // console.error(status);
-                    alert('Error booking appointment. Please try again.');
+            // $.ajax({
+            //     url: "{% url 'payment_page' %}",
+            //     type: "POST",
+            //     data: formData,
+            //     dataType: 'json',
+            //     success: function (response) {
+            //         console.log(response);
+            //         const paymentInfo = JSON.parse(response);
+            //         // alert(paymentInfo);
+            //         console.log("paymentInfo: ", paymentInfo);
+            //         // Optionally redirect to another page or perform other actions
+            //         // window.location.href = "{% url 'user_panel' %}"
+            //     },
+            //     error: function (xhr, status, error) {
+            //         // console.error(xhr.responseText);
+            //         // console.error(error);
+            //         // console.error(status);
+            //         alert('Error booking appointment. Please try again.');
 
-                }
-            });
+            //     }
+            // });
 
         });
     })

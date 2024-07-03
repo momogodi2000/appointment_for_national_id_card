@@ -19,6 +19,7 @@ class Office(models.Model):
 
 class Appointment(models.Model):
     STATUS_CHOICES = (
+        ('created', 'Created'),
         ('pending', 'Pending'),
         ('approved', 'Approved'),
         ('rejected', 'Rejected'),
@@ -28,7 +29,7 @@ class Appointment(models.Model):
     office = models.ForeignKey(Office, on_delete=models.CASCADE)
     date = models.DateField()
     time = models.TimeField()
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Created')
 
 
 class Document(models.Model):
