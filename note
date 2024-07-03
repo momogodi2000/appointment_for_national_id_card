@@ -1,0 +1,759 @@
+from this user_panel ({% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <!-- Animate CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/user_dashboard.css' %}">
+</head>
+<body>
+    <div class="dashboard">
+        <div class="dashboard-nav">
+            <header>
+                <a href="#" class="brand-logo animate__animated animate__fadeInLeft"><i class="fas fa-id-card"></i> <span>{{ user.username }}'s Panel</span></a>
+            </header>
+            <nav class="dashboard-nav-list">
+                <a href="{% url 'book_appointment' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-calendar-plus"></i> Book Appointment</a>
+                <a href="{% url 'upload_document' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-upload"></i> Upload Documents</a>
+                <a href="{% url 'track_application' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-tasks"></i> Track Application</a>
+                <a href="{% url 'security_settings' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-user-lock"></i> Security Settings</a>
+                <a href="{% url 'insert_missing_id_card' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-id-badge"></i> Insert Missing ID Card</a>
+            </nav>
+            <a href="{% url 'logout' %}" class="btn btn-primary animate__animated animate__fadeInLeft">Logout</a>
+        </div>
+        <main class="dashboard-app">
+            <header class="dashboard-toolbar">
+                <a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a>
+            </header>
+            <div class="dashboard-content">
+                <h1 class="animate__animated animate__fadeInRight">Welcome, {{ user.username }}!</h1>
+                <p class="animate__animated animate__fadeInRight">Manage your appointments, upload documents, and track your application status.</p>
+
+                <section id="history" class="animate__animated animate__fadeInUp">
+                    <h2>History of the National ID Card in Cameroon</h2>
+                    <img src="{% static 'img/id_card.jpeg' %}" alt="National ID Card" class="img-fluid">
+                    <p>The national ID card has been a crucial identification tool in Cameroon for decades. It was introduced to ensure every citizen can be identified and has access to public services. The process of obtaining an ID card has evolved over the years, incorporating modern technology to improve efficiency and security.</p>
+                </section>
+
+                <section id="benefits" class="animate__animated animate__fadeInUp">
+                    <h2>Benefits of Having a National ID Card</h2>
+                    <ul>
+                        <li>Access to government services and benefits</li>
+                        <li>Proof of identity for banking and financial transactions</li>
+                        <li>Eligibility for voting in elections</li>
+                        <li>Facilitates travel within the country</li>
+                        <li>Essential for obtaining other documents like passports and driver's licenses</li>
+                    </ul>
+                </section>
+
+                <section id="advantages" class="animate__animated animate__fadeInUp">
+                    <h2>Advantages of Using Our Application</h2>
+                    <ul>
+                        <li>Convenient online booking for ID card appointments</li>
+                        <li>Secure document upload and management</li>
+                        <li>Real-time tracking of your application status</li>
+                        <li>User-friendly interface</li>
+                        <li>24/7 customer support</li>
+                    </ul>
+                </section>
+
+                <section id="motto" class="animate__animated animate__fadeInUp">
+                    <h2>Motto of Cameroon</h2>
+                    <img src="{% static 'img/motto.jpeg' %}" alt="Motto of Cameroon" class="img-fluid">
+                    <p>The motto of Cameroon is "Peace, Work, Fatherland". This reflects the core values that guide the nation.</p>
+                </section>
+
+                <section id="security-department" class="animate__animated animate__fadeInUp">
+                    <h2>Department of Security</h2>
+                    <img src="{% static 'img/police.jpeg' %}" alt="Department of Security" class="img-fluid">
+                    <p>The Department of National Security is responsible for the issuance of national ID cards in Cameroon, ensuring the process is secure and efficient.</p>
+                </section>
+                <section id="contact-us" class="animate__animated animate__fadeInUp">
+                    <h2>Contact Us</h2>
+                    <form method="POST" action="{% url 'contact_us' %}" class="needs-validation" novalidate>
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="name">Your Name</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                            <div class="invalid-feedback">
+                                Please enter your name.
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Your Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                            <div class="invalid-feedback">
+                                Please enter a valid email address.
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                            <div class="invalid-feedback">
+                                Please enter your message.
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
+                </section>
+                
+            </div>
+        </main>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Custom JavaScript -->
+    <script src="{% static 'js/user_dashboard.js' %}"></script>
+
+    <!-- Form Validation -->
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function() {
+            'use strict';
+            window.addEventListener('load', function() {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
+</body>
+</html>
+), view.py(from django.shortcuts import render, redirect
+from django.contrib.auth import login as auth_login, logout as auth_logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import get_user_model
+from .forms import CustomUserCreationForm
+from .forms import ForgotPasswordForm  # Make sure to import your form
+from django.contrib.sites.shortcuts import get_current_site
+from django.http import JsonResponse
+from .models import Appointment, User
+from django.utils.timezone import now
+from .forms import AppointmentForm, UserForm
+from .forms import DocumentUploadForm
+from .models import Document
+from django.http import HttpResponse
+# Assuming you have a form for handling this
+from .forms import MissingIDCardForm
+from .forms import ContactUsForm
+from django.core.mail import send_mail
+from django.conf import settings  # try to access email backend
+from .models import Notification
+from django.db.models import Count
+from django.utils import timezone
+import calendar
+from .forms import UserForm
+from .models import MissingIDCard
+from django.views.generic import TemplateView
+from campay.sdk import Client as CamPayClient
+from django.http import JsonResponse
+from django.core.serializers import serialize
+import json
+
+User = get_user_model()
+campay = CamPayClient({
+    "app_username": "JByBUneb4BceuEyoMu1nKlmyTgVomd-QfokOrs4t4B9tPJS7hhqUtpuxOx5EQ7zpT0xmYw3P6DU6LU0mH2DvaQ",
+    "app_password": "m-Xuj9EQIT_zeQ5hSn8hLjYlyJT7KnSTHABYVp7tKeHKgsVnF0x6PEcdtZCVaDM0BN5mX-eylX0fhrGGMZBrWg",
+    "environment": "PROD"  # use "DEV" for demo mode or "PROD" for live mode
+})
+
+
+def home(request):
+    return render(request, 'booking/home.html')
+
+
+def register(request):
+    if request.method == 'POST':
+        print(request.POST)
+        form = CustomUserCreationForm(request.POST)
+        print(form.is_valid())
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    else:
+        form = CustomUserCreationForm()
+    return render(request, 'auth/register.html', {'form': form})
+
+
+def login(request):
+    if request.method == 'POST':
+        print(request.POST)
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            auth_login(request, user)
+            if user.role == 'admin':
+                return redirect('admin_panel')
+            elif user.role == 'officer':
+                return redirect('officer_panel')
+            else:
+                return redirect('user_panel')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'auth/login.html', {'form': form})
+
+
+def forgot_password(request):
+    if request.method == 'POST':
+        form = ForgotPasswordForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            try:
+                user = User.objects.get(email=email)
+            except User.DoesNotExist:
+                user = None
+
+            if user:
+                current_site = get_current_site(request)
+                mail_subject = 'Reset your password'
+                message = render_to_string('password_reset_email.html', {
+                    'user': user,
+                    'domain': current_site.domain,
+                    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                    'token': account_activation_token.make_token(user),
+                })
+                send_mail(mail_subject, message,
+                          'your_email@example.com', [email])
+            return redirect('password_reset_done')
+    else:
+        form = ForgotPasswordForm()
+
+    return render(request, 'auth/forgot_password.html', {'form': form})
+
+
+@login_required
+def logout(request):
+    auth_logout(request)
+    return redirect('home')
+
+# @login_required
+
+
+def user_panel(request):
+    return render(request, 'panel/user_panel.html')
+
+
+@login_required
+def officer_panel(request):
+    return render(request, 'panel/officer_panel.html')
+
+
+@login_required
+def admin_panel(request):
+    return render(request, 'panel/admin_panel.html')
+
+
+@login_required
+def book_appointment(request):
+    if request.method == 'POST':
+        form = AppointmentForm(request.POST)
+        if form.is_valid():
+            appointment = form.save(commit=False)
+            # Additional processing logic as needed
+            appointment.save()
+            # Redirect to user panel or another appropriate view
+            return redirect('user_panel')
+        else:
+            print(form.errors)  # Check form errors in console for debugging
+    else:
+        form = AppointmentForm()
+    return render(request, 'panel/user/book_appointment.html', {'form': form})
+
+
+@login_required
+def upload_document(request):
+    if request.method == 'POST':
+        form = DocumentUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            document = form.save(commit=False)
+            document.user = request.user
+            document.save()
+            return redirect('payment_page')  # Redirect to the payment page
+        else:
+            return HttpResponse("Error uploading documents. Please try again.")
+    else:
+        form = DocumentUploadForm()
+    return render(request, 'panel/user/upload_document.html', {'form': form})
+
+# @login_required
+
+
+def payment_page(request):
+    if request.method == 'POST':
+        print(request.POST)
+        collect = campay.collect({
+            "amount": "5",  # The amount you want to collect
+            "currency": "XAF",
+            "from": "237652156526",  # Phone number to request amount from. Must include country code
+            "description": "some description",
+            # Reference from the system initiating the transaction.
+            "external_reference": "",
+        })
+        print(collect)
+        if collect.get('status') == 'SUCCESSFUL':
+            payment_data = {
+                'reference': collect.get('reference'),
+                'external_reference': collect.get('external_reference'),
+                'status': collect.get('status'),
+                'amount': collect.get('amount'),
+                'currency': collect.get('currency'),
+                'operator': collect.get('operator'),
+                'code': collect.get('code'),
+                'operator_reference': collect.get('operator_reference'),
+                'description': collect.get('description'),
+                'external_user': collect.get('external_user'),
+                'reason': collect.get('reason'),
+                'phone_number':collect.get('phone_number')
+
+            }
+            context = {'payment_info': payment_data}
+            return render(request, 'panel/user/payment_success.html', context)
+        else:
+            context = {'message': collect.get('reason')}
+            return render(request, 'panel/user/payment_page.html', context)
+    else:
+        context = {}
+        return render(request, 'panel/user/payment_page.html', context)
+
+
+def track_application(request):
+    return render(request, 'panel/user/track_application.html')
+
+
+def security_settings(request):
+    return render(request, 'panel/user/security_settings.html')
+
+
+@login_required
+def insert_missing_id_card(request):
+    if request.method == 'POST':
+        form = MissingIDCardForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('user_panel')
+    else:
+        form = MissingIDCardForm()
+
+    found_id_cards = MissingIDCard.objects.all()
+
+    return render(request, 'panel/user/insert_missing_id_card.html', {'form': form, 'found_id_cards': found_id_cards})
+
+
+def contact_us(request):
+    if request.method == 'POST':
+        form = ContactUsForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            message = form.cleaned_data['message']
+
+            # Send email
+            send_mail(
+                'Contact Form Submission',
+                f'Name: {name}\nEmail: {email}\nMessage: {message}',
+                settings.DEFAULT_FROM_EMAIL,
+                [settings.DEFAULT_FROM_EMAIL],
+            )
+
+            # Replace with your success template
+            return render(request, 'contact_us_success.html')
+    else:
+        form = ContactUsForm()
+
+    return render(request, 'contact_us.html', {'form': form})
+
+ # police view
+
+
+@login_required
+def manage_appointments(request):
+    if request.user.role != 'officer':
+        return render(request, '403.html', status=403)
+
+    appointments = Appointment.objects.all()
+    return render(request, 'panel/police/manage_appointments.html', {'appointments': appointments})
+
+
+@login_required
+def user_information(request):
+    users = User.objects.all()
+    return render(request, 'panel/police/user_information.html', {'users': users})
+
+
+@login_required
+def edit_appointment(request, pk):
+    appointment = get_object_or_404(Appointment, pk=pk)
+    if request.method == "POST":
+        form = AppointmentForm(request.POST, instance=appointment)
+        if form.is_valid():
+            form.save()
+            return redirect('manage_appointments')
+    else:
+        form = AppointmentForm(instance=appointment)
+    return render(request, 'panel/police/edit_appointment.html', {'form': form})
+
+
+@login_required
+def delete_appointment(request, pk):
+    appointment = get_object_or_404(Appointment, pk=pk)
+    appointment.delete()
+    return redirect('manage_appointments')
+
+
+@login_required
+def edit_user(request, pk):
+    user = get_object_or_404(User, pk=pk)
+    if request.method == "POST":
+        form = UserForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('user_information')
+    else:
+        form = UserForm(instance=user)
+    return render(request, 'panel/police/edit_user.html', {'form': form})
+
+
+@login_required
+def delete_user(request, pk):
+    user = get_object_or_404(User, pk=pk)
+    if request.method == "POST":
+        user.delete()
+        return redirect('user_information')
+    return render(request, 'panel/police/delete_user.html', {'user': user})
+
+
+# notifier
+
+@login_required
+def notifications(request):
+    notifications = Notification.objects.filter(user=request.user)
+
+    # Gather data for chart
+    current_year = timezone.now().year
+    monthly_notifications = Notification.objects.filter(created_at__year=current_year).values(
+        'created_at__month').annotate(count=Count('id')).order_by('created_at__month')
+
+    notification_labels = [
+        calendar.month_name[i['created_at__month']] for i in monthly_notifications]
+    notification_counts = [i['count'] for i in monthly_notifications]
+
+    context = {
+        'notifications': notifications,
+        'notification_labels': notification_labels,
+        'notification_counts': notification_counts,
+    }
+
+    return render(request, 'panel/police/notifications.html', context)
+
+
+# admin view
+
+def manage_users(request):
+    users = User.objects.all()
+    return render(request, 'panel/admin/manage_users.html', {'users': users})
+
+
+def add_user(request):
+    if request.method == 'POST':
+        form = UserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('manage_users')
+    else:
+        form = UserForm()
+    return render(request, 'panel/admin/add_user.html', {'form': form})
+
+
+def edit_user(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    if request.method == 'POST':
+        form = UserForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('manage_users')
+    else:
+        form = UserForm(instance=user)
+    return render(request, 'panel/admin/edit_user.html', {'form': form})
+
+
+def delete_user(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    user.delete()
+    return redirect('manage_users')
+
+
+def manage_appointments(request):
+    appointments = Appointment.objects.all()
+    return render(request, 'panel/admin/manage_appointments.html', {'appointments': appointments})
+
+
+def approve_appointment(request, appointment_id):
+    appointment = get_object_or_404(Appointment, id=appointment_id)
+    appointment.status = 'Approved'
+    appointment.save()
+    return redirect('manage_appointments')
+
+
+def reject_appointment(request, appointment_id):
+    appointment = get_object_or_404(Appointment, id=appointment_id)
+    appointment.status = 'Rejected'
+    appointment.save()
+    return redirect('manage_appointments')
+
+
+def manage_documents(request):
+    documents = Document.objects.all()
+    return render(request, 'panel/admin/manage_documents.html', {'documents': documents})
+
+
+def delete_document(request, document_id):
+    document = get_object_or_404(Document, id=document_id)
+    document.delete()
+    return redirect('manage_documents')
+
+
+class AboutUsView(TemplateView):
+    template_name = 'panel/admin/about_us.html'
+), models.py(from django.contrib.auth.models import AbstractUser
+from django.db import models
+from django.contrib.auth import get_user_model
+
+class User(AbstractUser):
+    ROLE_CHOICES = [
+        ('user', 'User'),
+        ('officer', 'Police Officer'),
+        ('admin', 'Super Admin'),
+    ]
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='user')
+    name = models.CharField(max_length=100, default='user')  # Provide a default value
+    phone = models.CharField(max_length=15, default='0000000000')  # Provide a default value
+    address = models.TextField(null=True, blank=True)  # Temporarily allow null
+
+class Office(models.Model):
+    name = models.CharField(max_length=100)
+    address = models.TextField()
+
+class Appointment(models.Model):
+    STATUS_CHOICES = (
+        ('pending', 'Pending'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    officer = models.ForeignKey(User, related_name='appointments', on_delete=models.CASCADE, null=True, blank=True)
+    office = models.ForeignKey(Office, on_delete=models.CASCADE)
+    date = models.DateField()
+    time = models.TimeField()
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+
+
+class Document(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    birth_certificate = models.FileField(upload_to='documents/')
+    proof_of_nationality = models.FileField(upload_to='documents/')
+    passport_photos = models.FileField(upload_to='documents/')
+    residence_permit = models.FileField(upload_to='documents/', blank=True, null=True)
+    marriage_certificate = models.FileField(upload_to='documents/', blank=True, null=True)
+    death_certificate = models.FileField(upload_to='documents/', blank=True, null=True)
+    sworn_statement = models.FileField(upload_to='documents/', blank=True, null=True)
+
+
+class MissingIDCard(models.Model):
+    name = models.CharField(max_length=255)
+    email = models.EmailField()
+    phone = models.CharField(max_length=20)
+    id_card_image = models.ImageField(upload_to='missing_id_cards/')
+    
+@classmethod
+def get_all_missing_cards(cls):
+        return cls.objects.all()
+
+def __str__(self):
+        return self.name
+
+class Notification(models.Model):
+    appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Notification for {self.appointment}"
+), url(from django.urls import path
+from . import views
+from django.contrib.auth import views as auth_views  # Add this import
+from .views import user_panel, book_appointment, upload_document, MissingIDCardForm, manage_appointments, user_information
+from .views import payment_page, AboutUsView
+from .views import manage_users, add_user, edit_user, delete_user, manage_appointments, approve_appointment, reject_appointment, manage_documents, delete_document
+
+
+urlpatterns = [
+    path('', views.home, name='home'),
+    path('register/', views.register, name='register'),
+    path('login/', views.login, name='login'),
+    path('forgot-password/', views.forgot_password, name='forgot_password'),
+    path('logout/', views.logout, name='logout'),
+    path('user_panel/', views.user_panel, name='user_panel'),
+    path('officer_panel/', views.officer_panel, name='officer_panel'),
+    path('admin_panel/', views.admin_panel, name='admin_panel'),
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='password_reset_confirm.html'), name='password_reset_confirm'),
+    path('reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='password_reset_complete.html'), name='password_reset_complete'),
+    path('user/book-appointment/', views.book_appointment, name='book_appointment'),
+    path('user/upload-document/', upload_document, name='upload_document'),
+    path('user/payment/', payment_page, name='payment_page'),
+    path('track-application/', views.track_application, name='track_application'),
+    path('security-settings/', views.security_settings, name='security_settings'),
+    path('insert_missing_id_card/', views.insert_missing_id_card, name='insert_missing_id_card'),
+    path('contact-us/', views.contact_us, name='contact_us'),
+
+    path('police/manage-appointments/', views.manage_appointments, name='manage_appointments'),
+    path('police/user-information/', views.user_information, name='user_information'),
+    path('edit-appointment/<int:pk>/', views.edit_appointment, name='edit_appointment'),
+    path('delete-appointment/<int:pk>/', views.delete_appointment, name='delete_appointment'),
+    path('edit-user/<int:pk>/', views.edit_user, name='edit_user'),
+    path('delete-user/<int:pk>/', views.delete_user, name='delete_user'),
+    path('notifications/', views.notifications, name='notifications'),
+
+
+    path('admin/manage-users/', manage_users, name='manage_users'),
+    path('admin/add-user/', add_user, name='add_user'),
+    path('admin/edit-user/<int:user_id>/', edit_user, name='edit_user'),
+    path('admin/delete-user/<int:user_id>/', delete_user, name='delete_user'),
+    path('admin/manage-appointments/', manage_appointments, name='manage_appointments'),
+    path('admin/approve-appointment/<int:appointment_id>/', approve_appointment, name='approve_appointment'),
+    path('admin/reject-appointment/<int:appointment_id>/', reject_appointment, name='reject_appointment'),
+    path('admin/manage-documents/', manage_documents, name='manage_documents'),
+    path('admin/delete-document/<int:document_id>/', delete_document, name='delete_document'),
+    path('about-us/', AboutUsView.as_view(), name='about_us'),
+    t
+]
+) the uplaod_document({% extends 'base.html' %}
+
+{% block title %}Upload Documents{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="my-4 animate__animated animate__fadeInDown">Upload Documents for National ID Card</h2>
+    <form method="POST" enctype="multipart/form-data" class="animate__animated animate__fadeInUp">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Upload Documents</button>
+    </form>
+</div>
+{% endblock %}
+) and the form (from django import forms
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordResetForm
+from django.contrib.auth.models import User as DefaultUser
+from .models import User
+from .models import Appointment
+from .models import Document
+from .models import MissingIDCard
+
+class RegistrationForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password1', 'password2']
+
+class LoginForm(AuthenticationForm):
+    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'}))
+
+class CustomPasswordResetForm(PasswordResetForm):
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}))
+
+class CustomUserCreationForm(UserCreationForm):
+    class Meta(UserCreationForm.Meta):
+        model = User
+        fields = UserCreationForm.Meta.fields + ('role',)
+
+class ForgotPasswordForm(forms.Form):
+    email = forms.EmailField()
+
+
+class AppointmentForm(forms.ModelForm):
+    class Meta:
+        model = Appointment
+        fields = ['user', 'date', 'time', 'status'] # Adjust fields as per your model definition
+
+
+
+class DocumentUploadForm(forms.ModelForm):
+    class Meta:
+        model = Document
+        fields = [
+            'birth_certificate', 
+            'proof_of_nationality', 
+            'passport_photos', 
+            'residence_permit', 
+            'marriage_certificate', 
+            'death_certificate', 
+            'sworn_statement'
+        ]
+        widgets = {
+            'birth_certificate': forms.ClearableFileInput(attrs={'class': 'form-control-file', 'required': True}),
+            'proof_of_nationality': forms.ClearableFileInput(attrs={'class': 'form-control-file', 'required': True}),
+            'passport_photos': forms.ClearableFileInput(attrs={'class': 'form-control-file', 'required': True}),
+            'residence_permit': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
+            'marriage_certificate': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
+            'death_certificate': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
+            'sworn_statement': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(DocumentUploadForm, self).__init__(*args, **kwargs)
+        self.fields['residence_permit'].required = False
+        self.fields['marriage_certificate'].required = False
+        self.fields['death_certificate'].required = False
+        self.fields['sworn_statement'].required = False
+
+
+
+class MissingIDCardForm(forms.ModelForm):
+    class Meta:
+        model = MissingIDCard
+        fields = ['name', 'email', 'phone', 'id_card_image']
+
+
+class ContactUsForm(forms.Form):
+    name = forms.CharField(max_length=100)
+    email = forms.EmailField()
+    message = forms.CharField(widget=forms.Textarea)
+
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('username', 'name', 'email', 'phone', 'address', 'role')
+
+    def save(self, commit=True):
+        user = super(UserForm, self).save(commit=False)
+        user.set_password(self.cleaned_data['password'])
+        if commit:
+            user.save()
+        return user)arrange the uplaod file that it should only uplaod scanner document or photo with good resoulution with good format and redirect to the user_panel. and store it in the database

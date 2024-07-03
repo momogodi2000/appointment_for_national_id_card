@@ -116,30 +116,16 @@ WSGI_APPLICATION = 'appointment.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-if os.environ.get('DB_ENGINE') and os.environ.get('DB_ENGINE') == "mysql":
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': os.getenv('DB_NAME', 'booking'),
-            'USER': os.getenv('DB_USERNAME', 'root'),
-            'PASSWORD': os.getenv('DB_PASS', ''),
-            'HOST': os.getenv('DB_HOST', 'localhost'),
-            'PORT': os.getenv('DB_PORT', 3306),
-        },
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'booking',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            # 'ENGINE': 'mysql.connector.django',  # Use this for MySQL versions 8.0+
-            # 'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'booking.db',
-            # 'USER': 'root',
-            # 'PASSWORD': '',
-            # 'HOST': 'localhost',
-            # 'PORT': '3306',
-        }
-    }
+}
 
 
 # Password validation

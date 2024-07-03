@@ -106,9 +106,7 @@ def logout(request):
     auth_logout(request)
     return redirect('home')
 
-# @login_required
-
-
+@login_required
 def user_panel(request):
     return render(request, 'panel/user_panel.html')
 
