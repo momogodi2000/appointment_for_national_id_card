@@ -125,16 +125,39 @@ def admin_panel(request):
 
 @login_required
 def book_appointment(request):
+    print("post inner1")
     if request.method == 'POST':
-        form = AppointmentForm(request.POST)
-        if form.is_valid():
-            appointment = form.save(commit=False)
-            # Additional processing logic as needed
-            appointment.save()
-            # Redirect to user panel or another appropriate view
-            return redirect('user_panel')
-        else:
-            print(form.errors)  # Check form errors in console for debugging
+        print(request.POST)
+        print(request.user.id)
+        # Replace with actual user retrieval
+        user_id = request.user.id
+        # user = User.objects.get(pk=request.POST.get('user_id'))
+        officer = None  # Assuming officer can be null
+        # Replace with actual office retrieval
+        office = None
+        date = request.POST.get('date')
+        time = "8:00"
+
+        # Create the appointment object
+        appointment = Appointment.objects.create(
+            user=user_id,
+            officer=officer,
+            office=office,
+            date=date,
+            time=time,
+        )
+        context = {}
+        return render(request, 'panel/user/payment_page.html', context)
+        # form = AppointmentForm(request.POST)
+        # if form.is_valid():
+        #     appointment = form.save(commit=False)
+        #     # Additional processing logic as needed
+        #     appointment.save()
+        #     # Redirect to user panel or another appropriate view
+        #     # return redirect('user_panel')
+            
+        # else:
+        #     print(form.errors)  # Check form errors in console for debugging
     else:
         form = AppointmentForm()
     return render(request, 'panel/user/book_appointment.html', {'form': form})
@@ -148,8 +171,9 @@ def upload_document(request):
             document = form.save(commit=False)
             document.user = request.user
             document.save()
-            context = {}
-            return render(request, 'panel/user/payment_page.html', context)  # Redirect to the payment page
+            form = AppointmentForm()
+            # Redirect to the payment page
+            return render(request, 'panel/user/book_appointment.html', {'form': form})
         else:
             return HttpResponse("Error uploading documents. Please try again.")
     else:
@@ -165,7 +189,8 @@ def payment_page(request):
         collect = campay.collect({
             "amount": "5",  # The amount you want to collect
             "currency": "XAF",
-            "from": "237" + request.POST.get("phone"),  # Phone number to request amount from. Must include country code
+            # Phone number to request amount from. Must include country code
+            "from": "237" + request.POST.get("phone"),
             "description": "some description",
             # Reference from the system initiating the transaction.
             "external_reference": "",
@@ -184,7 +209,7 @@ def payment_page(request):
                 'description': collect.get('description'),
                 'external_user': collect.get('external_user'),
                 'reason': collect.get('reason'),
-                'phone_number':collect.get('phone_number')
+                'phone_number': collect.get('phone_number')
 
             }
             context = {'payment_info': payment_data}
@@ -197,9 +222,10 @@ def payment_page(request):
                 context = {'message': collect.get('message')}
                 return render(request, 'panel/user/payment_page.html', context)
             else:
-                context = {'message': 'An error occur with the payment please try later'}
+                context = {
+                    'message': 'An error occur with the payment please try later'}
                 return render(request, 'panel/user/payment_page.html', context)
-            
+
     else:
         context = {}
         return render(request, 'panel/user/payment_page.html', context)
@@ -254,13 +280,14 @@ def contact_us(request):
  # police view
 
 
-@login_required
-def manage_appointments(request):
-    if request.user.role != 'officer':
-        return render(request, '403.html', status=403)
+# @login_required
+# def manage_appointments(request):
+#     if request.user.role != 'officer':
+#         return render(request, '403.html', status=403)
 
-    appointments = Appointment.objects.all()
-    return render(request, 'panel/police/manage_appointments.html', {'appointments': appointments})
+#     appointments = Appointment.objects.all()
+#     print("appointments")
+#     return render(request, 'panel/police/manage_appointments.html', {'appointments': appointments})
 
 
 @login_required
@@ -373,6 +400,7 @@ def delete_user(request, user_id):
 
 def manage_appointments(request):
     appointments = Appointment.objects.all()
+    print(appointments)
     return render(request, 'panel/admin/manage_appointments.html', {'appointments': appointments})
 
 

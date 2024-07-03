@@ -4,13 +4,15 @@
 {% block content %}
 <div class="container">
     <h2>Book Appointment</h2>
-    <form id="appointmentForm" method="POST">
+    <form id="appointmentForm" method="post">
         {% csrf_token %}
         <div class="form-group">
             <label for="datepicker">Select Appointment Date:</label>
             <input type="date" id="datepicker" name="date" class="form-control" required>
         </div>
-        <button type="submit" class="btn btn-primary">Book Appointment</button>
+        <!-- <button type="submit" class="btn btn-primary">Book Appointment</button> -->
+        <button id="form-btn" type="submit" class="btn btn-primary">
+            Book Appointment</button>
     </form>
 </div>
 
@@ -22,6 +24,7 @@
         $('#appointmentForm').on('submit', function(event) {
             event.preventDefault();
             var formData = $(this).serialize();
+            console.log("form");
             $.ajax({
                 url: "{% url 'book_appointment' %}",
                 type: "POST",
