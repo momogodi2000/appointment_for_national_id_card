@@ -148,23 +148,24 @@ def upload_document(request):
             document = form.save(commit=False)
             document.user = request.user
             document.save()
-            return redirect('payment_page')  # Redirect to the payment page
+            context = {}
+            return render(request, 'panel/user/payment_page.html', context)  # Redirect to the payment page
         else:
             return HttpResponse("Error uploading documents. Please try again.")
     else:
         form = DocumentUploadForm()
-    return render(request, 'panel/user/upload_document.html', {'form': form})
+        return render(request, 'panel/user/upload_document.html', {'form': form})
 
 # @login_required
 
 
 def payment_page(request):
     if request.method == 'POST':
-        print(request.POST)
+        print(request.POST.get("phone"))
         collect = campay.collect({
             "amount": "5",  # The amount you want to collect
             "currency": "XAF",
-            "from": "237652156526",  # Phone number to request amount from. Must include country code
+            "from": "237" + request.POST.get("phone"),  # Phone number to request amount from. Must include country code
             "description": "some description",
             # Reference from the system initiating the transaction.
             "external_reference": "",
@@ -189,8 +190,16 @@ def payment_page(request):
             context = {'payment_info': payment_data}
             return render(request, 'panel/user/payment_success.html', context)
         else:
-            context = {'message': collect.get('reason')}
-            return render(request, 'panel/user/payment_page.html', context)
+            if collect.get('reason'):
+                context = {'message': collect.get('reason')}
+                return render(request, 'panel/user/payment_page.html', context)
+            elif collect.get('message'):
+                context = {'message': collect.get('message')}
+                return render(request, 'panel/user/payment_page.html', context)
+            else:
+                context = {'message': 'An error occur with the payment please try later'}
+                return render(request, 'panel/user/payment_page.html', context)
+            
     else:
         context = {}
         return render(request, 'panel/user/payment_page.html', context)
