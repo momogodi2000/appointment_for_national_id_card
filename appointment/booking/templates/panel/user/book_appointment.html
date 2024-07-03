@@ -29,6 +29,7 @@
                 success: function(response) {
                     alert('Appointment booked successfully!');
                     // Optionally redirect to another page or perform other actions
+                    window.location.href = "{% url 'payment_page' %}"
                 },
                 error: function(xhr, status, error) {
                     alert('Error booking appointment. Please try again.');

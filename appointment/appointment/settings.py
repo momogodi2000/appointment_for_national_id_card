@@ -130,13 +130,14 @@ if os.environ.get('DB_ENGINE') and os.environ.get('DB_ENGINE') == "mysql":
 else:
     DATABASES = {
         'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
             # 'ENGINE': 'mysql.connector.django',  # Use this for MySQL versions 8.0+
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'booking',
-            'USER': 'root',
-            'PASSWORD': '',
-            'HOST': 'localhost',
-            'PORT': '3306',
+            # 'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'booking.db',
+            # 'USER': 'root',
+            # 'PASSWORD': '',
+            # 'HOST': 'localhost',
+            # 'PORT': '3306',
         }
     }
 

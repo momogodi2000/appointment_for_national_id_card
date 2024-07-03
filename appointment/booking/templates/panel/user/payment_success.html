@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Payment{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Payment  Details</h5>
+                    <h1>User Payment Information</h1>
+                    <p>Name: {{ payment_info.name }}</p>
+                    <p>reference:{{payment_info.reference}}</p>
+                    <p>external_reference:{{payment_info.external_reference}}</p>
+                    <p>status:{{payment_info.status}}</p>
+                    <p>amount:{{payment_info.amount}}</p>
+                    <p>currency:{{payment_info.currency}}</p>
+                    <p>operator:{{payment_info.operator}}</p>
+                    <p>code:{{payment_info.code}}</p>
+                    <p>operator_reference:{{payment_info.operator_reference}}</p>
+                    <p>description:{{payment_info.description}}</p>
+                    <p>external_user:{{payment_info.external_user}}</p>
+                    <p>reason:{{payment_info.reason}}</p>
+                    <p>phone_number:{{payment_info.phone_number}}</p>
+                    <a href="#!" class="btn btn-primary" data-mdb-ripple-init>Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -13,32 +13,40 @@ from .forms import AppointmentForm, UserForm
 from .forms import DocumentUploadForm
 from .models import Document
 from django.http import HttpResponse
-from .forms import MissingIDCardForm  # Assuming you have a form for handling this
+# Assuming you have a form for handling this
+from .forms import MissingIDCardForm
 from .forms import ContactUsForm
 from django.core.mail import send_mail
-from django.conf import settings      #try to access email backend
+from django.conf import settings  # try to access email backend
 from .models import Notification
 from django.db.models import Count
 from django.utils import timezone
 import calendar
-from .forms import UserForm 
+from .forms import UserForm
 from .models import MissingIDCard
 from django.views.generic import TemplateView
-
-
-
-
-
-
+from campay.sdk import Client as CamPayClient
+from django.http import JsonResponse
+from django.core.serializers import serialize
+import json
 
 User = get_user_model()
+campay = CamPayClient({
+    "app_username": "JByBUneb4BceuEyoMu1nKlmyTgVomd-QfokOrs4t4B9tPJS7hhqUtpuxOx5EQ7zpT0xmYw3P6DU6LU0mH2DvaQ",
+    "app_password": "m-Xuj9EQIT_zeQ5hSn8hLjYlyJT7KnSTHABYVp7tKeHKgsVnF0x6PEcdtZCVaDM0BN5mX-eylX0fhrGGMZBrWg",
+    "environment": "PROD"  # use "DEV" for demo mode or "PROD" for live mode
+})
+
 
 def home(request):
     return render(request, 'booking/home.html')
 
+
 def register(request):
     if request.method == 'POST':
+        print(request.POST)
         form = CustomUserCreationForm(request.POST)
+        print(form.is_valid())
         if form.is_valid():
             form.save()
             return redirect('login')
@@ -46,8 +54,10 @@ def register(request):
         form = CustomUserCreationForm()
     return render(request, 'auth/register.html', {'form': form})
 
+
 def login(request):
     if request.method == 'POST':
+        print(request.POST)
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
             user = form.get_user()
@@ -82,30 +92,35 @@ def forgot_password(request):
                     'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                     'token': account_activation_token.make_token(user),
                 })
-                send_mail(mail_subject, message, 'your_email@example.com', [email])
+                send_mail(mail_subject, message,
+                          'your_email@example.com', [email])
             return redirect('password_reset_done')
     else:
         form = ForgotPasswordForm()
-    
+
     return render(request, 'auth/forgot_password.html', {'form': form})
+
 
 @login_required
 def logout(request):
     auth_logout(request)
     return redirect('home')
 
-@login_required
+# @login_required
+
+
 def user_panel(request):
     return render(request, 'panel/user_panel.html')
+
 
 @login_required
 def officer_panel(request):
     return render(request, 'panel/officer_panel.html')
 
+
 @login_required
 def admin_panel(request):
     return render(request, 'panel/admin_panel.html')
-
 
 
 @login_required
@@ -116,13 +131,13 @@ def book_appointment(request):
             appointment = form.save(commit=False)
             # Additional processing logic as needed
             appointment.save()
-            return redirect('user_panel')  # Redirect to user panel or another appropriate view
+            # Redirect to user panel or another appropriate view
+            return redirect('user_panel')
         else:
             print(form.errors)  # Check form errors in console for debugging
     else:
         form = AppointmentForm()
     return render(request, 'panel/user/book_appointment.html', {'form': form})
-
 
 
 @login_required
@@ -140,18 +155,53 @@ def upload_document(request):
         form = DocumentUploadForm()
     return render(request, 'panel/user/upload_document.html', {'form': form})
 
-@login_required
-def payment_page(request):
-    return render(request, 'panel/user/payment_page.html')
+# @login_required
 
+
+def payment_page(request):
+    if request.method == 'POST':
+        print(request.POST)
+        collect = campay.collect({
+            "amount": "5",  # The amount you want to collect
+            "currency": "XAF",
+            "from": "237652156526",  # Phone number to request amount from. Must include country code
+            "description": "some description",
+            # Reference from the system initiating the transaction.
+            "external_reference": "",
+        })
+        print(collect)
+        if collect.get('status') == 'SUCCESSFUL':
+            payment_data = {
+                'reference': collect.get('reference'),
+                'external_reference': collect.get('external_reference'),
+                'status': collect.get('status'),
+                'amount': collect.get('amount'),
+                'currency': collect.get('currency'),
+                'operator': collect.get('operator'),
+                'code': collect.get('code'),
+                'operator_reference': collect.get('operator_reference'),
+                'description': collect.get('description'),
+                'external_user': collect.get('external_user'),
+                'reason': collect.get('reason'),
+                'phone_number':collect.get('phone_number')
+
+            }
+            context = {'payment_info': payment_data}
+            return render(request, 'panel/user/payment_success.html', context)
+        else:
+            context = {'message': collect.get('reason')}
+            return render(request, 'panel/user/payment_page.html', context)
+    else:
+        context = {}
+        return render(request, 'panel/user/payment_page.html', context)
 
 
 def track_application(request):
     return render(request, 'panel/user/track_application.html')
 
+
 def security_settings(request):
     return render(request, 'panel/user/security_settings.html')
-
 
 
 @login_required
@@ -165,8 +215,9 @@ def insert_missing_id_card(request):
         form = MissingIDCardForm()
 
     found_id_cards = MissingIDCard.objects.all()
-    
+
     return render(request, 'panel/user/insert_missing_id_card.html', {'form': form, 'found_id_cards': found_id_cards})
+
 
 def contact_us(request):
     if request.method == 'POST':
@@ -184,13 +235,14 @@ def contact_us(request):
                 [settings.DEFAULT_FROM_EMAIL],
             )
 
-            return render(request, 'contact_us_success.html')  # Replace with your success template
+            # Replace with your success template
+            return render(request, 'contact_us_success.html')
     else:
         form = ContactUsForm()
 
     return render(request, 'contact_us.html', {'form': form})
 
- #police view
+ # police view
 
 
 @login_required
@@ -201,10 +253,12 @@ def manage_appointments(request):
     appointments = Appointment.objects.all()
     return render(request, 'panel/police/manage_appointments.html', {'appointments': appointments})
 
+
 @login_required
 def user_information(request):
     users = User.objects.all()
     return render(request, 'panel/police/user_information.html', {'users': users})
+
 
 @login_required
 def edit_appointment(request, pk):
@@ -218,11 +272,13 @@ def edit_appointment(request, pk):
         form = AppointmentForm(instance=appointment)
     return render(request, 'panel/police/edit_appointment.html', {'form': form})
 
+
 @login_required
 def delete_appointment(request, pk):
     appointment = get_object_or_404(Appointment, pk=pk)
     appointment.delete()
     return redirect('manage_appointments')
+
 
 @login_required
 def edit_user(request, pk):
@@ -236,6 +292,7 @@ def edit_user(request, pk):
         form = UserForm(instance=user)
     return render(request, 'panel/police/edit_user.html', {'form': form})
 
+
 @login_required
 def delete_user(request, pk):
     user = get_object_or_404(User, pk=pk)
@@ -245,7 +302,7 @@ def delete_user(request, pk):
     return render(request, 'panel/police/delete_user.html', {'user': user})
 
 
-#notifier
+# notifier
 
 @login_required
 def notifications(request):
@@ -253,9 +310,11 @@ def notifications(request):
 
     # Gather data for chart
     current_year = timezone.now().year
-    monthly_notifications = Notification.objects.filter(created_at__year=current_year).values('created_at__month').annotate(count=Count('id')).order_by('created_at__month')
+    monthly_notifications = Notification.objects.filter(created_at__year=current_year).values(
+        'created_at__month').annotate(count=Count('id')).order_by('created_at__month')
 
-    notification_labels = [calendar.month_name[i['created_at__month']] for i in monthly_notifications]
+    notification_labels = [
+        calendar.month_name[i['created_at__month']] for i in monthly_notifications]
     notification_counts = [i['count'] for i in monthly_notifications]
 
     context = {
@@ -267,13 +326,12 @@ def notifications(request):
     return render(request, 'panel/police/notifications.html', context)
 
 
-
-
-#admin view
+# admin view
 
 def manage_users(request):
     users = User.objects.all()
     return render(request, 'panel/admin/manage_users.html', {'users': users})
+
 
 def add_user(request):
     if request.method == 'POST':
@@ -284,6 +342,7 @@ def add_user(request):
     else:
         form = UserForm()
     return render(request, 'panel/admin/add_user.html', {'form': form})
+
 
 def edit_user(request, user_id):
     user = get_object_or_404(User, id=user_id)
@@ -296,14 +355,17 @@ def edit_user(request, user_id):
         form = UserForm(instance=user)
     return render(request, 'panel/admin/edit_user.html', {'form': form})
 
+
 def delete_user(request, user_id):
     user = get_object_or_404(User, id=user_id)
     user.delete()
     return redirect('manage_users')
 
+
 def manage_appointments(request):
     appointments = Appointment.objects.all()
     return render(request, 'panel/admin/manage_appointments.html', {'appointments': appointments})
+
 
 def approve_appointment(request, appointment_id):
     appointment = get_object_or_404(Appointment, id=appointment_id)
@@ -311,24 +373,24 @@ def approve_appointment(request, appointment_id):
     appointment.save()
     return redirect('manage_appointments')
 
+
 def reject_appointment(request, appointment_id):
     appointment = get_object_or_404(Appointment, id=appointment_id)
     appointment.status = 'Rejected'
     appointment.save()
     return redirect('manage_appointments')
 
+
 def manage_documents(request):
     documents = Document.objects.all()
     return render(request, 'panel/admin/manage_documents.html', {'documents': documents})
+
 
 def delete_document(request, document_id):
     document = get_object_or_404(Document, id=document_id)
     document.delete()
     return redirect('manage_documents')
 
+
 class AboutUsView(TemplateView):
     template_name = 'panel/admin/about_us.html'
-
-
-
-
