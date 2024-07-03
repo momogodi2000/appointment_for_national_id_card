@@ -185,11 +185,11 @@ def payment_page(request):
     if request.method == 'POST':
         print(request.POST.get("phone"))
         collect = campay.collect({
-            "amount": "5",  # The amount you want to collect
+            "amount": "3000",  # The amount you want to collect
             "currency": "XAF",
             # Phone number to request amount from. Must include country code
             "from": "237" + request.POST.get("phone"),
-            "description": "some description",
+            "description": "fees for ID Card Creation",
             # Reference from the system initiating the transaction.
             "external_reference": "",
         })
@@ -228,11 +228,11 @@ def payment_page(request):
         context = {}
         return render(request, 'panel/user/payment_page.html', context)
 
-
+@login_required
 def track_application(request):
     return render(request, 'panel/user/track_application.html')
 
-
+@login_required
 def security_settings(request):
     return render(request, 'panel/user/security_settings.html')
 
