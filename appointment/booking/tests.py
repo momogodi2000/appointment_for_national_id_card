@@ -1,15 +1,17 @@
 from django.test import TestCase, Client
 from django.urls import reverse
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.utils import timezone
-from .models import User, Appointment, Document, MissingIDCard, Office
-from .forms import RegistrationForm, LoginForm, CustomPasswordResetForm, AppointmentForm, DocumentUploadForm, ContactUsForm
+from .models import Appointment, Document, MissingIDCard, Office
+from .forms import CustomUserCreationForm, AuthenticationForm, ForgotPasswordForm, AppointmentForm, DocumentUploadForm, ContactUsForm
+
+User = get_user_model()
 
 class UserTests(TestCase):
     def setUp(self):
         self.client = Client()
         self.user = User.objects.create_user(username='testuser', email='test@example.com', password='testpass')
-    
+
     def test_user_registration(self):
         form_data = {
             'username': 'newuser',
@@ -17,7 +19,7 @@ class UserTests(TestCase):
             'password1': 'newpassword',
             'password2': 'newpassword',
         }
-        form = RegistrationForm(data=form_data)
+        form = CustomUserCreationForm(data=form_data)
         self.assertTrue(form.is_valid())
         form.save()
         self.assertTrue(User.objects.filter(username='newuser').exists())
