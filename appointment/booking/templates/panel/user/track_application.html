@@ -5,10 +5,10 @@
 {% block content %}
 <div class="container">
     <h2>Track Application</h2>
-    <form>
+    <form id="track-application-form">
         <div class="form-group">
             <label for="applicationId">Application ID</label>
-            <input type="text" class="form-control" id="applicationId" placeholder="Enter your application ID">
+            <input type="text" class="form-control" id="applicationId" name="applicationId" placeholder="Enter your application ID" required>
         </div>
         <button type="submit" class="btn btn-primary">Track</button>
     </form>
@@ -21,10 +21,20 @@
 {% block custom_js %}
 <script>
 $(document).ready(function(){
-    $('form').on('submit', function(event){
+    $('#track-application-form').on('submit', function(event){
         event.preventDefault();
-        // Placeholder for AJAX call to get application status
-        $('#applicationStatus').html('<p class="text-success">Application status: In Progress</p>');
+        var applicationId = $('#applicationId').val();
+        $.ajax({
+            url: '{% url "track_application" %}',
+            type: 'GET',
+            data: { 'applicationId': applicationId },
+            success: function(response) {
+                $('#applicationStatus').html('<p class="text-success">Application status: ' + response.status + '</p>');
+            },
+            error: function() {
+                $('#applicationStatus').html('<p class="text-danger">Error retrieving application status. Please try again.</p>');
+            }
+        });
     });
 });
 </script>

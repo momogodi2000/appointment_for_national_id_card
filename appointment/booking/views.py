@@ -32,7 +32,7 @@ import json
 import yagmail
 
 # Replace with your Gmail credentials
-username = "yvangodimomo@gmail.com"
+username = "kamsonganderson39@gmail.com"
 password = "zbci mysk xhds gjxe"
 
 # Create a yagmail object
@@ -190,10 +190,14 @@ def upload_document(request):
             document = form.save(commit=False)
             document.user = request.user
             document.save()
-            return redirect('success_page')  # Replace with your success URL
+            form = AppointmentForm()
+            # Redirect to the payment page
+            return render(request, 'panel/user/book_appointment.html', {'form': form})
+        else:
+            return HttpResponse("Error uploading documents. Please try again.")
     else:
         form = DocumentUploadForm()
-    return render(request, 'panel/user/upload_document.html', {'form': form})
+        return render(request, 'panel/user/upload_document.html', {'form': form})
 
 # @login_required
 
@@ -206,7 +210,7 @@ def payment_page(request):
             "currency": "XAF",
             # Phone number to request amount from. Must include country code
             "from": "237" + request.POST.get("phone"),
-            "description": "fees for ID Card Creation",
+            "description": "NATIONAL ID CARD FEES",
             # Reference from the system initiating the transaction.
             "external_reference": "",
         })
@@ -247,11 +251,39 @@ def payment_page(request):
 
 @login_required
 def track_application(request):
+    if request.method == 'GET' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        application_id = request.GET.get('applicationId', None)
+        if application_id:
+            try:
+                appointment = Appointment.objects.get(id=application_id)
+                status = appointment.status
+                return JsonResponse({'status': status})
+            except Appointment.DoesNotExist:
+                return JsonResponse({'status': 'Application not found'}, status=404)
+        else:
+            return JsonResponse({'status': 'Invalid application ID'}, status=400)
     return render(request, 'panel/user/track_application.html')
+
 
 @login_required
 def security_settings(request):
-    return render(request, 'panel/user/security_settings.html')
+    if request.method == 'POST':
+        current_password = request.POST.get('currentPassword')
+        new_password = request.POST.get('newPassword')
+        confirm_password = request.POST.get('confirmPassword')
+
+        if not request.user.check_password(current_password):
+            context = {'error': 'Current password is incorrect'}
+        elif new_password != confirm_password:
+            context = {'error': 'New passwords do not match'}
+        else:
+            request.user.set_password(new_password)
+            request.user.save()
+            context = {'success': 'Password updated successfully'}
+    else:
+        context = {}
+
+    return render(request, 'panel/user/security_settings.html', context)
 
 
 @login_required
@@ -427,7 +459,7 @@ def approve_appointment(request, appointment_id):
     # Compose and send an email
     subject = "appointment approved"
     body = "Your appointment have be approved"
-    recipients = ["yvangodimomo@gmail.com"]
+    recipients = ["kamsonganderson39@gmail.com"]
 
     yag.send(to=recipients, subject=subject, contents=body)
 
@@ -440,7 +472,7 @@ def reject_appointment(request, appointment_id):
     appointment.save()
     subject = "appointment rejected"
     body = "Your appointment have be rejected"
-    recipients = ["yvangodimomo@gmail.com"]
+    recipients = ["kamsonganderson39@gmail.com"]
     return redirect('manage_appointments')
 
 
