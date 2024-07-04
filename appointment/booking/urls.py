@@ -34,7 +34,7 @@ urlpatterns = [
     path('notifications/', views.notifications, name='notifications'),
 
 
-    path('admin/manage-users/', manage_users, name='manage_users'),
+    path('panel/admin/manage-users/', manage_users, name='manage_users'),
     path('admin/add-user/', add_user, name='add_user'),
     path('admin/edit-user/<int:user_id>/', edit_user, name='edit_user'),
     path('admin/delete-user/<int:user_id>/', delete_user, name='delete_user'),

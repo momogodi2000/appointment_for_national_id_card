@@ -42,6 +42,9 @@ class Document(models.Model):
     death_certificate = models.FileField(upload_to='documents/', blank=True, null=True)
     sworn_statement = models.FileField(upload_to='documents/', blank=True, null=True)
 
+    def __str__(self):
+        return self.user.username
+
 
 class MissingIDCard(models.Model):
     name = models.CharField(max_length=255)

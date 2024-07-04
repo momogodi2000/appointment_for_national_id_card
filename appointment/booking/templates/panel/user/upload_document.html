@@ -1,14 +1,100 @@
-{% extends 'base.html' %}
-
-{% block title %}Upload Documents{% endblock %}
-
-{% block content %}
-<div class="container">
-    <h2 class="my-4 animate__animated animate__fadeInDown">Upload Documents for National ID Card</h2>
-    <form method="POST" enctype="multipart/form-data" class="animate__animated animate__fadeInUp">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Documents</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .preview-table img {
+            max-width: 100px;
+            max-height: 100px;
+        }
+        .table-responsive {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Upload Documents</h1>
+    <form method="post" enctype="multipart/form-data" id="document-form">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Upload Documents</button>
+        <div class="form-group">
+            {{ form.birth_certificate.label_tag }} {{ form.birth_certificate }}
+        </div>
+        <div class="form-group">
+            {{ form.proof_of_nationality.label_tag }} {{ form.proof_of_nationality }}
+        </div>
+        <div class="form-group">
+            {{ form.passport_photos.label_tag }} {{ form.passport_photos }}
+        </div>
+        <div class="form-group">
+            {{ form.residence_permit.label_tag }} {{ form.residence_permit }}
+        </div>
+        <div class="form-group">
+            {{ form.marriage_certificate.label_tag }} {{ form.marriage_certificate }}
+        </div>
+        <div class="form-group">
+            {{ form.death_certificate.label_tag }} {{ form.death_certificate }}
+        </div>
+        <div class="form-group">
+            {{ form.sworn_statement.label_tag }} {{ form.sworn_statement }}
+        </div>
+        <button type="submit" class="btn btn-primary">Upload</button>
     </form>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover preview-table" id="preview-table">
+            <thead>
+                <tr>
+                    <th>Document Type</th>
+                    <th>Preview</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Preview will be populated here by JavaScript -->
+            </tbody>
+        </table>
+    </div>
 </div>
-{% endblock %}
+
+<script>
+    document.getElementById('document-form').addEventListener('change', function(event) {
+        var input = event.target;
+        if (input.type === 'file') {
+            previewFile(input);
+        }
+    });
+
+    function previewFile(input) {
+        var previewTable = document.getElementById('preview-table').getElementsByTagName('tbody')[0];
+        var files = input.files;
+        var documentType = input.previousElementSibling.textContent.trim();
+        
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            var reader = new FileReader();
+            
+            reader.onload = (function(file) {
+                return function(e) {
+                    var row = document.createElement('tr');
+                    var typeCell = document.createElement('td');
+                    var previewCell = document.createElement('td');
+                    var img = document.createElement('img');
+
+                    typeCell.textContent = documentType;
+                    img.src = e.target.result;
+                    previewCell.appendChild(img);
+
+                    row.appendChild(typeCell);
+                    row.appendChild(previewCell);
+                    previewTable.appendChild(row);
+                };
+            })(file);
+            
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
+</body>
+</html>

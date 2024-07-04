@@ -32,7 +32,7 @@ import json
 import yagmail
 
 # Replace with your Gmail credentials
-username = "kamsonganderson39@gmail.com"
+username = "yvangodimomo@gmail.com"
 password = "zbci mysk xhds gjxe"
 
 # Create a yagmail object
@@ -190,14 +190,10 @@ def upload_document(request):
             document = form.save(commit=False)
             document.user = request.user
             document.save()
-            form = AppointmentForm()
-            # Redirect to the payment page
-            return render(request, 'panel/user/book_appointment.html', {'form': form})
-        else:
-            return HttpResponse("Error uploading documents. Please try again.")
+            return redirect('success_page')  # Replace with your success URL
     else:
         form = DocumentUploadForm()
-        return render(request, 'panel/user/upload_document.html', {'form': form})
+    return render(request, 'panel/user/upload_document.html', {'form': form})
 
 # @login_required
 
@@ -431,7 +427,7 @@ def approve_appointment(request, appointment_id):
     # Compose and send an email
     subject = "appointment approved"
     body = "Your appointment have be approved"
-    recipients = ["kamsonganderson39@gmail.com"]
+    recipients = ["yvangodimomo@gmail.com"]
 
     yag.send(to=recipients, subject=subject, contents=body)
 
@@ -444,7 +440,7 @@ def reject_appointment(request, appointment_id):
     appointment.save()
     subject = "appointment rejected"
     body = "Your appointment have be rejected"
-    recipients = ["kamsonganderson39@gmail.com"]
+    recipients = ["yvangodimomo@gmail.com"]
     return redirect('manage_appointments')
 
 

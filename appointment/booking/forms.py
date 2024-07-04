@@ -47,21 +47,19 @@ class DocumentUploadForm(forms.ModelForm):
             'sworn_statement'
         ]
         widgets = {
-            'birth_certificate': forms.ClearableFileInput(attrs={'class': 'form-control-file', 'required': True}),
-            'proof_of_nationality': forms.ClearableFileInput(attrs={'class': 'form-control-file', 'required': True}),
-            'passport_photos': forms.ClearableFileInput(attrs={'class': 'form-control-file', 'required': True}),
-            'residence_permit': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
-            'marriage_certificate': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
-            'death_certificate': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
-            'sworn_statement': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
+            'birth_certificate': forms.ClearableFileInput(attrs={'class': 'form-control-file', 'onchange': 'previewFile(this)'}),
+            'proof_of_nationality': forms.ClearableFileInput(attrs={'class': 'form-control-file', 'onchange': 'previewFile(this)'}),
+            'passport_photos': forms.ClearableFileInput(attrs={'class': 'form-control-file', 'onchange': 'previewFile(this)'}),
+            'residence_permit': forms.ClearableFileInput(attrs={'class': 'form-control-file', 'onchange': 'previewFile(this)'}),
+            'marriage_certificate': forms.ClearableFileInput(attrs={'class': 'form-control-file', 'onchange': 'previewFile(this)'}),
+            'death_certificate': forms.ClearableFileInput(attrs={'class': 'form-control-file', 'onchange': 'previewFile(this)'}),
+            'sworn_statement': forms.ClearableFileInput(attrs={'class': 'form-control-file', 'onchange': 'previewFile(this)'}),
         }
 
     def __init__(self, *args, **kwargs):
         super(DocumentUploadForm, self).__init__(*args, **kwargs)
-        self.fields['residence_permit'].required = False
-        self.fields['marriage_certificate'].required = False
-        self.fields['death_certificate'].required = False
-        self.fields['sworn_statement'].required = False
+        for field in self.fields:
+            self.fields[field].required = False
 
 
 
