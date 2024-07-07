@@ -206,7 +206,7 @@ def payment_page(request):
     if request.method == 'POST':
         print(request.POST.get("phone"))
         collect = campay.collect({
-            "amount": "3000",  # The amount you want to collect
+            "amount": "100",  # The amount you want to collect
             "currency": "XAF",
             # Phone number to request amount from. Must include country code
             "from": "237" + request.POST.get("phone"),
