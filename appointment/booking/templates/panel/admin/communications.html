@@ -1,0 +1,28 @@
+{% extends 'panel/admin/base_admin.html' %}
+{% block content %}
+<h1>All communications</h1>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Communication ID</th>
+                <th>Title</th>
+                <th>File</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tbody>
+                {% for appointment in communications %}
+                <tr>
+                    <td>{{ appointment.id }}</td>
+                    <td>{{ appointment.title }}</td>
+                    <td>
+                        <a download target="_blank" href="../../../{{ appointment.location }}">{{ appointment.location }}</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </tbody>
+    </table>
+</div>
+{% endblock %}

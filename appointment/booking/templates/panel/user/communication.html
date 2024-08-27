@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Manager communication</title>
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+        <!-- Font Awesome CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="{% static 'css/user_dashboard.css' %}">
+</head>
+<body>
+    <div class="dashboard">
+        <div class="dashboard-nav">
+            <header>
+                <a href="#" class="brand-logo"><i class="fas fa-anchor"></i> <span>{{request.user.username}} Panel</span></a>
+            </header>
+            <nav class="dashboard-nav-list">
+                <a href="{% url 'upload_document' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-upload"></i> Upload Documents</a>
+                <a href="{% url 'track_application' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-tasks"></i> Track Application</a>
+                <a href="{% url 'security_settings' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-user-lock"></i> Security Settings</a>
+                <a href="{% url 'insert_missing_id_card' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-id-badge"></i> Insert Missing ID Card</a>
+                <a href="{% url 'user_communications' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-id-badge"></i> Communications</a>
+            </nav>
+            <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
+        </div>
+        <main class="dashboard-app">
+            <header class="dashboard-toolbar">
+                <a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a>
+            </header>
+            <div class="dashboard-content">
+                <h1>Police Communications</h1>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Communication ID</th>
+                            <th>Communication file</th>
+                            <th>Communication title</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for communication in communications %}
+                        <tr>
+                            <td>{{ communication.id }}</td>
+                            <td>
+                                <a target="_blank" download="" href="../../../{{communication.location}}">
+                                    {{communication.location}}
+                                </a>
+                            </td>
+                            <td>{{ communication.title }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Custom JavaScript -->
+    <script src="{% static 'js/police_panel.js' %}"></script>
+</body>
+</html>

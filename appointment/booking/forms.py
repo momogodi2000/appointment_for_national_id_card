@@ -5,11 +5,12 @@ from .models import User
 from .models import Appointment
 from .models import Document
 from .models import MissingIDCard
+from .models import *
 
 class RegistrationForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ['username', 'email', 'password1', 'password2']
+        fields = ['username', 'email', 'role','password1', 'password2']
 
 class LoginForm(AuthenticationForm):
     username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'}))
@@ -18,10 +19,11 @@ class LoginForm(AuthenticationForm):
 class CustomPasswordResetForm(PasswordResetForm):
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}))
 
-class CustomUserCreationForm(UserCreationForm):
-    class Meta(UserCreationForm.Meta):
+class CustomUserCreationForm(RegistrationForm):
+    class Meta(RegistrationForm.Meta):
         model = User
-        fields = UserCreationForm.Meta.fields + ('role',)
+        # fields = UserCreationForm.Meta.fields + ('role',)
+        fields = RegistrationForm.Meta.fields
 
 class ForgotPasswordForm(forms.Form):
     email = forms.EmailField()
@@ -55,7 +57,6 @@ class DocumentUploadForm(forms.ModelForm):
             'death_certificate': forms.ClearableFileInput(attrs={'class': 'form-control-file', 'onchange': 'previewFile(this)'}),
             'sworn_statement': forms.ClearableFileInput(attrs={'class': 'form-control-file', 'onchange': 'previewFile(this)'}),
         }
-
     def __init__(self, *args, **kwargs):
         super(DocumentUploadForm, self).__init__(*args, **kwargs)
         for field in self.fields:
@@ -69,10 +70,14 @@ class MissingIDCardForm(forms.ModelForm):
         fields = ['name', 'email', 'phone', 'id_card_image']
 
 
-class ContactUsForm(forms.Form):
-    name = forms.CharField(max_length=100)
-    email = forms.EmailField()
-    message = forms.CharField(widget=forms.Textarea)
+class ContactUsForm(forms.ModelForm):
+    class Meta:
+        model = ContactUs
+        fields =["name", "email", "message"]
+    def __init__(self, *args, **kwargs):
+        super(ContactUsForm, self).__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].required = False
 
 class UserForm(forms.ModelForm):
     class Meta:
@@ -85,3 +90,24 @@ class UserForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+class CommunicationUploadForm(forms.ModelForm):
+    class Meta:
+        model = Communication
+        fields = ["title", "location"]
+        widgets = {
+            "location": forms.FileInput(attrs={"accept": '.pdf,.png,.jpg,.jpeg'})   
+        }
+    def __init__(self, *args, **kwargs):
+        super(CommunicationUploadForm, self).__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].required = False
+
+class EditCardStatusForm(forms.ModelForm):
+    class Meta:
+        model = Appointment
+        fields = ["id", "card_status"]
+        widgets = {
+            "id": forms.CharField(max_length=35),
+            "card_status": forms.Select(attrs={"required": True}, choices=Appointment.CARD_CHOICES)
+        }

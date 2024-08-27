@@ -1,0 +1,99 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Appointments</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/user_dashboard.css' %}">
+</head>
+<body>
+    <div class="dashboard">
+        <div class="dashboard-nav">
+            <header>
+                <a href="#" class="brand-logo"><i class="fas fa-anchor"></i> <span>Police Panel</span></a>
+            </header>
+            <nav class="dashboard-nav-list">
+                <a href="{% url 'officer_panel' %}" class="dashboard-nav-item"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                <a href="{% url 'user_information' %}" class="dashboard-nav-item"><i class="fas fa-users"></i> User Information</a>
+                <a href="{% url 'manage_appointments' %}" class="dashboard-nav-item"><i class="fas fa-users"></i> Manage appointments</a>
+                <a href="{% url 'communications' %}" class="dashboard-nav-item"><i class="fas fa-bell"></i> Communications</a>
+                <a href="{% url 'notifications' %}" class="dashboard-nav-item"><i class="fas fa-bell"></i> Notifications</a>
+                <a href="{% url 'card_status' %}" class="dashboard-nav-item"><i class="fas fa-bell"></i> Cards Availablity</a>
+                <a href="#" class="dashboard-nav-item"><i class="fas fa-cogs"></i> Settings</a>
+            </nav>
+            <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
+        </div>
+        <main class="dashboard-app">
+            <header class="dashboard-toolbar">
+                <a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a>
+            </header>
+            <div class="dashboard-content">
+                <h1>User's documents</h1>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Birth certificate</th>
+                            <th>Death certificate</th>
+                            <th>Marriage certificate</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ documents.user }}</td>
+                            <td>
+                                <img src="../../../{{documents.birth_certificate}}" />
+                            </td>
+                            <td>
+                                <img src="../../../{{documents.death_certificate}}" />
+                            </td>
+                            <td>
+                                <img src="../../../{{documents.marriage_certificate}}" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table style="margin-top: 5%;">
+                    <thead>
+                        <th>Passport photos</th>
+                        <th>Residence permit</th>
+                        <th>Sworn statement</th>
+                        <th>Proof of nationality</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <img src="../../../{{documents.passport_photos}}" />
+                            </td>
+                            <td>
+                                <img src="../../../{{documents.residence_permit}}" />
+                            </td>
+                            <td>
+                                <img src="../../../{{documents.sworn_statement}}" />
+                            </td>
+                            <td>
+                                <img src="../../../{{documents.proof_of_nationality}}" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Custom JavaScript -->
+    <script src="{% static 'js/police_panel.js' %}"></script>
+</body>
+</html>

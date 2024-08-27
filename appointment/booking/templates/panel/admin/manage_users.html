@@ -6,6 +6,7 @@
         <thead>
             <tr>
                 <th>ID</th>
+                <th>Role</th>
                 <th>Username</th>
                 <th>Email</th>
                 <th>Actions</th>
@@ -13,15 +14,18 @@
         </thead>
         <tbody>
             {% for user in users %}
+            {% if user.id != request.user.id %}
             <tr>
                 <td>{{ user.id }}</td>
+                <td>{{ user.role }}</td>
                 <td>{{ user.username }}</td>
                 <td>{{ user.email }}</td>
                 <td>
-                    <a href="{% url 'edit_user' user.id %}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i> Edit</a>
-                    <a href="{% url 'delete_user' user.id %}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Delete</a>
+                    <a href="{% url 'admin_edit_user' user.id %}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i> Edit</a>
+                    <a href="{% url 'admin_delete_user' user.id %}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Delete</a>
                 </td>
             </tr>
+            {% endif %}
             {% endfor %}
         </tbody>
     </table>

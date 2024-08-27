@@ -5,10 +5,11 @@
 {% block content %}
 <div class="container">
     <h2>Track Application</h2>
-    <form id="track-application-form">
+    <form action="{% url 'track_application' %}" id="track-application-form" method="post">
+        {% csrf_token %}
         <div class="form-group">
-            <label for="applicationId">Application ID</label>
-            <input type="text" class="form-control" id="applicationId" name="applicationId" placeholder="Enter your application ID" required>
+            <label for="applicationId">Appointment ID</label>
+            <input type="text" class="form-control" id="applicationId" name="applicationId" placeholder="Enter your appointment ID" required>
         </div>
         <button type="submit" class="btn btn-primary">Track</button>
     </form>
