@@ -1,4 +1,4 @@
-/* Reset and basic styles */
+Reset and basic styles
 body {
     font-family: Arial, sans-serif;
     background-color: #f8f9fa; /* Light gray background */
@@ -85,14 +85,14 @@ body {
 
 /* admin pages*/
 
-.dashboard {
+/* .dashboard {
     display: flex;
     min-height: 100vh;
 }
 
 .dashboard-nav {
     width: 250px;
-    background: #343a40;
+    background: #ffffff;
     color: #fff;
     flex-shrink: 0;
 }
@@ -101,7 +101,7 @@ body {
     padding: 1rem;
     background: #212529;
     text-align: center;
-}
+} */
 
 .dashboard-nav-list {
     list-style: none;

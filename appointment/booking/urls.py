@@ -5,7 +5,6 @@ from .views import user_panel, book_appointment, upload_document, MissingIDCardF
 from .views import payment_page, AboutUsView
 from .views import manage_users, add_user, edit_user, delete_user, manage_appointments, approve_appointment, reject_appointment, manage_documents, delete_document
 
-
 urlpatterns = [
     path('', views.home, name='home'),
     path('register/', views.register, name='register'),
@@ -24,25 +23,35 @@ urlpatterns = [
     path('security-settings/', views.security_settings, name='security_settings'),
     path('insert_missing_id_card/', views.insert_missing_id_card, name='insert_missing_id_card'),
     path('contact-us/', views.contact_us, name='contact_us'),
+    path('user-communication/', views.user_communications, name="user_communications"),
+    # path('generated-pdf/'),
 
     path('police/manage-appointments/', views.manage_appointments, name='manage_appointments'),
+    path('panel/admin/manage-appointments/', views.admin_manage_appointments, name='admin_manage_appointments'),
     path('police/user-information/', views.user_information, name='user_information'),
+    path('view-docs/<int:user_id>/', views.get_documents, name='view_docs'),
     path('edit-appointment/<int:pk>/', views.edit_appointment, name='edit_appointment'),
+    path('approve-appointment/<int:pk>/', views.approve_appointment, name='approve_appointment'),
     path('delete-appointment/<int:pk>/', views.delete_appointment, name='delete_appointment'),
     path('edit-user/<int:pk>/', views.edit_user, name='edit_user'),
     path('delete-user/<int:pk>/', views.delete_user, name='delete_user'),
     path('notifications/', views.notifications, name='notifications'),
-
+    path('communication/', views.communications, name="communications"),
+    path('communication-form/', views.communication_form, name="communication_form"),
+    path('card_status/', views.card_status, name="card_status"),
+    path('edit_card_status/<int:id>/', views.edit_card_status, name="edit_card_status"),
+    path("edit-communication/<int:id>", views.edit_communication, name="edit_communication"),
+    path("delete-communication/<int:id>", views.delete_communication, name="delete_communication"),
 
     path('panel/admin/manage-users/', manage_users, name='manage_users'),
-    path('admin/add-user/', add_user, name='add_user'),
-    path('admin/edit-user/<int:user_id>/', edit_user, name='edit_user'),
-    path('admin/delete-user/<int:user_id>/', delete_user, name='delete_user'),
-    # path('admin/manage-appointments/', manage_appointments, name='manage_appointments'),
+    path('panel/admin/add-user/', add_user, name='add_user'),
+    path('panel/admin/edit-user/<int:user_id>/', views.admin_edit_user, name='admin_edit_user'),
+    path('panel/admin/delete-user/<int:user_id>/', views.admin_delete_user, name='admin_delete_user'),
     path('police/approve-appointment/<int:appointment_id>/', approve_appointment, name='approve_appointment'),
     path('police/reject-appointment/<int:appointment_id>/', reject_appointment, name='reject_appointment'),
-    path('admin/manage-documents/', manage_documents, name='manage_documents'),
-    path('admin/delete-document/<int:document_id>/', delete_document, name='delete_document'),
-    path('about-us/', AboutUsView.as_view(), name='about_us'),
-   
+    path('panel/admin/manage-documents/', manage_documents, name='manage_documents'),
+    path('panel/admin/delete-document/<int:document_id>/', delete_document, name='delete_document'),
+    path('about-us/', AboutUsView.as_view(), name='about_us'),   
+    path('contact-messages/', views.contact_messages, name='contact_messages'),   
+    path('admin-communications/', views.admin_communications, name='admin_communications'),   
 ]

@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Manager card</title>
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+        <!-- Font Awesome CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="{% static 'css/user_dashboard.css' %}">
+</head>
+<body>
+    <div class="dashboard">
+        <div class="dashboard-nav">
+            <header>
+                <a href="#" class="brand-logo"><i class="fas fa-anchor"></i> <span>Police Panel</span></a>
+            </header>
+            <nav class="dashboard-nav-list">
+                <a href="{% url 'officer_panel' %}" class="dashboard-nav-item"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                <a href="{% url 'user_information' %}" class="dashboard-nav-item"><i class="fas fa-users"></i> User Information</a>
+                <a href="{% url 'notifications' %}" class="dashboard-nav-item"><i class="fas fa-bell"></i> Notifications</a>
+                <a href="#" class="dashboard-nav-item"><i class="fas fa-cogs"></i> Settings</a>
+            </nav>
+            <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
+        </div>
+        <main class="dashboard-app">
+            <header class="dashboard-toolbar">
+                <a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a>
+            </header>
+            <div class="dashboard-content">
+                <h1>Manage Cards Availability</h1>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Appointment ID</th>
+                            <th>User ID</th>
+                            <th>Card status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for card in cards %}
+                        <tr>
+                            <td>{{ card.id }}</td>
+                            <td>
+                                    {{card.user}}
+                            </td>
+                            <td>{{ card.card_status }}</td>
+                            <td>
+                                <a href="{% url 'edit_card_status' card.id %}" class="btn btn-info btn-sm">Edit</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Custom JavaScript -->
+    <script src="{% static 'js/police_panel.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+{% extends 'panel/admin/base_admin.html' %}
+{% block content %}
+<h1>All contact us messages</h1>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Message ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Message</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tbody>
+                {% for appointment in contact %}
+                <tr>
+                    <td>{{ appointment.id }}</td>
+                    <td>{{ appointment.name }}</td>
+                    <td>{{ appointment.email }}</td>
+                    <td>{{ appointment.message }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </tbody>
+    </table>
+</div>
+{% endblock %}
