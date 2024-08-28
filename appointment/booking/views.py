@@ -38,6 +38,9 @@ import json
 import yagmail
 from rest_framework.views import APIView
 
+
+
+
 # Replace with your Gmail credentials
 username = "kamsonganderson39@gmail.com"
 password = "zbci mysk xhds gjxe"
