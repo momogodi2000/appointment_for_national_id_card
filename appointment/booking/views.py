@@ -5,11 +5,13 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import get_user_model
 from .forms import CustomUserCreationForm, RegistrationForm
 from .forms import ForgotPasswordForm  # Make sure to import your form
+from django.utils.crypto import get_random_string
 from django.contrib.sites.shortcuts import get_current_site
 from django.http import JsonResponse
 from django.http import FileResponse
 from .models import Appointment, User,Office
 from django.utils.timezone import now
+from django.contrib.auth.hashers import check_password, make_password
 from .forms import AppointmentForm, UserForm
 from .forms import DocumentUploadForm
 from .forms import *
@@ -138,6 +140,35 @@ def login(request):
         form = AuthenticationForm()
     return render(request, 'auth/login.html', {'form': form})
 
+def activation_code_email(request):
+    if request.method == 'GET':
+        return render(request, "auth/activation_code_email.html")
+    else:
+        user = None
+        try:
+            user = User.objects.get(email=request.POST["email"])
+        except Exception as e:
+            pass
+        if user is None:
+            return render(request, "auth/password_reset_success.html", {"status":400, "message": "Invalid email"})
+        password_reset = None
+        try:
+            password_reset = PasswordReset.objects.get(code=request.POST["code"], user=user.pk)
+        except Exception as e:
+            pass
+        if password_reset is None:
+            return render(request, "auth/password_reset_success.html", {"status":400, "message": "Invalid acrivation code"})
+        data_without_email = {
+            "code": request.POST["code"],
+            "user": user.pk
+        }
+        reset_form = PasswordResetForm(data=data_without_email)
+        if reset_form.is_valid():
+            hashedPassword = make_password(request.POST["new_password"])
+            user.password = hashedPassword
+            user.save()
+            return render(request, "auth/password_reset_success.html", {"status":200, "message": "Password reset successful !"})
+        return render(request, "auth/password_reset_success.html", {"status":400, "message": "An error occurred !"})
 
 def forgot_password(request):
     if request.method == 'POST':
@@ -151,16 +182,31 @@ def forgot_password(request):
 
             if user:
                 current_site = get_current_site(request)
+                random_string = get_random_string(6)
                 mail_subject = 'Reset your password'
-                message = render_to_string('password_reset_email.html', {
-                    'user': user,
-                    'domain': current_site.domain,
-                    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                    'token': account_activation_token.make_token(user),
-                })
-                send_mail(mail_subject, message,
-                          'your_email@example.com', [email])
-            return redirect('password_reset_done')
+                recepients = [f"{user.email}"]
+                message = f"Enter the activation code to proceed {random_string}"
+                yag.send(to=recepients, subject=mail_subject, contents=message)
+                password_reset = None
+                try:
+                    password_reset = PasswordReset.objects.get(user = user.pk)
+                except Exception as e:
+                    pass
+                if password_reset is None:
+                    data = {
+                        "code": random_string,
+                        "user": user.pk
+                    }
+                    form = PasswordResetForm(data=data)
+                    if form.is_valid():
+                        form.save()
+                else:
+                    password_reset.code = random_string
+                    password_reset.save()
+                return render(request, "auth/activation_code_email.html", {"user":user})
+            return redirect('forgot_password')
+        return redirect('forgot_password')
+        
     else:
         form = ForgotPasswordForm()
 

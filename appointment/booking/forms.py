@@ -29,6 +29,12 @@ class ForgotPasswordForm(forms.Form):
     email = forms.EmailField()
 
 
+class PasswordResetForm(forms.ModelForm):
+    class Meta:
+        model = PasswordReset
+        fields = ["user", "code"]
+
+
 class AppointmentForm(forms.ModelForm):
     class Meta:
         model = Appointment

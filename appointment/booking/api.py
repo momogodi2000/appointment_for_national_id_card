@@ -17,6 +17,7 @@ from reportlab.graphics import renderPDF
 # Assuming you have a form for handling this
 from reportlab.pdfgen import canvas
 from django.core.mail import send_mail
+import yagmail
 from django.conf import settings  # try to access email backend
 from .models import Notification
 from django.db.models import Count
@@ -32,8 +33,16 @@ import json
 import yagmail
 from rest_framework import status
 from django.core.exceptions import ObjectDoesNotExist
-from django.contrib.auth.hashers import check_password
+from django.contrib.auth.hashers import check_password, make_password
+from django.utils.crypto import get_random_string
 from rest_framework.authtoken.models import Token
+
+# Replace with your Gmail credentials
+username = "kamsonganderson39@gmail.com"
+password = "zbci mysk xhds gjxe"
+
+# Create a yagmail object
+yag = yagmail.SMTP(username, password)
 
 User = get_user_model()
 campay = CamPayClient({
@@ -382,3 +391,63 @@ class DocumentView(APIView):
         document = Document.objects.get(pk=document_id)
         document.delete()
         return Response({"message": "Document deleted successfully !"}, status=status.HTTP_200_OK)
+
+class ForgotPasswordView(APIView):
+    def post(self, request):
+        email = request.data.get("email")
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            user = None
+
+        if user:
+            random_string = get_random_string(6)
+            mail_subject = 'Reset your password'
+            recepients = [f"{user.email}"]
+            message = f"Enter the activation code to proceed: {random_string}"
+            yag.send(to=recepients, subject=mail_subject, contents=message)
+            password_reset = None
+            try:
+                password_reset = PasswordReset.objects.get(user = user.pk)
+            except Exception as e:
+                pass
+            if password_reset is None:
+                data = {
+                    "code": random_string,
+                    "user": user.pk
+                }
+                form = PasswordResetSerializer(data=data)
+                if form.is_valid():
+                    form.save()
+            else:
+                password_reset.code = random_string
+                password_reset.save()
+            return Response({"message": "We sent an activation code to your mail, check it", "data":UserSerializer(user).data}, status=status.HTTP_200_OK)
+        return Response({"message": "Invalid email"}, status=status.HTTP_404_NOT_FOUND)
+    
+    def put(self, request):
+        user = None
+        try:
+            user = User.objects.get(email=request.data["email"])
+        except Exception as e:
+            pass
+        if user is None:
+            return Response({"message": "Invalid email"}, status=status.HTTP_404_NOT_FOUND)
+        password_reset = None
+        try:
+            password_reset = PasswordReset.objects.get(code=request.data["code"], user=user.pk)
+        except Exception as e:
+            pass
+        if password_reset is None:
+            return Response({"message": "Invalid activation code"}, status=status.HTTP_400_BAD_REQUEST)
+        data_without_email = {
+            "code": request.data["code"],
+            "user": user.pk
+        }
+        reset_serializer = PasswordResetSerializer(data=data_without_email)
+        if reset_serializer.is_valid():
+            hashedPassword = make_password(request.data["new_password"])
+            user.password = hashedPassword
+            user.save()
+            return Response({"message": "Password reset successful !"}, status=status.HTTP_200_OK)
+        return Response({"message": reset_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)

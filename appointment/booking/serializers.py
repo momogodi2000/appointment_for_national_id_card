@@ -78,3 +78,13 @@ class ContactUsSerializer(serializers.ModelSerializer):
         new_contact_us = ContactUs.objects.create(**validated_data)
         new_contact_us.save()
         return new_contact_us
+
+class PasswordResetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PasswordReset
+        fields = "__all__"
+    
+    def create(self, validated_data):
+        new_password_reset = PasswordReset.objects.create(**validated_data)
+        new_password_reset.save()
+        return new_password_reset
