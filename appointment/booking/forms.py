@@ -10,7 +10,7 @@ from .models import *
 class RegistrationForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ['username', 'email', 'role','password1', 'password2']
+        fields = ['username', 'email' ,'password1', 'password2']
 
 class LoginForm(AuthenticationForm):
     username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'}))

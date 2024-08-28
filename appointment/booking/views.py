@@ -197,7 +197,6 @@ def book_appointment(request):
         user_id = request.user.id
         user = User.objects.get(pk=user_id)
         officer = None  # Assuming officer can be null
-        # Replace with actual office retrieval
         office = Office.objects.create(
             name="Mendong Office",
             address="mendong"
@@ -205,13 +204,8 @@ def book_appointment(request):
         date = request.POST.get('date')
         time = "8:00"
 
-        # user = User.objects.create(
-        #     address="Mendong",
-        #     name="Anderson1"
-        # )
-        # # user.save()
+     
         print(office)
-        # Create the appointment object
         appointment = Appointment.objects.create(
             user=user,
             officer=officer,
@@ -219,19 +213,10 @@ def book_appointment(request):
             date=date,
             time=time,
         )
-        # appointment.save
+       
         context = {}
         return render(request, 'panel/user/payment_page.html', context)
-        # form = AppointmentForm(request.POST)
-        # if form.is_valid():
-        #     appointment = form.save(commit=False)
-        #     # Additional processing logic as needed
-        #     appointment.save()
-        #     # Redirect to user panel or another appropriate view
-        #     # return redirect('user_panel')
-
-        # else:
-        #     print(form.errors)  # Check form errors in console for debugging
+       
     else:
         form = AppointmentForm()
     return render(request, 'panel/user/book_appointment.html', {'form': form})
@@ -246,7 +231,7 @@ def upload_document(request):
             document.user = request.user
             document.save()
             form = AppointmentForm()
-            # Redirect to the payment page
+         
             return render(request, 'panel/user/book_appointment.html', {'form': form})
         else:
             return HttpResponse("Error uploading documents. Please try again.")
@@ -386,14 +371,6 @@ def contact_us(request):
         form = ContactUsForm(request.POST)
         if form.is_valid():
             form.save()
-            # Send email
-            # send_mail(
-            #     'Contact Form Submission',
-            #     f'Name: {name}\nEmail: {email}\nMessage: {message}',
-            #     settings.DEFAULT_FROM_EMAIL,
-            #     [settings.DEFAULT_FROM_EMAIL],
-            # )
-
             # Replace with your success template
             return render(request, 'panel/user/contact_us_success.html')
         else:
@@ -404,17 +381,9 @@ def contact_us(request):
         form = ContactUsForm()
         return render(request, 'panel/user/contact_us.html', {'form': form})
 
+
+
  # police view
-
-
-# @login_required
-# def manage_appointments(request):
-#     if request.user.role != 'officer':
-#         return render(request, '403.html', status=403)
-
-#     appointments = Appointment.objects.all()
-#     print("appointments")
-#     return render(request, 'panel/police/manage_appointments.html', {'appointments': appointments})
 
 
 @login_required
@@ -563,6 +532,9 @@ def notifications(request):
     return render(request, 'panel/police/notifications.html', context)
 
 
+
+
+
 # admin view
 
 def manage_users(request):
@@ -609,8 +581,7 @@ def admin_manage_appointments(request):
 
 def approve_appointment(request, appointment_id):
     appointment = get_object_or_404(Appointment, id=appointment_id)
-    # appointment.status = 'approved'
-    # appointment.save()
+
     print(appointment.user)
     citizen = User.objects.get(username=appointment.user)
     # Compose and send an email

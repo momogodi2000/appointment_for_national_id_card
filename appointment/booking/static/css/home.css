@@ -1,101 +1,142 @@
-
+/* General Styles */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f5f5f5;
-}
-.navbar {
-    background-color: #007bff;
-}
-.navbar-brand, .nav-link {
-    color: #fff !important;
-}
-.jumbotron {
-    background: url('https://via.placeholder.com/1200x400') no-repeat center center;
-    background-size: cover;
-    color: #fff;
-    text-align: center;
-    padding: 150px 0;
-}
-.procedure {
-    margin-top: 30px;
-}
-.procedure h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-.procedure ol {
-    list-style: none;
-    padding: 0;
-}
-.procedure li {
-    background: #fff;
-    margin-bottom: 10px;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s;
-}
-.procedure li:hover {
-    transform: translateY(-5px);
-}
-.procedure img {
-    max-width: 100%;
-    border-radius: 5px;
-}
-.footer {
-    background-color: #343a40;
-    color: #fff;
-    padding: 20px;
-    text-align: center;
-}
-.footer p {
+    background-color: #f4f4f9;
+    font-family: 'Arial', sans-serif;
     margin: 0;
+    padding: 0;
+    line-height: 1.6;
 }
-.btn-social {
-    margin: 5px;
+
+/* Navbar */
+.navbar {
+    background-color: #004085;
+    transition: background-color 0.3s ease;
 }
-.btn-google {
-    background-color: #db4437;
-    color: #fff;
+.navbar:hover {
+    background-color: #0056b3;
 }
-.btn-facebook {
-    background-color: #3b5998;
-    color: #fff;
+.nav-link {
+    color: white !important;
+    font-size: 18px;
+    transition: color 0.3s ease;
 }
-.btn-apple {
-    background-color: #333;
-    color: #fff;
+
+/* Video Carousel Container */
+.video-container {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
 }
-.btn-yahoo {
-    background-color: #400090;
-    color: #fff;
-}
-.moto {
-    text-align: center;
-    margin: 20px 0;
-}
-.security-services {
-    margin: 40px 0;
-}
-.security-services h3 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-.service-item {
-    background: #fff;
-    padding: 20px;
+#videoCarousel {
+    width: 80%;
+    max-width: 800px;
+    border: 2px solid #0056b3;
     border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
 }
-.service-item h4 {
-    margin-bottom: 10px;
+.carousel-item video {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    transition: transform 0.3s ease-in-out;
 }
-@media (max-width: 768px) {
-    .jumbotron {
-        padding: 100px 0;
+.carousel-item video:hover {
+    transform: scale(1.05);
+}
+
+/* Carousel Controls */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+}
+
+.carousel-control-prev-icon:hover,
+.carousel-control-next-icon:hover {
+    background-color: #0056b3;
+}
+
+/* Section Containers */
+.container.moto,
+.container.procedure,
+.container.security-services {
+    margin-top: 50px;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+/* Service Items */
+.service-item img {
+    transition: transform 0.3s ease-in-out;
+}
+.service-item img:hover {
+    transform: scale(1.05);
+}
+
+/* Map Container */
+.map-container {
+    margin-top: 50px;
+}
+
+/* Footer */
+.footer {
+    background-color: #004085;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 50px;
+}
+
+/* Keyframes */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
     }
-    .service-item {
-        padding: 10px;
+    to {
+        opacity: 1;
+    }
+}
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Media Queries */
+@media (max-width: 992px) {
+    #videoCarousel {
+        width: 90%;
+    }
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    #videoCarousel {
+        width: 100%;
+    }
+    .navbar .nav-link {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 576px) {
+    .container.moto,
+    .container.procedure,
+    .container.security-services {
+        margin-top: 30px;
+    }
+    .footer {
+        padding: 15px;
     }
 }

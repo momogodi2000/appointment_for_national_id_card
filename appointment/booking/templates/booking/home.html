@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,8 +9,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
-   
+    <!-- Adding animation and custom styles -->
 </head>
+
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark">
         <a class="navbar-brand" href="#">National ID Booking</a>
@@ -28,18 +31,39 @@
         </div>
     </nav>
 
-    <div class="jumbotron jumbotron-fluid">
-        <div class="container">
-            <h1 class="display-4">Booking Appointment for National ID Card</h1>
-            <p class="lead">Case Study: Cameroon</p>
+    <!-- Video Carousel Section (moved to the top) -->
+    <div id="videoCarousel" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <video controls class="d-block w-100">
+                    <source src="{% static 'video/moi.mp4' %}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="carousel-item">
+                <video controls class="d-block w-100">
+                    <source src="{% static 'video/toi.mp4' %}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
         </div>
+        <a class="carousel-control-prev" href="#videoCarousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#videoCarousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
     </div>
 
-    <div class="container moto">
+    <!-- Motto Section -->
+    <div class="container moto text-center">
         <h2>Moto of Cameroon: "Peace - Work - Fatherland"</h2>
         <img src="{% static 'img/motto.jpeg' %}" alt="Cameroon Moto" class="img-fluid">
     </div>
 
+    <!-- Procedure Section -->
     <div class="container procedure">
         <h2>Procedure to Establish an Official National ID Card in Cameroon</h2>
         <ol>
@@ -85,34 +109,43 @@
         </ol>
     </div>
 
+    <!-- Security Services Section -->
     <div class="container security-services">
         <h3>Different Security Level Services in Police</h3>
         <div class="row">
             <div class="col-md-4 service-item">
                 <h4>Service 1: Criminal Investigation</h4>
                 <p>Handles investigation of serious crimes and criminal activities.</p>
-                <img src="{% static 'img/police2.jpeg' %}" alt="Necessary Documents" class="img-fluid">
+                <img src="{% static 'img/police2.jpeg' %}" alt="Criminal Investigation" class="img-fluid">
             </div>
             <div class="col-md-4 service-item">
                 <h4>Service 2: Traffic Control</h4>
                 <p>Ensures the safety and regulation of road traffic.</p>
-                <img src="{% static 'img/inspect.jpeg' %}" alt="Necessary Documents" class="img-fluid">
+                <img src="{% static 'img/inspect.jpeg' %}" alt="Traffic Control" class="img-fluid">
             </div>
             <div class="col-md-4 service-item">
                 <h4>Service 3: Cyber Crime</h4>
                 <p>Investigates and combats cyber-related crimes.</p>
-                <img src="{% static 'img/cyber.jpeg' %}" alt="Necessary Documents" class="img-fluid">
+                <img src="{% static 'img/cyber.jpeg' %}" alt="Cyber Crime" class="img-fluid">
             </div>
         </div>
+    </div>
+
+    <!-- Google Maps Section -->
+    <div class="container map-container">
+        <h3>Find Nearby Police Stations</h3>
+        <div id="map" style="height: 500px;"></div>
     </div>
 
     <div class="footer">
         <p>&copy; 2024 National ID Card Booking System. All rights reserved.</p>
     </div>
 
+    <!-- Scripts -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <link rel="stylesheet" href="{% static 'js/home.js' %}">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOVYRIgupAurZup5y1PRh8Ismb1A3lLao&libraries=places&callback=initMap" async defer></script>
+    <script src="{% static 'js/home.js' %}"></script>
 </body>
+
 </html>
