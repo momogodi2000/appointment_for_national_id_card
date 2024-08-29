@@ -8,14 +8,36 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
     <!-- Font Awesome CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="{% static 'css/user_dashboard.css' %}">
-    <link rel="stylesheet" href="{% static 'css/officer.css' %}">
-    
+    <link rel="stylesheet" href="{% static 'css/momo.css' %}">
+    <style>
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .card {
+            margin: 15px;
+            flex: 1 0 200px; /* Flex items with a minimum width */
+            max-width: 300px; /* Limit the maximum width */
+        }
+        .chart-container {
+            margin-top: 30px;
+        }
+        @media (max-width: 768px) {
+            .card-container {
+                flex-direction: column; /* Stack cards vertically on small screens */
+            }
+        }
+        @media (max-width: 576px) {
+            .chart-container {
+                margin-top: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="dashboard">
@@ -28,11 +50,13 @@
                 <a href="{% url 'manage_appointments' %}" class="dashboard-nav-item"><i class="fas fa-calendar-check"></i> Manage Appointments</a>
                 <a href="{% url 'user_information' %}" class="dashboard-nav-item"><i class="fas fa-users"></i> User Information</a>
                 <a href="{% url 'notifications' %}" class="dashboard-nav-item"><i class="fas fa-bell"></i> Notifications</a>
-                <a href="{% url 'communications' %}" class="dashboard-nav-item"><i class="fas fa-bell"></i> Communications</a>
-                <a href="{% url 'card_status' %}" class="dashboard-nav-item"><i class="fas fa-bell"></i> Card availability</a>
+                <a href="{% url 'communications' %}" class="dashboard-nav-item"><i class="fas fa-comment"></i> Communications</a>
+                <a href="{% url 'card_status' %}" class="dashboard-nav-item"><i class="fas fa-id-card"></i> Card Availability</a>
+                <a href="#" class="dashboard-nav-item"><i class="fas fa-envelope"></i> Manage Contact Message</a>
+                <a href="#" class="dashboard-nav-item"><i class="fas fa-id-card"></i> Manage Missing ID Card</a>
                 <a href="#" class="dashboard-nav-item"><i class="fas fa-cogs"></i> Settings</a>
+                <a href="{%url 'logout' %}" class="dashboard-nav-item"><i class="fas fa-sign-out-alt"></i> Logout</a>
             </nav>
-            <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
         </div>
         <main class="dashboard-app">
             <header class="dashboard-toolbar">
@@ -41,102 +65,127 @@
             <div class="dashboard-content">
                 <h1>Welcome to the Police Panel!</h1>
                 <p>Here you can manage appointments, view user information, notifications, and settings.</p>
-                <div class="police-corps">
+                
+                <!-- Cards Container -->
+                <div class="card-container">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-user"></i> User</h5>
+                            <p class="card-text">Manage user information and roles.</p>
+                            <p class="card-text">Count: {{ user_count }}</p>
+                            <a href="{% url 'user_information' %}" class="btn btn-primary">View</a>
+                        </div>
+                    </div>
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-chart-line"></i> Statistics</h5>
+                            <p class="card-text">View system statistics and metrics.</p>
+                            <p class="card-text">Count: {{ appointment_count }}</p>
+                            <a href="#" class="btn btn-primary">View</a>
+                        </div>
+                    </div>
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-chart-pie"></i> Analyze</h5>
+                            <p class="card-text">Analyze data and trends.</p>
+                            <p class="card-text">Count: {{ document_count }}</p>
+                            <a href="#" class="btn btn-primary">View</a>
+                        </div>
+                    </div>
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-money-bill-wave"></i> Payment</h5>
+                            <p class="card-text">Manage payments and transactions.</p>
+                            <p class="card-text">Count: {{ missing_id_card_count }}</p>
+                            <a href="#" class="btn btn-primary">View</a>
+                        </div>
+                    </div>
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-id-card"></i> Missing ID Card</h5>
+                            <p class="card-text">Manage reports of missing ID cards.</p>
+                            <p class="card-text">Count: {{ notification_count }}</p>
+                            <a href="#" class="btn btn-primary">View</a>
+                        </div>
+                    </div>
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-calendar-alt"></i> Appointment</h5>
+                            <p class="card-text">Manage user appointments.</p>
+                            <p class="card-text">Count: {{ communication_count }}</p>
+                            <a href="#" class="btn btn-primary">View</a>
+                        </div>
+                    </div>
+                </div>
 
-                 <!-- Example of a police corps card -->
-                 <div class="corps-card">
-                    <img src="{% static 'img/inspect.jpeg' %}" alt="National Police">
-                    <div class="corps-card-body">
-                        <h2 class="corps-card-title">National Police</h2>
-                        <p class="corps-card-description">The National Police is responsible for maintaining public order and safety in urban areas.</p>
-                        <a href="#!" class="btn-details">View Details</a>
-                    </div>
+                <!-- Statistics Graph -->
+                <div class="chart-container">
+                    <canvas id="statisticsChart"></canvas>
                 </div>
-                <div class="corps-card">
-                    <img src="{% static 'img/police.jpeg' %}" alt="Judicial Police">
-                    <div class="corps-card-body">
-                        <h2 class="corps-card-title">Judicial Police</h2>
-                        <p class="corps-card-description">The Judicial Police handles criminal investigations and supports the judicial system.</p>
-                        <a href="#!" class="btn-details">View Details</a>
-                    </div>
-                </div>
-                <div class="corps-card">
-                    <img src="{% static 'img/gendarmerie.jpeg' %}" alt="National Gendarmerie">
-                    <div class="corps-card-body">
-                        <h2 class="corps-card-title">National Gendarmerie</h2>
-                        <p class="corps-card-description">A paramilitary force with both military and police duties, operating in rural areas and along borders.</p>
-                        <a href="#!" class="btn-details">View Details</a>
-                    </div>
-                </div>
-                <!-- Add more police corps cards as needed -->
-                <div class="corps-card">
-                    <img src="{% static 'img/assistant.jpeg' %}" alt="Assistant Police">
-                    <div class="corps-card-body">
-                        <h2 class="corps-card-title">Assistant Police</h2>
-                        <p class="corps-card-description">Supervises a team of Police Officers.</p>
-                        <a href="#!" class="btn-details">View Details</a>
-                    </div>
-                </div>
-                <div class="corps-card">
-                    <img src="{% static 'img/sergeant.jpeg' %}" alt="Sergeant">
-                    <div class="corps-card-body">
-                        <h2 class="corps-card-title">Sergeant</h2>
-                        <p class="corps-card-description">Leads a larger team and provides tactical leadership.</p>
-                        <a href="#!" class="btn-details">View Details</a>
-                    </div>
-                </div>
-                <div class="corps-card">
-                    <img src="{% static 'img/ip.jpeg' %}" alt="Inspector">
-                    <div class="corps-card-body">
-                        <h2 class="corps-card-title">Inspector</h2>
-                        <p class="corps-card-description">Investigates crimes, supervises lower ranks, and manages specific units.</p>
-                        <a href="#!" class="btn-details">View Details</a>
-                    </div>
-                </div>
-                <div class="corps-card">
-                    <img src="{% static 'img/so.jpeg' %}" alt="Senior Inspector">
-                    <div class="corps-card-body">
-                        <h2 class="corps-card-title">Senior Inspector</h2>
-                        <p class="corps-card-description">Leads investigations, manages units, and reports to commissioned officers.</p>
-                        <a href="#!" class="btn-details">View Details</a>
-                    </div>
-                </div>
-                <div class="corps-card">
-                    <img src="{% static 'img/police2.jpeg' %}" alt="Police Officer">
-                    <div class="corps-card-body">
-                        <h2 class="corps-card-title">Police Officer</h2>
-                        <p class="corps-card-description">Holds a leadership position such as company commander or station chief.</p>
-                        <a href="#!" class="btn-details">View Details</a>
-                    </div>
-                </div>
-                <div class="corps-card">
-                    <img src="{% static 'img/tenue.jpeg' %}" alt="Commissioner">
-                    <div class="corps-card-body">
-                        <h2 class="corps-card-title">Commissioner</h2>
-                        <p class="corps-card-description">Oversees larger units such as districts or departments.</p>
-                        <a href="#!" class="btn-details">View Details</a>
-                    </div>
-                </div>
-                <div class="corps-card">
-                    <img src="{% static 'img/cyber.jpeg' %}" alt="General Inspector">
-                    <div class="corps-card-body">
-                        <h2 class="corps-card-title">General Inspector</h2>
-                        <p class="corps-card-description">Highest rank in the National Police, responsible for national security operations.</p>
-                        <a href="#!" class="btn-details">View Details</a>
-                    </div>
+
+                <!-- Card Table -->
+                <div class="table-responsive mt-4">
+                    <h2>Regional Information</h2>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Region</th>
+                                <th>Headquarters</th>
+                                <th>Departments</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for office in regions %}
+                            <tr>
+                                <td>{{ office.name }}</td>
+                                <td>{{ office.headquarter }}</td>
+                                <td>{{ office.population }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </div>
-
         </main>
     </div>
 
     <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Custom JavaScript -->
-    <script src="{% static 'js/police_panel.js' %}"></script>
-    <script src="{% static 'js/officer.js' %}"></script>
-  
+    <script src="{% static 'js/momo.js' %}"></script>
+    <script>
+        // Chart.js script
+        var ctx = document.getElementById('statisticsChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Users', 'Appointments', 'Documents', 'Missing ID Cards', 'Notifications', 'Communications', 'Contact Us'],
+                datasets: [{
+                    label: 'Counts',
+                    data: [
+                        {{ user_count }},
+                        {{ appointment_count }},
+                        {{ document_count }},
+                        {{ missing_id_card_count }},
+                        {{ notification_count }},
+                        {{ communication_count }},
+                        {{ contact_us_count }}
+                    ],
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 </html>

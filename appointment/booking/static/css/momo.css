@@ -1,0 +1,170 @@
+/* General Dashboard Styles */
+.dashboard {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.dashboard-nav {
+    background-color: #333;
+    color: #fff;
+    width: 250px;
+    padding: 20px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.dashboard-nav.closed {
+    width: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.dashboard-nav header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #444;
+}
+
+.dashboard-nav header .brand-logo {
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.dashboard-nav header .toggle-button {
+    cursor: pointer;
+}
+
+.dashboard-nav-list {
+    padding: 20px;
+    list-style: none;
+}
+
+.dashboard-nav-item {
+    display: block;
+    padding: 10px;
+    border-bottom: 1px solid #444;
+    color: #adb5bd;
+    text-decoration: none;
+    transition: background-color 0.2s;
+    cursor: pointer;
+}
+
+.dashboard-nav-item:hover {
+    background-color: #444;
+}
+
+.dashboard-app {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: #f8f9fa;
+}
+
+.dashboard-toolbar {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #444;
+}
+
+.dashboard-toolbar .menu-toggle {
+    cursor: pointer;
+}
+
+.dashboard-content {
+    padding: 20px;
+}
+
+.dashboard-content h1 {
+    margin-bottom: 20px;
+}
+
+/* Form and Button Styles */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-control,
+.form-control-file {
+    display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    color: #fff;
+    background-color: #0056b3;
+    border-color: #004085;
+}
+
+/* Card Styles */
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.card {
+    margin: 15px;
+    flex: 1 0 200px; /* Flex items with a minimum width */
+    max-width: 300px; /* Limit the maximum width */
+}
+
+/* Chart Styles */
+.chart-container {
+    margin-top: 30px;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .dashboard-nav {
+        width: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+    .dashboard-nav.closed {
+        width: 250px;
+        padding: 20px;
+    }
+    .dashboard-app {
+        flex: 1;
+        padding: 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    .chart-container {
+        margin-top: 20px;
+    }
+}

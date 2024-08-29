@@ -39,6 +39,8 @@ import yagmail
 from rest_framework.views import APIView
 from django.views.decorators.csrf import csrf_exempt
 from openai import OpenAI
+from .models import User, Appointment, Document, MissingIDCard, Notification, Communication, ContactUs
+
 
 client = OpenAI(api_key=settings.OPENAI_API_KEY)
 import os
@@ -188,7 +190,44 @@ def user_panel(request):
 
 @login_required
 def officer_panel(request):
-    return render(request, 'panel/officer_panel.html')
+     # Count the instances of each model
+    user_count = User.objects.count()
+    appointment_count = Appointment.objects.count()
+    document_count = Document.objects.count()
+    missing_id_card_count = MissingIDCard.objects.count()
+    notification_count = Notification.objects.count()
+    communication_count = Communication.objects.count()
+    contact_us_count = ContactUs.objects.count()
+
+    # Fetch region data
+    regions = Office.objects.all()
+
+    # Example regions data (you can replace this with real data if applicable)
+    regions = [
+    {'name': 'Adamaoua', 'headquarter': 'Ngaoundéré', 'population': 1124000},
+    {'name': 'Centre', 'headquarter': 'Yaoundé', 'population': 3905000},
+    {'name': 'East', 'headquarter': 'Bertoua', 'population': 830000},
+    {'name': 'Far North', 'headquarter': 'Maroua', 'population': 3796000},
+    {'name': 'Littoral', 'headquarter': 'Douala', 'population': 3178000},
+    {'name': 'North', 'headquarter': 'Garoua', 'population': 1703000},
+    {'name': 'Northwest', 'headquarter': 'Bamenda', 'population': 1735000},
+    {'name': 'South', 'headquarter': 'Ebolowa', 'population': 641000},
+    {'name': 'Southwest', 'headquarter': 'Buea', 'population': 1720047},
+    {'name': 'West', 'headquarter': 'Bafoussam', 'population': 2510283}
+]
+
+
+   # Render the template with the counts and regions
+    return render(request, 'panel/officer_panel.html', {
+        'user_count': user_count,
+        'appointment_count': appointment_count,
+        'document_count': document_count,
+        'missing_id_card_count': missing_id_card_count,
+        'notification_count': notification_count,
+        'communication_count': communication_count,
+        'contact_us_count': contact_us_count,
+        'regions': regions
+    })
 
 
 @login_required
