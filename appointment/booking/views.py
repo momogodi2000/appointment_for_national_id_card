@@ -37,6 +37,12 @@ from django.core.serializers import serialize
 import json
 import yagmail
 from rest_framework.views import APIView
+from django.views.decorators.csrf import csrf_exempt
+from openai import OpenAI
+
+client = OpenAI(api_key=settings.OPENAI_API_KEY)
+import os
+
 
 
 
@@ -189,6 +195,9 @@ def officer_panel(request):
 def admin_panel(request):
     return render(request, 'panel/admin_panel.html')
 
+#clients panel
+
+
 
 @login_required
 def book_appointment(request):
@@ -207,7 +216,7 @@ def book_appointment(request):
         date = request.POST.get('date')
         time = "8:00"
 
-     
+
         print(office)
         appointment = Appointment.objects.create(
             user=user,
@@ -216,10 +225,10 @@ def book_appointment(request):
             date=date,
             time=time,
         )
-       
+
         context = {}
         return render(request, 'panel/user/payment_page.html', context)
-       
+
     else:
         form = AppointmentForm()
     return render(request, 'panel/user/book_appointment.html', {'form': form})
@@ -234,7 +243,7 @@ def upload_document(request):
             document.user = request.user
             document.save()
             form = AppointmentForm()
-         
+
             return render(request, 'panel/user/book_appointment.html', {'form': form})
         else:
             return HttpResponse("Error uploading documents. Please try again.")
@@ -297,7 +306,6 @@ def payment_page(request):
             response.headers['Content-Disposition'] = 'inline; filename= "mypdf.pdf"'
             response.headers['Content-Type'] = 'application/pdf'
             return response
-            # return render(request, 'panel/user/payment_success.html', context)
         else:
             userAppointment = Appointment.objects.get(user=request.user.id)
             userAppointment.paid = False
@@ -385,8 +393,114 @@ def contact_us(request):
         return render(request, 'panel/user/contact_us.html', {'form': form})
 
 
+@login_required
+def history(request):
+    return render(request, 'panel/user/support/history.html')
 
- # police view
+@login_required
+def about(request):
+    return render(request, 'panel/user/support/about.html')
+
+
+
+
+# Set your OpenAI API key
+
+@login_required
+def support_discussion(request):
+    return render(request, 'panel/user/support/support_discussion.html')
+
+@csrf_exempt
+def get_bot_response(request):
+    if request.method == 'POST':
+        user_message = request.POST.get('message')
+        try:
+            response = client.chat.completions.create(model="gpt-4",
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant specialized in Cameroonian national ID card delivery and administrative matters. Provide concise and accurate information."},
+                {"role": "user", "content": user_message}
+            ],
+            max_tokens=150,
+            temperature=0.5)
+            bot_reply = response.choices[0].message.content.strip()
+            return JsonResponse({'reply': bot_reply})
+        except Exception as e:
+            print(f"OpenAI API Error: {e}")
+            return JsonResponse({'reply': "I'm sorry, something went wrong while processing your request. Please try again later."}, status=500)
+    else:
+        return JsonResponse({'error': 'Invalid request method.'}, status=400)
+
+
+def security_grade(request):
+    return render(request, 'panel/user/grade/security_grade.html')
+
+
+
+
+
+def view_detail(request, grade):
+    grades_info = {
+      'national_police': {
+        'title': 'National Police',
+        'description': 'The National Police is responsible for maintaining public order and safety in urban areas. They manage day-to-day law enforcement activities, address crime-related issues, and ensure the enforcement of local laws. Officers in this force work in cities and towns, handling a wide range of incidents from traffic violations to serious crimes.',
+        'image': 'img/national_police.jpeg',
+    },
+    'judicial_police': {
+        'title': 'Judicial Police',
+        'description': 'The Judicial Police, also known as the judicial branch of the police, specializes in criminal investigations and the enforcement of judicial orders. They play a critical role in gathering evidence, conducting interviews, and working closely with the judiciary to ensure that criminal cases are thoroughly investigated and prosecuted. Their work often involves collaboration with other law enforcement agencies and legal professionals.',
+        'image': 'img/judicial_police.jpeg',
+    },
+    'gendarmerie': {
+        'title': 'National Gendarmerie',
+        'description': 'The National Gendarmerie is a paramilitary force that combines military and police duties. It operates in rural areas, borders, and regions with high security concerns. The gendarmerie is tasked with maintaining public order, securing national borders, and providing assistance in areas where the National Police might not have a strong presence. Their responsibilities include counter-terrorism, anti-smuggling operations, and crowd control.',
+        'image': 'img/gendarmerie.jpeg',
+    },
+    'assistant_police': {
+        'title': 'Assistant Police',
+        'description': 'Assistant Police officers play a supervisory role, overseeing a team of police officers and ensuring the effective execution of their duties. They provide guidance, support, and management to junior officers, handle administrative tasks, and coordinate responses to incidents. Their role is crucial in maintaining discipline and efficiency within their teams and ensuring that operations are conducted smoothly.',
+        'image': 'img/assistant.jpeg',
+    },
+    'sergeant': {
+        'title': 'Sergeant',
+        'description': 'Sergeants hold a leadership position within the police force, responsible for managing a larger team and providing tactical leadership during operations. They oversee the implementation of strategies, supervise junior officers, and ensure that their team follows proper procedures and protocols. Sergeants are often involved in training new recruits, handling complex cases, and coordinating with other units to achieve operational goals.',
+        'image': 'img/sergeant.jpeg',
+    },
+    'inspector': {
+        'title': 'Inspector',
+        'description': 'Inspectors are experienced officers who investigate crimes, supervise lower ranks, and manage specific units or divisions. They are involved in detailed casework, including analyzing evidence, conducting interviews, and liaising with other law enforcement agencies. Inspectors also play a role in strategic planning, policy development, and ensuring that investigations are conducted in accordance with legal standards.',
+        'image': 'img/ip.jpeg',
+    },
+    'senior_inspector': {
+        'title': 'Senior Inspector',
+        'description': 'Senior Inspectors lead major investigations, manage specialized units, and report to higher-ranking officers. They are responsible for overseeing complex and high-profile cases, coordinating with other departments, and ensuring that investigative strategies are effective and aligned with organizational objectives. Senior Inspectors also contribute to policy development and strategic planning within the police force.',
+        'image': 'img/so.jpeg',
+    },
+    'police_officer': {
+        'title': 'Police Officer',
+        'description': 'Police Officers are responsible for maintaining law and order, responding to emergencies, and performing various law enforcement duties. They may hold leadership positions such as company commander or station chief, overseeing the operations of their unit and ensuring that policies and procedures are followed. Police Officers engage directly with the community, address concerns, and enforce laws to ensure public safety.',
+        'image': 'img/police2.jpeg',
+    },
+    'commissioner': {
+        'title': 'Commissioner',
+        'description': 'Commissioners oversee large units or departments within the police force, including districts or specialized divisions. They are responsible for strategic planning, resource allocation, and ensuring that their units achieve operational objectives. Commissioners work closely with other senior officers, government officials, and community leaders to address major issues, develop policies, and implement initiatives to enhance public safety.',
+        'image': 'img/tenue.jpeg',
+    },
+    'general_inspector': {
+        'title': 'General Inspector',
+        'description': 'The General Inspector is the highest rank in the National Police, responsible for national security operations and overall strategic direction. They oversee the entire police force, coordinate with other national and international agencies, and ensure the effective implementation of security policies and procedures. The General Inspector plays a key role in shaping national security strategies, addressing major security challenges, and representing the police force at the highest levels.',
+        'image': 'img/cyber.jpeg',
+    },
+}
+
+    grade_info = grades_info.get(grade)
+    return render(request, 'panel/user/grade/view_detail.html', {'grade': grade_info})
+
+
+def center(request):
+    return render(request, 'panel/user/grade/center.html')
+
+
+# police view
 
 
 @login_required
@@ -402,7 +516,7 @@ def communication_form(request):
         else:
             print(form.errors)
             return redirect("communication_form")
-        
+
 @login_required
 def communications(request):
     if (request.method=="GET"):
@@ -414,12 +528,12 @@ def admin_communications(request):
     if (request.method=="GET"):
         communications = Communication.objects.all()
         return render(request, "panel/admin/communications.html", {"communications": communications})
-    
+
 @login_required
 def user_communications(request):
     communications = Communication.objects.all()
     return render(request, "panel/user/communication.html", {"communications": communications})
-    
+
 @login_required
 def card_status(request):
     if (request.method=="GET"):
@@ -456,7 +570,7 @@ def edit_communication(request, id):
         single_communication = Communication.objects.get(pk=id)
         form = CommunicationUploadForm(instance=single_communication)
         return render(request,"panel/police/edit_communication.html", {"form": form})
-    
+
 @login_required
 def delete_communication(request, id):
     communication = get_object_or_404(Communication, pk=id)

@@ -6,6 +6,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('booking.urls')),
     path('auth/', include('social_django.urls', namespace='social')),
+
+
+
+
+    
     path("api/login/", api.LoginView.as_view(), name="login"),
     path("api/register/", api.RegistrationView.as_view(), name="register"),
     path("api/appointments/get-add/", api.AppointmentView.as_view(), name="get_post_appointment"),

@@ -1,0 +1,26 @@
+
+body {
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+}
+.header {
+    background-color: #007bff;
+    color: white;
+    padding: 20px 0;
+}
+.section-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #007bff;
+    margin-top: 20px;
+}
+.bullet-point {
+    margin: 10px 0;
+}
+.contact-info {
+    margin-top: 30px;
+}
+.animated-logo {
+    width: 40%;
+    margin: 20px auto;
+}

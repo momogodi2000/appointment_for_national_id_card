@@ -1,0 +1,132 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History of National ID Card</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/history.css' %}">
+
+</head>
+<body>
+
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h1>History of National ID Card</h1>
+    </div>
+
+    <div class="card shadow-sm animate__animated animate__fadeInUp">
+        <div class="card-body">
+            <h2 class="section-title">History of the National ID Card in Cameroon</h2>
+            <p class="section-content">The National ID card in Cameroon has a rich history dating back to the post-independence era. Initially introduced as a means to establish the identity of citizens, it has evolved over the decades to become a crucial document for various administrative processes. The current biometric ID card, introduced in the 2000s, reflects the government’s efforts to modernize and secure identification processes.</p>
+        </div>
+    </div>
+
+    <div class="card shadow-sm animate__animated animate__fadeInUp">
+        <div class="card-body">
+            <h2 class="section-title">Importance of Having a National ID Card</h2>
+            <p class="section-content">The National ID card serves as a primary identification document for Cameroonian citizens. It is essential for:</p>
+            <ul class="section-content">
+                <li>Voting in elections and exercising civic duties.</li>
+                <li>Accessing government services and benefits.</li>
+                <li>Applying for jobs and enrolling in educational institutions.</li>
+                <li>Opening bank accounts and carrying out financial transactions.</li>
+                <li>Traveling within and outside the country with ease.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card shadow-sm animate__animated animate__fadeInUp">
+        <div class="card-body">
+            <h2 class="section-title">Services Provided by the National ID Card</h2>
+            <p class="section-content">The National ID card is not just an identification document; it provides access to various services such as:</p>
+            <ul class="section-content">
+                <li>Authentication and verification of identity for legal processes.</li>
+                <li>Enrollment in national programs like social security and healthcare.</li>
+                <li>Facilitation of digital services and e-governance initiatives.</li>
+                <li>Access to credit and financial services, including loans and insurance.</li>
+                <li>Securing civil rights and legal recognition for individuals.</li>
+            </ul>
+        </div>
+    </div>
+
+    <section id="history" class="card animate__animated animate__fadeInUp">
+        <h2 class="card-header">History of the National ID Card in Cameroon</h2>
+        <div class="card-body">
+            <img src="{% static 'img/id_card.jpeg' %}" alt="National ID Card" class="img-fluid rounded shadow">
+            <p>The national ID card has been a crucial identification tool in Cameroon for decades. It was introduced to ensure every citizen can be identified and has access to public services. The process of obtaining an ID card has evolved over the years, incorporating modern technology to improve efficiency and security.</p>
+        </div>
+    </section>
+
+    <section id="benefits" class="card animate__animated animate__fadeInUp">
+        <h2 class="card-header">Benefits of Having a National ID Card</h2>
+        <div class="card-body">
+            <ul>
+                <li>Access to government services and benefits</li>
+                <li>Proof of identity for banking and financial transactions</li>
+                <li>Eligibility for voting in elections</li>
+                <li>Facilitates travel within the country</li>
+                <li>Essential for obtaining other documents like passports and driver's licenses</li>
+            </ul>
+            <details>
+                <summary>Learn More</summary>
+                <p>Having a national ID card not only simplifies identification but also enhances your access to various services offered by the government.</p>
+            </details>
+        </div>
+    </section>
+
+    <section id="advantages" class="card animate__animated animate__fadeInUp">
+        <h2 class="card-header">Advantages of Using Our Application</h2>
+        <div class="card-body">
+            <ul>
+                <li>Convenient online booking for ID card appointments</li>
+                <li>Secure document upload and management</li>
+                <li>Real-time tracking of your application status</li>
+                <li>User-friendly interface</li>
+                <li>24/7 customer support</li>
+            </ul>
+            <details>
+                <summary>Why Choose Us?</summary>
+                <p>Our application is designed to make the process seamless and efficient, ensuring that your experience is hassle-free.</p>
+            </details>
+        </div>
+    </section>
+
+    <section id="motto" class="card animate__animated animate__fadeInUp">
+        <h2 class="card-header">Motto of Cameroon</h2>
+        <div class="card-body">
+            <img src="{% static 'img/motto.jpeg' %}" alt="Motto of Cameroon" class="img-fluid rounded shadow">
+            <p>The motto of Cameroon is "Peace, Work, Fatherland". This reflects the core values that guide the nation.</p>
+            <details>
+                <summary>Significance of the Motto</summary>
+                <p>This motto emphasizes the importance of unity and hard work in building a prosperous nation.</p>
+            </details>
+        </div>
+    </section>
+
+    <section id="security-department" class="card animate__animated animate__fadeInUp">
+        <h2 class="card-header">Department of Security</h2>
+        <div class="card-body">
+            <img src="{% static 'img/police.jpeg' %}" alt="Department of Security" class="img-fluid rounded shadow">
+            <p>The Department of National Security is responsible for the issuance of national ID cards in Cameroon, ensuring the process is secure and efficient.</p>
+            <details>
+                <summary>Role and Responsibilities</summary>
+                <p>This department plays a vital role in maintaining the integrity of national identification systems and ensuring public safety.</p>
+            </details>
+        </div>
+    </section>
+
+    <div class="text-center">
+        <button class="btn back-button" onclick="window.history.back();">Go Back</button>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-%2sa_(-ysm%g(79mcwpv9fxm)b+0rfomz#=16wz!8pcm2)gf-4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -176,7 +176,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTH_USER_MODEL = 'booking.User'
 
-ALLOWED_HOSTS = ["localhost","127.0.0.1"]
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = (
     "http://localhost:3000","http://localhost:5174","http://localhost:5175"
@@ -225,3 +224,6 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# OpenAI API Key
+OPENAI_API_KEY ='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'

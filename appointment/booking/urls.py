@@ -3,6 +3,8 @@ from . import views
 from django.contrib.auth import views as auth_views  # Add this import
 from .views import user_panel, book_appointment, upload_document, MissingIDCardForm, manage_appointments, user_information
 from .views import payment_page, AboutUsView
+from .views import history, about, center
+from django.contrib.auth.decorators import login_required
 from .views import manage_users, add_user, edit_user, delete_user, manage_appointments, approve_appointment, reject_appointment, manage_documents, delete_document
 
 urlpatterns = [
@@ -24,6 +26,17 @@ urlpatterns = [
     path('insert_missing_id_card/', views.insert_missing_id_card, name='insert_missing_id_card'),
     path('contact-us/', views.contact_us, name='contact_us'),
     path('user-communication/', views.user_communications, name="user_communications"),
+    path('history/', login_required(history), name='history'),
+    path('about/', about, name='about'),
+    path('support_discussion/', views.support_discussion, name='support_discussion'),
+    path('get-bot-response/', views.get_bot_response, name='get_bot_response'),
+    path('security-grade/', views.security_grade, name='security_grade'),
+    path('view_detail/<str:grade>/', views.view_detail, name='view_detail'),
+    path('center/', center, name='center'),
+
+
+
+
     # path('generated-pdf/'),
 
     path('police/manage-appointments/', views.manage_appointments, name='manage_appointments'),

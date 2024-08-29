@@ -1,0 +1,31 @@
+
+body {
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+}
+.section-title {
+    font-weight: bold;
+    color: #007bff;
+    margin-top: 20px;
+}
+.section-content {
+    font-size: 1.1rem;
+    line-height: 1.5;
+
+}
+.back-button {
+    background-color: #007bff;
+    color: white;
+    border-radius: 10px;
+}
+.card {
+    margin-bottom: 20px;
+}
+@media (max-width: 576px) {
+    .section-title {
+        font-size: 1.5rem;
+    }
+    .section-content {
+        font-size: 1rem;
+    }
+}

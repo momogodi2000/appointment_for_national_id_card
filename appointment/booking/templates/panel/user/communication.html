@@ -17,7 +17,7 @@
     <div class="dashboard">
         <div class="dashboard-nav">
             <header>
-                <a href="#" class="brand-logo"><i class="fas fa-anchor"></i> <span>{{request.user.username}} Panel</span></a>
+                <a href="{% url 'user_panel' %}" class="brand-logo"><i class="fas fa-anchor"></i> <span>{{request.user.username}} Panel</span></a>
             </header>
             <nav class="dashboard-nav-list">
                 <a href="{% url 'upload_document' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-upload"></i> Upload Documents</a>

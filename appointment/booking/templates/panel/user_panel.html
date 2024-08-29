@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,24 +14,35 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
     <!-- Animate CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/user_dashboard.css' %}">
+    
+    <!-- Google Maps API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOVYRIgupAurZup5y1PRh8Ismb1A3lLao&libraries=places&callback=initMap" async defer></script>
 </head>
+
 <body>
     <div class="dashboard">
         <div class="dashboard-nav">
             <header>
-                <a href="#" class="brand-logo animate__animated animate__fadeInLeft"><i class="fas fa-id-card"></i> <span>{{ user.username }}'s Panel</span></a>
+                <a href="{% url 'user_panel' %}" class="brand-logo animate__animated animate__fadeInLeft"><i class="fas fa-id-card"></i>
+                    <span>{{ user.username }}'s Panel</span></a>
             </header>
             <nav class="dashboard-nav-list">
                 <a href="{% url 'upload_document' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-upload"></i> Upload Documents</a>
-                <a href="{% url 'track_application' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-tasks"></i> Track Application</a>
-                <a href="{% url 'security_settings' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-user-lock"></i> Security Settings</a>
+               <!-- <a href="{% url 'track_application' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-tasks"></i> Track Application</a>-->
                 <a href="{% url 'insert_missing_id_card' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-id-badge"></i> Insert Missing ID Card</a>
-                <a href="{% url 'user_communications' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-id-badge"></i> Communications</a>
-                <a href="{% url 'contact_us' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-id-badge"></i> Contact us</a>
+                <a href="{% url 'user_communications' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-comments"></i> Communications</a>
+                <a href="{% url 'history' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-history"></i> Benefits</a>
+                <a href="{% url 'about' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-info-circle"></i> About Us</a>
+                <a href="{% url 'contact_us' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-envelope"></i> Contact Us</a>
+                <a href="{% url 'security_settings' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-user-lock"></i> Security Settings</a>
+                <a href="{% url 'support_discussion' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-headset"></i> Support discusion</a>
+                <a href="{% url 'security_grade' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-user-lock"></i> Police Grade</a>
+                <a href="{% url 'logout' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-sign-out-alt"></i> Logout</a>
+
             </nav>
             <a href="{% url 'logout' %}" class="btn btn-primary animate__animated animate__fadeInLeft">Logout</a>
         </div>
@@ -42,74 +54,45 @@
                 <h1 class="animate__animated animate__fadeInRight">Welcome, {{ user.username }}!</h1>
                 <p class="animate__animated animate__fadeInRight">Manage your appointments, upload documents, and track your application status.</p>
 
-                <section id="history" class="animate__animated animate__fadeInUp">
-                    <h2>History of the National ID Card in Cameroon</h2>
-                    <img src="{% static 'img/id_card.jpeg' %}" alt="National ID Card" class="img-fluid">
-                    <p>The national ID card has been a crucial identification tool in Cameroon for decades. It was introduced to ensure every citizen can be identified and has access to public services. The process of obtaining an ID card has evolved over the years, incorporating modern technology to improve efficiency and security.</p>
-                </section>
-
-                <section id="benefits" class="animate__animated animate__fadeInUp">
-                    <h2>Benefits of Having a National ID Card</h2>
-                    <ul>
-                        <li>Access to government services and benefits</li>
-                        <li>Proof of identity for banking and financial transactions</li>
-                        <li>Eligibility for voting in elections</li>
-                        <li>Facilitates travel within the country</li>
-                        <li>Essential for obtaining other documents like passports and driver's licenses</li>
-                    </ul>
-                </section>
-
-                <section id="advantages" class="animate__animated animate__fadeInUp">
-                    <h2>Advantages of Using Our Application</h2>
-                    <ul>
-                        <li>Convenient online booking for ID card appointments</li>
-                        <li>Secure document upload and management</li>
-                        <li>Real-time tracking of your application status</li>
-                        <li>User-friendly interface</li>
-                        <li>24/7 customer support</li>
-                    </ul>
-                </section>
-
-                <section id="motto" class="animate__animated animate__fadeInUp">
-                    <h2>Motto of Cameroon</h2>
-                    <img src="{% static 'img/motto.jpeg' %}" alt="Motto of Cameroon" class="img-fluid">
-                    <p>The motto of Cameroon is "Peace, Work, Fatherland". This reflects the core values that guide the nation.</p>
-                </section>
-
-                <section id="security-department" class="animate__animated animate__fadeInUp">
-                    <h2>Department of Security</h2>
-                    <img src="{% static 'img/police.jpeg' %}" alt="Department of Security" class="img-fluid">
-                    <p>The Department of National Security is responsible for the issuance of national ID cards in Cameroon, ensuring the process is secure and efficient.</p>
-                </section>
-                <section id="contact-us" class="animate__animated animate__fadeInUp">
-                    <h2>Contact Us</h2>
-                    <form method="POST" action="{% url 'contact_us' %}" class="needs-validation" novalidate>
-                        {% csrf_token %}
-                        <div class="form-group">
-                            <label for="name">Your Name</label>
-                            <input type="text" class="form-control" id="name" name="name" required>
-                            <div class="invalid-feedback">
-                                Please enter your name.
+                <!-- Statistics Boxes -->
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <div class="card text-white bg-primary mb-3">
+                            <div class="card-header">Cameroon Population</div>
+                            <div class="card-body">
+                                <h5 class="card-title">Estimated Population</h5>
+                                <p class="card-text">Approx. 27 million</p>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="email">Your Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
-                            <div class="invalid-feedback">
-                                Please enter a valid email address.
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-white bg-success mb-3">
+                            <div class="card-header">National ID Card Holders</div>
+                            <div class="card-body">
+                                <h5 class="card-title">Citizens with ID Cards</h5>
+                                <p class="card-text">Around 45%</p>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="message">Message</label>
-                            <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
-                            <div class="invalid-feedback">
-                                Please enter your message.
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-white bg-warning mb-3">
+                            <div class="card-header">Administrative Divisions</div>
+                            <div class="card-body">
+                                <h5 class="card-title">Regions, Communes, Villages</h5>
+                                <p class="card-text">Regions: 10<br>Communes: Thousands<br>Villages: Numerous, exact count varies</p>
+                                <small>For more accurate statistics, consult NISEE, UN Population Division, or World Bank.</small>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Send Message</button>
-                    </form>
+                    </div>
+                </div>
+
+
+
+
+                <section id="geolocation" class="animate__animated animate__fadeInUp">
+                    <h2>Nearby Police Stations</h2>
+                    <div id="map" style="height: 400px; width: 100%;"></div>
                 </section>
-                
             </div>
         </main>
     </div>
@@ -119,30 +102,9 @@
 
     <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="{% static 'js/user_new.js' %}"></script>
 
-    <!-- Custom JavaScript -->
-    <script src="{% static 'js/user_dashboard.js' %}"></script>
 
-    <!-- Form Validation -->
-    <script>
-        // Example starter JavaScript for disabling form submissions if there are invalid fields
-        (function() {
-            'use strict';
-            window.addEventListener('load', function() {
-                // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                var forms = document.getElementsByClassName('needs-validation');
-                // Loop over them and prevent submission
-                var validation = Array.prototype.filter.call(forms, function(form) {
-                    form.addEventListener('submit', function(event) {
-                        if (form.checkValidity() === false) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }
-                        form.classList.add('was-validated');
-                    }, false);
-                });
-            }, false);
-        })();
-    </script>
 </body>
+
 </html>

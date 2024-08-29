@@ -1,0 +1,139 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cameroon Police Officer Grades</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/grade.css' %}">
+</head>
+
+        <header class="bg-dark text-white p-3 d-flex justify-content-between align-items-center">
+            <div class="header-brand">
+                <a href="https://www.dgsn.cm/" class="text-white" title="Visit DSGN">
+                    <i class="fas fa-desktop fa-lg"></i>
+                    <span class="ms-2">DGSN Site</span>
+                </a>
+            </div>
+            <div class="header-contact">
+                <a href="{% url 'center' %}" class="text-white me-3" title="Contact Center">
+                    <i class="fas fa-phone fa-lg"></i>
+                    <span class="ms-2">Contact Us</span>
+                </a>
+            </div>
+        </header>
+
+<body>
+    <a href="{% url 'user_panel' %}" class="mt-5 btn btn-success">Return</a>
+
+    <div class="container">
+        <h1 class="my-4 text-center">Cameroon Police Officer Grades</h1>
+        <div class="row">
+            <!-- Example of a police corps card -->
+            <div class="col-md-4">
+                <div class="corps-card">
+                    <img src="{% static 'img/national_police.jpeg' %}" alt="National Police">
+                    <div class="corps-card-body">
+                        <h2 class="corps-card-title">National Police</h2>
+                        <p class="corps-card-description">The National Police is responsible for maintaining public order and safety in urban areas.</p>
+                        <a href="{% url 'view_detail' grade='national_police' %}" class="btn-details">View Details</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="corps-card">
+                    <img src="{% static 'img/judicial_police.jpeg' %}" alt="Judicial Police">
+                    <div class="corps-card-body">
+                        <h2 class="corps-card-title">Judicial Police</h2>
+                        <p class="corps-card-description">The Judicial Police handles criminal investigations and supports the judicial system.</p>
+                        <a href="{% url 'view_detail' grade='judicial_police' %}" class="btn-details">View Details</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="corps-card">
+                    <img src="{% static 'img/gendarmerie.jpeg' %}" alt="National Gendarmerie">
+                    <div class="corps-card-body">
+                        <h2 class="corps-card-title">National Gendarmerie</h2>
+                        <p class="corps-card-description">A paramilitary force with both military and police duties, operating in rural areas and along borders.</p>
+                        <a href="{% url 'view_detail' grade='gendarmerie' %}" class="btn-details">View Details</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="corps-card">
+                    <img src="{% static 'img/assistant.jpeg' %}" alt="Assistant Police">
+                    <div class="corps-card-body">
+                        <h2 class="corps-card-title">Assistant Police</h2>
+                        <p class="corps-card-description">Supervises a team of Police Officers.</p>
+                        <a href="{% url 'view_detail' grade='assistant' %}" class="btn-details">View Details</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="corps-card">
+                    <img src="{% static 'img/sergeant.jpeg' %}" alt="Sergeant">
+                    <div class="corps-card-body">
+                        <h2 class="corps-card-title">Sergeant</h2>
+                        <p class="corps-card-description">Leads a larger team and provides tactical leadership.</p>
+                        <a href="{% url 'view_detail' grade='sergeant' %}" class="btn-details">View Details</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="corps-card">
+                    <img src="{% static 'img/ip.jpeg' %}" alt="Inspector">
+                    <div class="corps-card-body">
+                        <h2 class="corps-card-title">Inspector</h2>
+                        <p class="corps-card-description">Investigates crimes, supervises lower ranks, and manages specific units.</p>
+                        <a href="{% url 'view_detail' grade='Inspector' %}" class="btn-details">View Details</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="corps-card">
+                    <img src="{% static 'img/so.jpeg' %}" alt="Senior Inspector">
+                    <div class="corps-card-body">
+                        <h2 class="corps-card-title">Senior Inspector</h2>
+                        <p class="corps-card-description">Leads investigations, manages units, and reports to commissioned officers.</p>
+                        <a href="{% url 'view_detail' grade='senior_inspector' %}" class="btn-details">View Details</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="corps-card">
+                    <img src="{% static 'img/police2.jpeg' %}" alt="Police Officer">
+                    <div class="corps-card-body">
+                        <h2 class="corps-card-title">Police Officer</h2>
+                        <p class="corps-card-description">Holds a leadership position such as company commander or station chief.</p>
+                        <a href="{% url 'view_detail' grade='police_officer' %}" class="btn-details">View Details</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="corps-card">
+                    <img src="{% static 'img/tenue.jpeg' %}" alt="Commissioner">
+                    <div class="corps-card-body">
+                        <h2 class="corps-card-title">Commissioner</h2>
+                        <p class="corps-card-description">Oversees larger units such as districts or departments.</p>
+                        <a href="{% url 'view_detail' grade='commissioner' %}" class="btn-details">View Details</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="corps-card">
+                    <img src="{% static 'img/cyber.jpeg' %}" alt="General Inspector">
+                    <div class="corps-card-body">
+                        <h2 class="corps-card-title">General Inspector</h2>
+                        <p class="corps-card-description">Highest rank in the National Police, responsible for national security operations.</p>
+                        <a href="{% url 'view_detail' grade='general_inspector' %}" class="btn-details">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

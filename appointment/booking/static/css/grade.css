@@ -1,0 +1,45 @@
+
+.corps-card {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.corps-card img {
+    width: 100%;
+    height: auto;
+}
+.corps-card-body {
+    padding: 15px;
+    text-align: center;
+}
+.corps-card-title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+.corps-card-description {
+    font-size: 1rem;
+    margin-bottom: 15px;
+}
+.btn-details {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+.btn-details:hover {
+    background-color: #0056b3;
+}
+@media (max-width: 768px) {
+    .corps-card-title {
+        font-size: 1.25rem;
+    }
+    .corps-card-description {
+        font-size: 0.9rem;
+    }
+    .btn-details {
+        padding: 8px 12px;
+    }
+}

@@ -1,0 +1,190 @@
+/* Global Styles */
+
+body {
+    font-family: Open Sans, sans-serif;
+    background-color: #f5f5f5;
+}
+
+.container-fluid {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Chat Container */
+
+.chat-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.chat-box {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    width: 80%;
+    margin: 20px auto;
+}
+
+.chat-header {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    border-radius: 10px 10px 0 0;
+}
+
+.chat-header h3 {
+    margin-top: 0;
+}
+
+.chat-header a {
+    float: right;
+    margin-top: 10px;
+    color: #fff;
+}
+
+.chat-body {
+    padding: 20px;
+    overflow-y: auto;
+    max-height: 400px;
+}
+
+.chat-footer {
+    background-color: #f7f7f7;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+    border-radius: 0 0 10px 10px;
+}
+
+.chat-footer form {
+    width: 100%;
+}
+
+.chat-footer input[type="text"] {
+    width: 80%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+.chat-footer button[type="submit"] {
+    width: 20%;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background-color: #4CAF50;
+    color: #fff;
+    cursor: pointer;
+}
+
+.chat-footer button[type="submit"]:hover {
+    background-color: #3e8e41;
+}
+
+/* Chat Messages */
+
+.bot-message {
+    margin-bottom: 20px;
+}
+
+.bot-message .message-content {
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.bot-message .message-content p {
+    margin-bottom: 0;
+}
+
+.user-message {
+    margin-bottom: 20px;
+}
+
+.user-message .message-content {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.user-message .message-content p {
+    margin-bottom: 0;
+}
+
+/* Loading Spinner */
+
+.loading-spinner {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+}
+
+.loading-spinner .spinner-border {
+    width: 50px;
+    height: 50px;
+    border: 3px solid #4CAF50;
+    border-top: 3px solid #fff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Responsive Design */
+
+@media (max-width: 992px) {
+    .chat-box {
+        width: 90%;
+    }
+}
+
+@media (max-width: 768px) {
+    .chat-box {
+        width: 100%;
+    }
+    .chat-header {
+        padding: 10px 20px;
+    }
+    .chat-footer {
+        padding: 10px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .chat-box {
+        padding: 10px;
+    }
+    .chat-header {
+        padding: 10px;
+    }
+    .chat-footer {
+        padding: 10px;
+    }
+    .chat-footer form {
+        flex-direction: column;
+    }
+    .chat-footer input[type="text"] {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    .chat-footer button[type="submit"] {
+        width: 100%;
+    }
+}
