@@ -40,6 +40,8 @@ from rest_framework.views import APIView
 from django.views.decorators.csrf import csrf_exempt
 from openai import OpenAI
 from .models import User, Appointment, Document, MissingIDCard, Notification, Communication, ContactUs
+from django.core.files.storage import default_storage
+
 
 
 client = OpenAI(api_key=settings.OPENAI_API_KEY)
@@ -686,6 +688,57 @@ def notifications(request):
     }
 
     return render(request, 'panel/police/notifications.html', context)
+
+
+
+
+def manage_contact(request):
+    contacts = ContactUs.objects.all()
+    return render(request, 'panel/police/manage_contact/manage_contact.html', {'contacts': contacts})
+
+def reply_contact(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        message = request.POST.get('message')
+        send_mail(
+            'Reply to Your Contact Message',
+            message,
+            settings.DEFAULT_FROM_EMAIL,
+            [email],
+            fail_silently=False,
+        )
+        return redirect('manage_contact')
+
+def delete_contact(request, contact_id):
+    contact = ContactUs.objects.get(id=contact_id)
+    contact.delete()
+    return redirect('manage_contact')
+
+
+
+def manage_id(request):
+    missing_id_cards = MissingIDCard.objects.all()
+    return render(request, 'panel/police/manage_id/manage_id.html', {'missing_id_cards': missing_id_cards})
+
+def add_missing_id_card(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        id_card_image = request.FILES.get('id_card_image')
+        MissingIDCard.objects.create(
+            name=name,
+            email=email,
+            phone=phone,
+            id_card_image=id_card_image
+        )
+        return redirect('manage_id')
+
+def delete_id_card(request, id_card_id):
+    id_card = MissingIDCard.objects.get(id=id_card_id)
+    default_storage.delete(id_card.id_card_image.name)  # Delete the image from storage
+    id_card.delete()
+    return redirect('manage_id')
 
 
 

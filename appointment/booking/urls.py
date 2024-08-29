@@ -3,7 +3,7 @@ from . import views
 from django.contrib.auth import views as auth_views  # Add this import
 from .views import user_panel, book_appointment, upload_document, MissingIDCardForm, manage_appointments, user_information
 from .views import payment_page, AboutUsView
-from .views import history, about, center
+from .views import history, about, center, manage_contact
 from django.contrib.auth.decorators import login_required
 from .views import manage_users, add_user, edit_user, delete_user, manage_appointments, approve_appointment, reject_appointment, manage_documents, delete_document
 
@@ -55,6 +55,15 @@ urlpatterns = [
     path('edit_card_status/<int:id>/', views.edit_card_status, name="edit_card_status"),
     path("edit-communication/<int:id>", views.edit_communication, name="edit_communication"),
     path("delete-communication/<int:id>", views.delete_communication, name="delete_communication"),
+    path('manage_contact/', views.manage_contact, name='manage_contact'),
+    path('reply_contact/', views.reply_contact, name='reply_contact'),
+    path('delete_contact/<int:contact_id>/', views.delete_contact, name='delete_contact'),
+    path('manage_id/', views.manage_id, name='manage_id'),
+    path('add_missing_id_card/', views.add_missing_id_card, name='add_missing_id_card'),
+    path('delete_id_card/<int:id_card_id>/', views.delete_id_card, name='delete_id_card'),
+
+
+
 
     path('panel/admin/manage-users/', manage_users, name='manage_users'),
     path('panel/admin/add-user/', add_user, name='add_user'),
