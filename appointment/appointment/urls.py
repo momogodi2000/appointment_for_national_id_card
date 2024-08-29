@@ -1,5 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls.static import static
+from django.conf import settings
 from booking import api
 
 urlpatterns = [
@@ -27,3 +29,5 @@ urlpatterns = [
     path("api/documents/", api.DocumentView.as_view(), name="add_get_document"),
     path("api/documents/<int:document_id>/", api.DocumentView.as_view(), name="delete_document")
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
