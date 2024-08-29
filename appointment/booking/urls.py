@@ -75,5 +75,9 @@ urlpatterns = [
     path('panel/admin/delete-document/<int:document_id>/', delete_document, name='delete_document'),
     path('about-us/', AboutUsView.as_view(), name='about_us'),   
     path('contact-messages/', views.contact_messages, name='contact_messages'),   
-    path('admin-communications/', views.admin_communications, name='admin_communications'),   
+    path('admin-communications/', views.admin_communications, name='admin_communications'),
+    path('map/', views.map_view, name='map'),
+    path('analyse/', views.analyse_view, name='analyse'),
+
+   
 ]

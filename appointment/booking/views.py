@@ -234,7 +234,31 @@ def officer_panel(request):
 
 @login_required
 def admin_panel(request):
-    return render(request, 'panel/admin_panel.html')
+       # Count the instances of each model
+    user_count = User.objects.count()
+    appointment_count = Appointment.objects.count()
+    document_count = Document.objects.count()
+    missing_id_card_count = MissingIDCard.objects.count()
+    notification_count = Notification.objects.count()
+    communication_count = Communication.objects.count()
+    contact_us_count = ContactUs.objects.count()
+
+    # Fetch region data
+    regions = Office.objects.all()
+
+
+   # Render the template with the counts and regions
+    return render(request, 'panel/admin_panel.html', {
+        'user_count': user_count,
+        'appointment_count': appointment_count,
+        'document_count': document_count,
+        'missing_id_card_count': missing_id_card_count,
+        'notification_count': notification_count,
+        'communication_count': communication_count,
+        'contact_us_count': contact_us_count,
+        'regions': regions
+    })
+
 
 #clients panel
 
@@ -817,7 +841,7 @@ def reject_appointment(request, appointment_id):
 
 def manage_documents(request):
     documents = Document.objects.all()
-    return render(request, 'panel/admin/manage_documents.html', {'documents': documents})
+    return render(request, 'panel/admin/manage_doc/manage_documents.html', {'documents': documents})
 
 
 def delete_document(request, document_id):
@@ -827,4 +851,28 @@ def delete_document(request, document_id):
 
 
 class AboutUsView(TemplateView):
-    template_name = 'panel/admin/about_us.html'
+    template_name = 'panel/admin/about/about_us.html'
+
+def map_view(request):
+    return render(request, 'panel/admin/map/map.html')
+
+
+from django.db.models import Count, Avg
+from .models import User, Appointment
+@login_required
+def analyse_view(request):
+    # Calculate role distribution
+    role_distribution = list(User.objects.values('role').annotate(count=Count('role')).order_by('role').values_list('count', flat=True))
+    
+    # Calculate appointment status distribution
+    status_distribution = list(Appointment.objects.values('status').annotate(count=Count('status')).order_by('status').values_list('count', flat=True))
+
+    # Calculate average number of appointments per officer
+    avg_appointments = Appointment.objects.values('officer').annotate(avg=Avg('id')).count()
+
+    context = {
+        'role_distribution': role_distribution,
+        'status_distribution': status_distribution,
+        'avg_appointments': avg_appointments,
+    }
+    return render(request, 'panel/admin/analyse/analyse.html', context)

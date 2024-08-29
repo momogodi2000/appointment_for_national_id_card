@@ -1,0 +1,107 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Dashboard</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/analyse.css' %}">
+
+   
+</head>
+<a href="{% url 'admin_panel' %}" class="mt-5 btn btn-success">Return home</a>
+
+<body>
+    <div class="container">
+        <h2 class="my-4 text-center">Platform Analysis Dashboard</h2>
+
+        <!-- User Role Distribution -->
+        <div class="card">
+            <div class="card-header">
+                User Role Distribution
+            </div>
+            <div class="card-body">
+                <div class="chart-container">
+                    <canvas id="userRoleChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Appointment Status Distribution -->
+        <div class="card">
+            <div class="card-header">
+                Appointment Status Distribution
+            </div>
+            <div class="card-body">
+                <div class="chart-container">
+                    <canvas id="appointmentStatusChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Average Appointments Per Officer -->
+        <div class="card">
+            <div class="card-header">
+                Average Appointments Per Officer
+            </div>
+            <div class="card-body">
+                <h5 class="card-title" id="avgAppointments"></h5>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS, jQuery, and Chart.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+   <script>
+
+// Fetch data and initialize charts
+document.addEventListener("DOMContentLoaded", function() {
+    // User Role Distribution Chart
+    const ctxRole = document.getElementById('userRoleChart').getContext('2d');
+    const userRoleChart = new Chart(ctxRole, {
+        type: 'pie',
+        data: {
+            labels: ['User', 'Police Officer', 'Super Admin'],
+            datasets: [{
+                label: 'Role Distribution',
+                data: {{ role_distribution|safe }},
+                backgroundColor: ['#007bff', '#28a745', '#dc3545'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    });
+
+    // Appointment Status Distribution Chart
+    const ctxStatus = document.getElementById('appointmentStatusChart').getContext('2d');
+    const appointmentStatusChart = new Chart(ctxStatus, {
+        type: 'doughnut',
+        data: {
+            labels: ['Created', 'Pending', 'Approved', 'Rejected'],
+            datasets: [{
+                label: 'Status Distribution',
+                data: {{ status_distribution|safe }},
+                backgroundColor: ['#ffc107', '#17a2b8', '#28a745', '#dc3545'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    });
+
+    // Display average appointments per officer
+    document.getElementById('avgAppointments').innerText = "Average Appointments per Officer: {{ avg_appointments }}";
+});
+
+   </script>
+</body>
+</html>

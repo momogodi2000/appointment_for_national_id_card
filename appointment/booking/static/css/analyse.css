@@ -1,0 +1,21 @@
+
+/* Custom CSS */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    padding: 20px;
+}
+.card {
+    margin-bottom: 20px;
+}
+@media (max-width: 768px) {
+    .card-body {
+        text-align: center;
+    }
+}
+.chart-container {
+    position: relative;
+    height: 40vh;
+    width: 80vw;
+    margin: 0 auto;
+}
