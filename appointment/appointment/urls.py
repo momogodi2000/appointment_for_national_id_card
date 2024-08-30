@@ -15,7 +15,6 @@ urlpatterns = [
     
     path("api/login/", api.LoginView.as_view(), name="api_login"),
     path("api/register/", api.RegistrationView.as_view(), name="api_register"),
-    path("api/forgot-password/", api.ForgotPasswordView.as_view(), name="api_forgot_password"),
     path("api/appointments/get-add/", api.AppointmentView.as_view(), name="get_post_appointment"),
     path("api/appointments/edit-delete/<int:appointmentId>/", api.AppointmentView.as_view(), name="edit-delete-appointment"),
     path("api/user/get-add/", api.UserView.as_view(), name="get_add_user"),

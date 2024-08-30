@@ -6,9 +6,19 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         if not User.objects.filter(username='admin').exists():
-            User.objects.create_superuser(username='admin', password='admin1234', role='admin')
+            User.objects.create_superuser(
+                username='admin',
+                password='admin1234',
+                email='admin@gmail.com',  # Added email
+                role='admin'
+            )
             self.stdout.write(self.style.SUCCESS('Successfully created super admin'))
-        
+
         if not User.objects.filter(username='police').exists():
-            User.objects.create_user(username='police', password='police1234', role='officer')
+            User.objects.create_user(
+                username='police',
+                password='police1234',
+                email='police@gmail.com',  # Added email
+                role='officer'
+            )
             self.stdout.write(self.style.SUCCESS('Successfully created police officer'))
