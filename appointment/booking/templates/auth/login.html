@@ -8,16 +8,40 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <style>
+        body {
+            background-image: url("{% static 'img/auth.jpeg' %}"); /* Add your background image here */
+            background-size: cover;
+            background-position: center;
+            font-family: 'Arial', sans-serif;
+        }
         .form-container {
-            max-width: 500px;
-            margin: 50px auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #f9f9f9;
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 30px;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.8s ease;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
         }
         .social-login {
             margin-top: 20px;
+        }
+        .btn-social {
+            transition: transform 0.3s ease;
+            margin-bottom: 10px;
+        }
+        .btn-social:hover {
+            transform: scale(1.05);
+        }
+        .logo {
+            display: block;
+            margin: 0 auto 20px;
+            width: 100px; /* Adjust logo size */
         }
         /* Responsive styles */
         @media (max-width: 576px) {
@@ -26,18 +50,16 @@
                 padding: 15px;
             }
         }
-        /* Animation for buttons */
-        .btn-social {
-            transition: transform 0.3s ease;
-        }
-        .btn-social:hover {
-            transform: scale(1.1);
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="form-container">
+            <img src="{% static 'icon/logo.ico' %}" alt="Logo" class="logo"> <!-- Add your logo here -->
             <h2>Login</h2>
             <form method="post">
                 {% csrf_token %}
@@ -46,18 +68,31 @@
             </form>
             <div class="social-login text-center mt-3">
                 <h3>Or login with</h3>
-                <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn btn-google btn-block btn-social">Google</a>
-                <a href="{% url 'social:begin' 'facebook' %}" class="btn btn-facebook btn-block btn-social">Facebook</a>
-                <a href="{% url 'social:begin' 'apple' %}" class="btn btn-apple btn-block btn-social">Apple</a>
-                <a href="{% url 'social:begin' 'yahoo' %}" class="btn btn-yahoo btn-block btn-social">Yahoo</a>
+                <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn btn-danger btn-block btn-social">
+                    <i class="fab fa-google"></i> Google
+                </a>
+                <a href="{% url 'social:begin' 'facebook' %}" class="btn btn-primary btn-block btn-social">
+                    <i class="fab fa-facebook-f"></i> Facebook
+                </a>
+                <a href="{% url 'social:begin' 'apple' %}" class="btn btn-dark btn-block btn-social">
+                    <i class="fab fa-apple"></i> Apple
+                </a>
+                <a href="{% url 'social:begin' 'yahoo' %}" class="btn btn-info btn-block btn-social">
+                    <i class="fab fa-yahoo"></i> Yahoo
+                </a>
             </div>
             <div class="text-center mt-3">
-                <p>Don't have an account? <a href="{% url 'register' %}" class="btn btn-primary">Register</a></p>
-                <p><a href="{% url 'forgot_password' %}" class="btn btn-primary">Forgot Password?</a></p>
-                <p><a href="{% url 'home' %}" class="btn btn-primary">Return Home</a></p>
+                <p>Don't have an account? <a href="{% url 'register' %}" class="btn btn-link">Register</a></p>
+                <p><a href="{% url 'forgot_password' %}" class="btn btn-link">Forgot Password?</a></p>
+                <p><a href="{% url 'home' %}" class="btn btn-link">Return Home</a></p>
             </div>
-            
         </div>
     </div>
+
+    <!-- Your custom JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Optional: You can add additional animations or effects here
+    </script>
 </body>
 </html>

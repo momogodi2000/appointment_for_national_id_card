@@ -8,13 +8,30 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <style>
+        body {
+            background-image: url("{% static 'img/auth.jpeg' %}"); /* Add your background image here */
+            background-size: cover;
+            background-position: center;
+            font-family: 'Arial', sans-serif;
+        }
         .form-container {
-            max-width: 500px;
-            margin: 50px auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #f9f9f9;
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 30px;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.8s ease;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .logo {
+            display: block;
+            margin: 0 auto 20px;
+            width: 100px; /* Adjust logo size */
         }
         /* Responsive styles */
         @media (max-width: 576px) {
@@ -23,11 +40,16 @@
                 padding: 15px;
             }
         }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="form-container">
+            <img src="{% static 'icon/logo.ico' %}" alt="Logo" class="logo"> <!-- Add your logo here -->
             <h2>Register</h2>
             <form method="post">
                 {% csrf_token %}
@@ -35,12 +57,14 @@
                 <button type="submit" class="btn btn-primary btn-block">Register</button>
             </form>
             <div class="text-center mt-3">
-                <p>Already have an account? <a href="{% url 'login' %}" class="btn btn-primary">Login</a></p>
-                <p><a href="{% url 'forgot_password' %}" class="btn btn-primary">Forgot Password?</a></p>
-                <p><a href="{% url 'home' %}" class="btn btn-primary">Return Home</a></p>
+                <p>Already have an account? <a href="{% url 'login' %}" class="btn btn-link">Login</a></p>
+                <p><a href="{% url 'forgot_password' %}" class="btn btn-link">Forgot Password?</a></p>
+                <p><a href="{% url 'home' %}" class="btn btn-link">Return Home</a></p>
             </div>
-            
         </div>
     </div>
+
+    <!-- Your custom JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
 </html>
