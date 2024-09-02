@@ -104,23 +104,28 @@ class LoginView(APIView):
     def post(self, request, *args, **kwargs):
         email = request.data.get("email")
         password = request.data.get("password")
-        user = None
+
+        # Validate input
+        if not email or not password:
+            return Response({"message": "Email and password are required."}, status=status.HTTP_400_BAD_REQUEST)
+
         try:
+            # Fetch user by email
             user = User.objects.get(email=email)
-        except ObjectDoesNotExist:
-            return Response({"message": "Invalid credentials !"}, status=status.HTTP_400_BAD_REQUEST)
+        except User.DoesNotExist:
+            return Response({"message": "Invalid credentials!"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Check password
         if not check_password(password, user.password):
-            return Response(
-                {"message": "Invalid credentials"}, status=status.HTTP_400_BAD_REQUEST
-            )
-        user_serializer = User()
-        user_serializer.username = user.username
-        user_serializer.password = password
-        user_serializer.save()
-        token, _ = Token.objects.get_or_create(user=user_serializer)
+            return Response({"message": "Invalid credentials!"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # If password is correct, create or retrieve a token
+        token, _ = Token.objects.get_or_create(user=user)
+
+        # Return user data along with token
         return Response(
             {"data": UserSerializer(user).data, "token": token.key},
-            status=status.HTTP_200_OK,
+            status=status.HTTP_200_OK
         )
 
 class AppointmentView(APIView):
@@ -185,20 +190,22 @@ class UserView(APIView):
         return Response({"message": f"User deleted successfully !"}, status=status.HTTP_200_OK)
     
 
+#clients
+
 class MissingCardView(APIView):
     def get(self, request):
         missing_cards = MissingIDCard.objects.all()
-        missing_cards_serializers = MissingIDCardSerializer(missing_cards, many=True)
-        return Response({"message": f"Missing cards fetched successfully !", "data":missing_cards_serializers.data}, status=status.HTTP_200_OK)
-        # else :
-        #     return Response({"message": f"Missing cards fetched successfully !", "data":[]}, status=status.HTTP_200_OK)
+        serialized_data = MissingIDCardSerializer(missing_cards, many=True)
+        return Response({"message": "Missing cards fetched successfully!", "data": serialized_data.data}, status=status.HTTP_200_OK)
 
     def post(self, request):
-        missing_card = MissingIDCardSerializer(data=request.data)
-        if missing_card.is_valid():
-            missing_card.save()
-            return Response({"message": f"Missing ID uploaded successfully !"}, status=status.HTTP_201_CREATED)
-        return Response({"message": missing_card.errors}, status=status.HTTP_200_OK)
+        serializer = MissingIDCardSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Missing ID uploaded successfully!"}, status=status.HTTP_201_CREATED)
+        return Response({"message": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 class CardStatusView(APIView):
     def get(self, request, appointment_id):

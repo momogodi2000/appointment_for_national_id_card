@@ -5,6 +5,9 @@ from .models import *
 from rest_framework import serializers
 from django.contrib.auth.hashers import make_password
 
+
+# clients 
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -43,14 +46,16 @@ class DocumentSerializer(serializers.ModelSerializer):
         new_document.save()
         return new_document
 
+#clients 
+
 class MissingIDCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = MissingIDCard
-        fields = "__all__"
-    def create(self, validate_data):
-        new_idcard = MissingIDCard.objects.create(**validate_data)
-        new_idcard.save()
-        return new_idcard
+        fields = ['name', 'email', 'phone', 'date_found', 'id_card_image']  # Specify fields explicitly
+
+    def create(self, validated_data):
+        return MissingIDCard.objects.create(**validated_data)
+
 
 class NotificationSerializer(serializers.ModelSerializer):
     class Meta:

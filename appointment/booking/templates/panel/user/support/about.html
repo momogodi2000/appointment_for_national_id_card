@@ -1,244 +1,224 @@
+{% extends "base.html" %}
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
+{% block title %}About Us{% endblock %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/about.css' %}">
-    <a href="{% url 'user_panel' %}" class="mt-5 btn btn-success">Return</a>
+{% block content %}
+<div class="container">
+    <!-- Header Section -->
+    <header class="header text-center">
+        <h1 class="animate__animated animate__fadeInDown">About Us</h1>
+        <p class="lead">Your Trusted Partner in Simplifying the National ID Process</p>
+    </header>
 
-</head>
+    <!-- Content Section -->
+    <div class="content mt-5">
+        <div class="text-center">
+            <img src="{% static 'icon/logo.ico' %}" alt="Company Logo" class="animated-logo animate__animated animate__zoomIn">
+        </div>
 
-<body>
-    
-    <div class="container">
-        <!-- Header Section -->
-        <header class="header text-center">
-            <h1 class="animate__animated animate__fadeInDown">About Us</h1>
-            <p class="lead">Your Trusted Partner in Simplifying the National ID Process</p>
-            <a href="{% url 'user_panel' %}" class="btn btn-primary mt-3 animate__animated animate__fadeInUp">Return to User Panel</a>
-        </header>
+        <!-- Company Mission -->
+        <section class="mission mt-5">
+            <h2 class="section-title animate__animated animate__fadeInUp">Our Mission</h2>
+            <p class="animate__animated animate__fadeInUp">At [App Name], we are dedicated to transforming the national ID process in Cameroon by making it more accessible, efficient, and transparent for every citizen.</p>
+            <p class="animate__animated animate__fadeInUp">We recognize the challenges faced by Cameroonians in obtaining their national ID cards, and we are here to provide a solution that alleviates these issues.</p>
+        </section>
 
-        <!-- Content Section -->
-        <div class="content mt-5">
-            <div class="text-center">
-                <img src="{% static 'icon/logo.ico' %}" alt="Company Logo" class="animated-logo animate__animated animate__zoomIn">
-            </div>
+        <!-- Our Solution -->
+        <section class="solution mt-5">
+            <h2 class="section-title animate__animated animate__fadeInUp">Our Solution</h2>
+            <ul class="list-group animate__animated animate__fadeInUp">
+                <li class="list-group-item"><strong>Online Appointment Booking:</strong> Schedule your appointment at your convenience, avoiding long queues and wasted time.</li>
+                <li class="list-group-item"><strong>Real-Time Status Updates:</strong> Receive notifications about your application's progress and any changes to your appointment.</li>
+                <li class="list-group-item"><strong>Transparent Process:</strong> Access clear and accurate information about the ID card process and requirements.</li>
+                <li class="list-group-item"><strong>Reducing Bureaucratic Bottlenecks:</strong> Optimize scheduling to minimize wait times and enhance overall efficiency.</li>
+                <li class="list-group-item"><strong>Fighting Corruption:</strong> Promote fairness and equity by eliminating opportunities for bribery and favoritism.</li>
+            </ul>
+        </section>
 
-            <!-- Company Mission -->
-            <section class="mission mt-5">
-                <h2 class="section-title animate__animated animate__fadeInUp">Our Mission</h2>
-                <p class="animate__animated animate__fadeInUp">At [App Name], we are dedicated to transforming the national ID process in Cameroon by making it more accessible, efficient, and transparent for every citizen.</p>
-                <p class="animate__animated animate__fadeInUp">We recognize the challenges faced by Cameroonians in obtaining their national ID cards, and we are here to provide a solution that alleviates these issues.</p>
-            </section>
-
-            <!-- Our Solution -->
-            <section class="solution mt-5">
-                <h2 class="section-title animate__animated animate__fadeInUp">Our Solution</h2>
-                <ul class="list-group animate__animated animate__fadeInUp">
-                    <li class="list-group-item"><strong>Online Appointment Booking:</strong> Schedule your appointment at your convenience, avoiding long queues and wasted time.</li>
-                    <li class="list-group-item"><strong>Real-Time Status Updates:</strong> Receive notifications about your application's progress and any changes to your appointment.</li>
-                    <li class="list-group-item"><strong>Transparent Process:</strong> Access clear and accurate information about the ID card process and requirements.</li>
-                    <li class="list-group-item"><strong>Reducing Bureaucratic Bottlenecks:</strong> Optimize scheduling to minimize wait times and enhance overall efficiency.</li>
-                    <li class="list-group-item"><strong>Fighting Corruption:</strong> Promote fairness and equity by eliminating opportunities for bribery and favoritism.</li>
-                </ul>
-            </section>
-
-            <!-- Developer Portfolio -->
-            <section class="portfolio-section mt-5">
-                <h2>Developer Portfolio</h2>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <h5>Homepage</h5>
-                            </div>
-                            <div class="card-body">
-                                <p>Am momo godi yvan a junoir developer from AICS Cameroon, Am a backend developer. i pratice karate since 2012.</p>
-                                <img src="{% static 'img/Welcome.jpeg' %}" class="img-fluid" alt="Headshot">
-                            </div>
+        <!-- Developer Portfolio -->
+        <section class="portfolio-section mt-5">
+            <h2>Developer Portfolio</h2>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5>Homepage</h5>
+                        </div>
+                        <div class="card-body">
+                            <p>Am momo godi yvan a junior developer from AICS Cameroon, I'm a backend developer. I practice karate since 2012.</p>
+                            <img src="{% static 'img/Welcome.jpeg' %}" class="img-fluid" alt="Headshot">
                         </div>
                     </div>
-                    <div class="col-md-12">
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <h5>Skills</h5>
-                            </div>
-                            <div class="card-body">
-                                <ul>
-                                    <li>Programming Languages: Python, JavaScript, php, dart</li>
-                                    <li>Frameworks: Django, laravel, flutter, next js, flask</li>
-                                    <li>Libraries: Bootstrap, jQuery</li>
-                                    <li>Tools: Git, Docker</li>
-                                </ul>
-                            </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5>Skills</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                <li>Programming Languages: Python, JavaScript, PHP, Dart</li>
+                                <li>Frameworks: Django, Laravel, Flutter, Next.js, Flask</li>
+                                <li>Libraries: Bootstrap, jQuery</li>
+                                <li>Tools: Git, Docker</li>
+                            </ul>
                         </div>
                     </div>
-                    <div class="col-md-12">
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <h5>Projects</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="card project-card">
-                                            <img src="{% static 'img/proj.png' %}" class="card-img-top" alt="Project 1">
-                                            <div class="card-body">
-                                                <h5 class="card-title">projector management app</h5>
-                                                <p class="card-text">projector management app in Django.</p>
-                                                <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#project1Modal">Live Demo</a>
-                                                <a href="https://github.com/momogodi2000/projector-management-app-in-django.git" target="_blank" class="btn btn-secondary">View Code</a>
-                                            </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5>Projects</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="card project-card">
+                                        <img src="{% static 'img/proj.png' %}" class="card-img-top" alt="Project 1">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Projector Management App</h5>
+                                            <p class="card-text">Projector management app in Django.</p>
+                                            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#projectModal1">Live Demo</a>
+                                            <a href="https://github.com/momogodi2000/projector-management-app-in-django.git" target="_blank" class="btn btn-secondary">View Code</a>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="card project-card">
-                                            <img src="{% static 'img/proj2.jpeg' %}" class="card-img-top" alt="Project 2">
-                                            <div class="card-body">
-                                                <h5 class="card-title">real time collaboration app in next js and laravel</h5>
-                                                <p class="card-text">real app collaboration.</p>
-                                                <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#project2Modal">Live Demo</a>
-                                                <a href="https://github.com/momogodi2000/real-time-collaboration-web-app.git" target="_blank" class="btn btn-secondary">View Code</a>
-                                            </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card project-card">
+                                        <img src="{% static 'img/proj2.jpeg' %}" class="card-img-top" alt="Project 2">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Real-Time Collaboration App</h5>
+                                            <p class="card-text">Real-time collaboration app.</p>
+                                            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#projectModal2">Live Demo</a>
+                                            <a href="https://github.com/momogodi2000/real-time-collaboration-web-app.git" target="_blank" class="btn btn-secondary">View Code</a>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="card project-card">
-                                            <img src="{% static 'img/proj3.jpeg' %}" class="card-img-top" alt="Project 3">
-                                            <div class="card-body">
-                                                <h5 class="card-title">ecommerce app in flask</h5>
-                                                <p class="card-text">Ecommerce app in Python.</p>
-                                                <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#project3Modal">Live Demo</a>
-                                                <a href="https://github.com/momogodi2000/simple-flask-e-commerce-with-sqlite.git" target="_blank" class="btn btn-secondary">View Code</a>
-                                            </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card project-card">
+                                        <img src="{% static 'img/proj3.jpeg' %}" class="card-img-top" alt="Project 3">
+                                        <div class="card-body">
+                                            <h5 class="card-title">E-commerce App in Flask</h5>
+                                            <p class="card-text">E-commerce app in Python.</p>
+                                            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#projectModal3">Live Demo</a>
+                                            <a href="https://github.com/momogodi2000/simple-flask-e-commerce-with-sqlite.git" target="_blank" class="btn btn-secondary">View Code</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-12">
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <h5>About Me</h5>
-                            </div>
-                            <div class="card-body">
-                                <p>Briefly discuss your background, what excites you about development, and your career goals.</p>
-                            </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5>About Me</h5>
                         </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <h5>Contact Information</h5>
-                            </div>
-                            <div class="card-body">
-                                <p>Make it easy for potential employers or clients to get in touch. Include your email address, a contact form, and links to relevant social media profiles (GitHub, LinkedIn, etc.).</p>
-                                <ul class="list-unstyled">
-                                    <li>Email: <a href="mailto:yvangodimomo@gmail.com">yvangodimomo@gmail.com.com</a></li>
-                                    <li>GitHub: <a href="https://github.com/momogodi2000" target="_blank">myprofile</a></li>
-                                    <li>LinkedIn: <a href="https://www.linkedin.com/in/momo-godi-yvan-206642244/" target="_blank">myprofile</a></li>
-                                </ul>
-                            </div>
+                        <div class="card-body">
+                            <p>Briefly discuss your background, what excites you about development, and your career goals.</p>
                         </div>
                     </div>
                 </div>
-            </section>
-
-            <!-- Team Section -->
-            <section class="team mt-5">
-                <h2 class="section-title animate__animated animate__fadeInUp">Meet Our Team</h2>
-                <div class="row">
-                    <div class="col-md-6 animate__animated animate__fadeInLeft">
-                        <div class="card">
-                            <img src="{% static 'img/yvan.jpg' %}" class="card-img-top" alt="Team Member 1">
-                            <div class="card-body">
-                                <h5 class="card-title">Yvan Godi Momo</h5>
-                                <p class="card-text">Lead Developer with a passion for innovation and a track record of successful projects.</p>
-                            </div>
+                <div class="col-md-12">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5>Contact Information</h5>
+                        </div>
+                        <div class="card-body">
+                            <p>Make it easy for potential employers or clients to get in touch. Include your email address, a contact form, and links to relevant social media profiles (GitHub, LinkedIn, etc.).</p>
+                            <ul class="list-unstyled">
+                                <li>Email: <a href="mailto:yvangodimomo@gmail.com">yvangodimomo@gmail.com</a></li>
+                                <li>GitHub: <a href="https://github.com/momogodi2000" target="_blank">myprofile</a></li>
+                                <li>LinkedIn: <a href="https://www.linkedin.com/in/momo-godi-yvan-206642244/" target="_blank">myprofile</a></li>
+                            </ul>
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- Contact Information -->
-            <section class="contact-info text-center mt-5">
-                <h2 class="section-title animate__animated animate__fadeInUp">Contact Us</h2>
-                <p class="animate__animated animate__fadeInUp"><strong>Phone:</strong> 695 92 20 65</p>
-                <p class="animate__animated animate__fadeInUp"><strong>Email:</strong> yvangodimomo@gmail.com</p>
-                <p class="animate__animated animate__fadeInUp"><strong>Location:</strong> Yaoundé, Cameroon</p>
-            </section>
-        </div>
+        <!-- Team Section -->
+        <section class="team mt-5">
+            <h2 class="section-title animate__animated animate__fadeInUp">Meet Our Team</h2>
+            <div class="row">
+                <div class="col-md-6 animate__animated animate__fadeInLeft">
+                    <div class="card">
+                        <img src="{% static 'img/yvan.jpg' %}" class="card-img-top" alt="Team Member 1">
+                        <div class="card-body">
+                            <h5 class="card-title">Yvan Godi Momo</h5>
+                            <p class="card-text">Lead Developer with a passion for innovation and a track record of successful projects.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Information -->
+        <section class="contact-info text-center mt-5">
+            <h2 class="section-title animate__animated animate__fadeInUp">Contact Us</h2>
+            <p class="animate__animated animate__fadeInUp"><strong>Phone:</strong> 695 92 20 65</p>
+            <p class="animate__animated animate__fadeInUp"><strong>Email:</strong> yvangodimomo@gmail.com</p>
+            <p class="animate__animated animate__fadeInUp"><strong>Location:</strong> Yaoundé, Cameroon</p>
+        </section>
     </div>
+</div>
 
-    <!-- Project Details Modals -->
-    <div class="modal fade" id="projectModal1" tabindex="-1" aria-labelledby="projectModal1Label" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="projectModal1Label">Project 1 Details</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Details about Project 1 go here.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
+<!-- Project Details Modals -->
+<div class="modal fade" id="projectModal1" tabindex="-1" aria-labelledby="projectModal1Label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="projectModal1Label">Project 1 Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Details about Project 1 go here.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="modal fade" id="projectModal2" tabindex="-1" aria-labelledby="projectModal2Label" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="projectModal2Label">Project 2 Details</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Details about Project 2 go here.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
+<div class="modal fade" id="projectModal2" tabindex="-1" aria-labelledby="projectModal2Label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="projectModal2Label">Project 2 Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Details about Project 2 go here.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="modal fade" id="projectModal3" tabindex="-1" aria-labelledby="projectModal3Label" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="projectModal3Label">Project 3 Details</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Details about Project 3 go here.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
+<div class="modal fade" id="projectModal3" tabindex="-1" aria-labelledby="projectModal3Label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="projectModal3Label">Project 3 Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Details about Project 3 go here.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
-
-    <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-
-</html>
+</div>
+{% endblock %}
