@@ -1,23 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Upload Documents</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        .preview-table img {
-            max-width: 100px;
-            max-height: 100px;
-        }
-        .table-responsive {
-            margin-top: 20px;
-        }
-    </style>
-       <div>
-        <p><a href="{% url 'user_panel' %}" class="btn btn-primary">Return Home</a></p>
-    </div>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block content %}
 <div class="container mt-5">
     <h1>Upload Documents</h1>
     <form method="post" enctype="multipart/form-data" id="document-form">
@@ -37,12 +20,8 @@
         <div class="form-group">
             {{ form.marriage_certificate.label_tag }} {{ form.marriage_certificate }}
         </div>
-        <div class="form-group">
-            {{ form.death_certificate.label_tag }} {{ form.death_certificate }}
-        </div>
-        <div class="form-group">
-            {{ form.sworn_statement.label_tag }} {{ form.sworn_statement }}
-        </div>
+        <div class="error-message" id="error-message"></div>
+       
         <button type="submit" class="btn btn-primary">Upload</button>
     </form>
 
@@ -73,11 +52,20 @@
         var previewTable = document.getElementById('preview-table').getElementsByTagName('tbody')[0];
         var files = input.files;
         var documentType = input.previousElementSibling.textContent.trim();
-        
+        var errorMessage = document.getElementById('error-message');
+        errorMessage.textContent = '';
+
         for (var i = 0; i < files.length; i++) {
             var file = files[i];
+            var fileType = file.type;
+            var validTypes = ['image/jpeg', 'image/png', 'image/tiff'];
+
+            if (!validTypes.includes(fileType)) {
+                errorMessage.textContent = 'Please upload images in JPG, JPEG, PNG, or TIFF format.';
+                return;
+            }
+
             var reader = new FileReader();
-            
             reader.onload = (function(file) {
                 return function(e) {
                     var row = document.createElement('tr');
@@ -99,5 +87,4 @@
         }
     }
 </script>
-</body>
-</html>
+{% endblock %}

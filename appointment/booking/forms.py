@@ -36,17 +36,17 @@ class AppointmentForm(forms.ModelForm):
 
 
 
+from django.core.exceptions import ValidationError
+
 class DocumentUploadForm(forms.ModelForm):
     class Meta:
-        model = Document
+        model = Document  # Replace with your actual model
         fields = [
             'birth_certificate', 
             'proof_of_nationality', 
             'passport_photos', 
             'residence_permit', 
-            'marriage_certificate', 
-            'death_certificate', 
-            'sworn_statement'
+            'marriage_certificate',
         ]
         widgets = {
             'birth_certificate': forms.ClearableFileInput(attrs={'class': 'form-control-file', 'onchange': 'previewFile(this)'}),
@@ -54,13 +54,24 @@ class DocumentUploadForm(forms.ModelForm):
             'passport_photos': forms.ClearableFileInput(attrs={'class': 'form-control-file', 'onchange': 'previewFile(this)'}),
             'residence_permit': forms.ClearableFileInput(attrs={'class': 'form-control-file', 'onchange': 'previewFile(this)'}),
             'marriage_certificate': forms.ClearableFileInput(attrs={'class': 'form-control-file', 'onchange': 'previewFile(this)'}),
-            'death_certificate': forms.ClearableFileInput(attrs={'class': 'form-control-file', 'onchange': 'previewFile(this)'}),
-            'sworn_statement': forms.ClearableFileInput(attrs={'class': 'form-control-file', 'onchange': 'previewFile(this)'}),
         }
+
     def __init__(self, *args, **kwargs):
         super(DocumentUploadForm, self).__init__(*args, **kwargs)
         for field in self.fields:
             self.fields[field].required = False
+
+    def clean(self):
+        cleaned_data = super().clean()
+        valid_types = ['image/jpeg', 'image/png', 'image/tiff']
+        
+        for field in self.fields:
+            file = cleaned_data.get(field)
+            if file:
+                if file.content_type not in valid_types:
+                    raise ValidationError(f'{field.replace("_", " ").title()} must be an image in JPG, JPEG, PNG, or TIFF format.')
+        
+        return cleaned_data
 
 
 

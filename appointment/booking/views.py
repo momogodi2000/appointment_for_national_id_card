@@ -186,6 +186,8 @@ def logout(request):
     return redirect('home')
 
 
+##police panel
+
 @login_required
 def officer_panel(request):
      # Count the instances of each model
@@ -313,7 +315,7 @@ def upload_document(request):
             return HttpResponse("Error uploading documents. Please try again.")
     else:
         form = DocumentUploadForm()
-        return render(request, 'panel/user/upload_document.html', {'form': form})
+        return render(request, 'panel/user/upload/upload_document.html', {'form': form})
 
 # @login_required
 
