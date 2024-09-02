@@ -185,10 +185,6 @@ def logout(request):
     auth_logout(request)
     return redirect('home')
 
-@login_required
-def user_panel(request):
-    return render(request, 'panel/user_panel.html')
-
 
 @login_required
 def officer_panel(request):
@@ -263,6 +259,9 @@ def admin_panel(request):
 #clients panel
 
 
+@login_required
+def user_panel(request):
+    return render(request, 'panel/user_panel.html')
 
 @login_required
 def book_appointment(request):
@@ -405,22 +404,39 @@ def track_application(request):
             return render( request , "panel/user/card_status.html", {'status': 'Invalid appointment id'})
     return render(request, 'panel/user/track_application.html')
 
+from django.core.files.storage import FileSystemStorage
+
 
 @login_required
 def security_settings(request):
     if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
         current_password = request.POST.get('currentPassword')
         new_password = request.POST.get('newPassword')
         confirm_password = request.POST.get('confirmPassword')
+        profile_picture = request.FILES.get('profile_picture')
 
+        # Update name and email
+        request.user.name = name
+        request.user.email = email
+
+        # Check current password for security
         if not request.user.check_password(current_password):
             context = {'error': 'Current password is incorrect'}
-        elif new_password != confirm_password:
-            context = {'error': 'New passwords do not match'}
         else:
-            request.user.set_password(new_password)
+            # Update password if provided and valid
+            if new_password and new_password == confirm_password:
+                request.user.set_password(new_password)
+
+            # Update profile picture if provided
+            if profile_picture:
+                request.user.profile_picture = profile_picture
+
             request.user.save()
-            context = {'success': 'Password updated successfully'}
+            context = {'success': 'Settings updated successfully'}
+            # Redirect to avoid resubmission on refresh
+            return redirect('user_panel')
     else:
         context = {}
 

@@ -5,22 +5,51 @@
 {% block content %}
 <div class="container">
     <h2>Security Settings</h2>
-    <form method="post" action="{% url 'security_settings' %}">
+    <form method="post" action="{% url 'security_settings' %}" enctype="multipart/form-data">
         {% csrf_token %}
+        
+        <!-- Name -->
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" name="name" value="{{ user.name }}" placeholder="Enter your name">
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}" placeholder="Enter your email">
+        </div>
+
+        <!-- Profile Picture -->
+        <div class="form-group">
+            <label for="profile_picture">Profile Picture</label>
+            <input type="file" class="form-control-file" id="profile_picture" name="profile_picture">
+            {% if user.profile_picture %}
+                <img src="{{ user.profile_picture.url }}" alt="Profile Picture" class="avatar-img">
+            {% endif %}
+        </div>
+
+        <!-- Current Password -->
         <div class="form-group">
             <label for="currentPassword">Current Password</label>
             <input type="password" class="form-control" id="currentPassword" name="currentPassword" placeholder="Enter current password">
         </div>
+
+        <!-- New Password -->
         <div class="form-group">
             <label for="newPassword">New Password</label>
             <input type="password" class="form-control" id="newPassword" name="newPassword" placeholder="Enter new password">
         </div>
+
+        <!-- Confirm New Password -->
         <div class="form-group">
             <label for="confirmPassword">Confirm New Password</label>
             <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm new password">
         </div>
-        <button type="submit" class="btn btn-primary">Update Password</button>
+
+        <button type="submit" class="btn btn-primary">Update Profile</button>
     </form>
+
     {% if error %}
         <p class="text-danger">{{ error }}</p>
     {% elif success %}
@@ -33,9 +62,7 @@
 <script>
 $(document).ready(function(){
     $('form').on('submit', function(event){
-        event.preventDefault();
-        // Placeholder for AJAX call to update password
-        alert('Password updated successfully!');
+        // You can add any additional client-side validations here
     });
 });
 </script>

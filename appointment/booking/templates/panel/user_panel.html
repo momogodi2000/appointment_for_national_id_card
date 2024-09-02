@@ -22,13 +22,26 @@
     <!-- Google Maps API -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOVYRIgupAurZup5y1PRh8Ismb1A3lLao&libraries=places&callback=initMap" async defer></script>
 </head>
-
+<style>
+    .profile-pic {
+        width: 50px;  /* Adjust as needed */
+        height: 50px; /* Adjust as needed */
+        border-radius: 50%; /* Circular image */
+        margin-right: 10px; /* Space between the image and text */
+    }
+</style>
 <body>
     <div class="dashboard">
         <div class="dashboard-nav">
             <header>
-                <a href="{% url 'user_panel' %}" class="brand-logo animate__animated animate__fadeInLeft"><i class="fas fa-id-card"></i>
-                    <span>{{ user.username }}'s Panel</span></a>
+                <a href="{% url 'user_panel' %}" class="brand-logo animate__animated animate__fadeInLeft">
+                    {% if user.profile_picture %}
+                        <img src="{{ user.profile_picture.url }}" alt="{{ user.username }}'s profile picture" class="profile-pic" />
+                    {% else %}
+                        <img src="{% static 'img/yvan.jpg' %}" alt="Default Avatar" class="profile-pic" />
+                    {% endif %}
+                    <span>{{ user.username }}'s Panel</span>
+                </a>
             </header>
             <nav class="dashboard-nav-list">
                 <a href="{% url 'upload_document' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-upload"></i> Upload Documents</a>

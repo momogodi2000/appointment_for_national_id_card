@@ -13,6 +13,7 @@ class User(AbstractUser):
     name = models.CharField(max_length=100, default='user')  # Provide a default value
     phone = models.CharField(max_length=15, default='0000000000')  # Provide a default value
     address = models.TextField(null=True, blank=True)  # Temporarily allow null
+    profile_picture = models.ImageField(upload_to='profile_pics/', null=True, blank=True) 
 
 class Office(models.Model):
     name = models.CharField(max_length=100)
