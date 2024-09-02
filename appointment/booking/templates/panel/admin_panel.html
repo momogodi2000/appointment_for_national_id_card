@@ -15,11 +15,26 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/momo.css' %}">
 </head>
+<style>
+    .profile-pic {
+        width: 50px;  /* Adjust as needed */
+        height: 50px; /* Adjust as needed */
+        border-radius: 50%; /* Circular image */
+        margin-right: 10px; /* Space between the image and text */
+    }
+</style>
 <body>
     <div class="dashboard">
         <div class="dashboard-nav">
             <header>
-                <a href="#" class="brand-logo"><i class="fas fa-id-card"></i> <span>National ID Admin Panel</span></a>
+                <a href="{% url 'user_panel' %}" class="brand-logo animate__animated animate__fadeInLeft">
+                    {% if user.profile_picture %}
+                        <img src="{{ user.profile_picture.url }}" alt="{{ user.username }}'s profile picture" class="profile-pic" />
+                    {% else %}
+                        <img src="{% static 'img/yvan.jpg' %}" alt="Default Avatar" class="profile-pic" />
+                    {% endif %}
+                    <span>{{ user.username }}'s Panel</span>
+                </a>
             </header>
             <nav class="dashboard-nav-list">
                 <a href="{% url 'admin_panel' %}" class="dashboard-nav-item"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
@@ -31,7 +46,7 @@
                 <a href="{% url 'admin_communications' %}" class="dashboard-nav-item"><i class="fas fa-comments"></i> Communications</a>
                 <a href="{% url 'map' %}" class="dashboard-nav-item"><i class="fas fa-map-marker-alt"></i> Map</a>
                 <a href="{% url 'about_us' %}" class="dashboard-nav-item"><i class="fas fa-info-circle"></i> About Us</a>
-                <a href="#" class="dashboard-nav-item"><i class="fas fa-cogs"></i> General Settings</a>
+                <a href="{% url 'security_settings' %}" class="dashboard-nav-item"><i class="fas fa-cogs"></i> General Settings</a>
                 <a href="{% url 'logout' %}" class="dashboard-nav-item"><i class="fas fa-sign-out-alt"></i> Logout</a>
             </nav>
         </div>

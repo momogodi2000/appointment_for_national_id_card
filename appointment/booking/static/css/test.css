@@ -1,0 +1,342 @@
+/* Global Styles */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f9f9f9;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: bold;
+    color: #337ab7;
+  }
+  
+  a {
+    text-decoration: none;
+    color: #337ab7;
+  }
+  
+  a:hover {
+    color: #23527c;
+  }
+  
+  /* Navbar Styles */
+  
+  .navbar {
+    background-color: #337ab7;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fff;
+  }
+  
+  .navbar-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .nav-item {
+    margin-right: 20px;
+  }
+  
+  .nav-link {
+    color: #fff;
+    transition: color 0.2s ease;
+  }
+  
+  .nav-link:hover {
+    color: #ccc;
+  }
+  
+  /* Video Carousel Styles */
+  
+  .carousel {
+    margin-bottom: 20px;
+  }
+  
+  .carousel-inner {
+    width: 100%;
+    height: 500px;
+  }
+  
+  .carousel-item {
+    height: 500px;
+    background-color: #333;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .carousel-item video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .carousel-control-prev, .carousel-control-next {
+    width: 40px;
+    height: 40px;
+    background-color: #337ab7;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .carousel-control-prev:hover, .carousel-control-next:hover {
+    background-color: #23527c;
+  }
+  
+  /* Motto Section Styles */
+  
+  .moto {
+    background-color: #337ab7;
+    padding: 20px;
+    text-align: center;
+    color: #fff;
+  }
+  
+  .moto h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .moto img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin: 20px auto;
+  }
+  
+  /* Procedure Section Styles */
+  
+  .procedure {
+    padding: 20px;
+  }
+  
+  .procedure h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .procedure ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .procedure li {
+    margin-bottom: 20px;
+  }
+  
+  .procedure h4 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .procedure p {
+    margin-bottom: 20px;
+  }
+  
+  .procedure img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    margin: 20px auto;
+  }
+  
+  /* Security Services Section Styles */
+  
+  .security-services {
+    padding: 20px;
+  }
+  
+  .security-services h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .security-services .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  .security-services .service-item {
+    width: 33.33%;
+    margin-bottom: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .security-services .service-item h4 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .security-services .service-item p {
+    margin-bottom: 20px;
+  }
+  
+  .security-services .service-item img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    margin: 20px auto;
+  }
+  
+  /* Google Maps Section Styles */
+  
+  .map-container {
+    padding: 20px;
+  }
+  
+  .map-container h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  #map {
+    width: 100%;
+    height: 500px;
+    border: 1px solid #ddd
+}
+
+/* Footer Styles */
+
+.footer {
+  background-color: #337ab7;
+  padding: 10px;
+  text-align: center;
+  color: #fff;
+}
+
+.footer p {
+  margin-bottom: 10px;
+}
+
+/* Media Queries */
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .navbar {
+    padding: 2rem;
+  }
+  .carousel-inner {
+    height: 700px;
+  }
+  .carousel-item {
+    height: 700px;
+  }
+  .moto {
+    padding: 40px;
+  }
+  .procedure {
+    padding: 40px;
+  }
+  .security-services {
+    padding: 40px;
+  }
+  .map-container {
+    padding: 40px;
+  }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) and (max-width: 991px) {
+  .navbar {
+    padding: 1.5rem;
+  }
+  .carousel-inner {
+    height: 500px;
+  }
+  .carousel-item {
+    height: 500px;
+  }
+  .moto {
+    padding: 30px;
+  }
+  .procedure {
+    padding: 30px;
+  }
+  .security-services {
+    padding: 30px;
+  }
+  .map-container {
+    padding: 30px;
+  }
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) and (max-width: 767px) {
+  .navbar {
+    padding: 1rem;
+  }
+  .carousel-inner {
+    height: 300px;
+  }
+  .carousel-item {
+    height: 300px;
+  }
+  .moto {
+    padding: 20px;
+  }
+  .procedure {
+    padding: 20px;
+  }
+  .security-services {
+    padding: 20px;
+  }
+  .map-container {
+    padding: 20px;
+  }
+}
+
+/* Extra small devices (portrait phones, less than 576px) */
+@media (max-width: 575px) {
+  .navbar {
+    padding: 0.5rem;
+  }
+  .carousel-inner {
+    height: 200px;
+  }
+  .carousel-item {
+    height: 200px;
+  }
+  .moto {
+    padding: 10px;
+  }
+  .procedure {
+    padding: 10px;
+  }
+  .security-services {
+    padding: 10px;
+  }
+  .map-container {
+    padding: 10px;
+  }
+}

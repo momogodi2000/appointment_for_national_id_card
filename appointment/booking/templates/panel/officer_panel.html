@@ -37,13 +37,26 @@
                 margin-top: 20px;
             }
         }
+        .profile-pic {
+        width: 50px;  /* Adjust as needed */
+        height: 50px; /* Adjust as needed */
+        border-radius: 50%; /* Circular image */
+        margin-right: 10px; /* Space between the image and text */
+    }
     </style>
 </head>
 <body>
     <div class="dashboard">
         <div class="dashboard-nav">
             <header>
-                <a href="#" class="brand-logo"><i class="fas fa-anchor"></i> <span>Police Panel</span></a>
+                <a href="{% url 'user_panel' %}" class="brand-logo animate__animated animate__fadeInLeft">
+                    {% if user.profile_picture %}
+                        <img src="{{ user.profile_picture.url }}" alt="{{ user.username }}'s profile picture" class="profile-pic" />
+                    {% else %}
+                        <img src="{% static 'img/yvan.jpg' %}" alt="Default Avatar" class="profile-pic" />
+                    {% endif %}
+                    <span>{{ user.username }}'s Panel</span>
+                </a>
             </header>
             <nav class="dashboard-nav-list">
                 <a href="#" class="dashboard-nav-item"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
@@ -54,7 +67,7 @@
                 <a href="{% url 'card_status' %}" class="dashboard-nav-item"><i class="fas fa-id-card"></i> Card Availability</a>
                 <a href="{% url 'manage_contact' %}" class="dashboard-nav-item"><i class="fas fa-envelope"></i> Manage Contact Message</a>
                 <a href="{% url 'manage_id' %}" class="dashboard-nav-item"><i class="fas fa-id-card"></i> Manage Missing ID Card</a>
-                <a href="#" class="dashboard-nav-item"><i class="fas fa-cogs"></i> Settings</a>
+                <a href="{% url 'security_settings' %}" class="dashboard-nav-item"><i class="fas fa-cogs"></i> Settings</a>
                 <a href="{%url 'logout' %}" class="dashboard-nav-item"><i class="fas fa-sign-out-alt"></i> Logout</a>
             </nav>
         </div>
