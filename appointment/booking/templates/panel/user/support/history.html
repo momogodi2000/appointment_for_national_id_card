@@ -1,19 +1,8 @@
+{% extends 'base.html' %}
+
 {% load static %}
 
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>History of National ID Card</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/history.css' %}">
-
-</head>
-<body>
-
+{% block content %}
 <div class="container mt-5">
     <div class="text-center mb-4">
         <h1>History of National ID Card</h1>
@@ -120,13 +109,12 @@
         </div>
     </section>
 
-    <div class="text-center">
-        <button class="btn back-button" onclick="window.history.back();">Go Back</button>
-    </div>
+    
 </div>
+{% endblock %}
 
+{% block scripts %}
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
+<script src="https://stackpath.bootstrapcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock %}

@@ -19,16 +19,49 @@
 
     <!-- Your custom CSS -->
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <style>
+        .dashboard-nav {
+            width: 250px;
+            background-color: #f8f9fa;
+            transition: transform 0.3s ease;
+            position: fixed;
+            height: 100%;
+            overflow: auto;
+            transform: translateX(-100%);
+        }
+        .dashboard-nav.active {
+            transform: translateX(0);
+        }
+        .dashboard-nav-item {
+            padding: 15px;
+        }
+        .dashboard-toolbar {
+            padding: 10px;
+            background-color: #343a40;
+            color: white;
+        }
+        .menu-toggle {
+            color: white;
+            cursor: pointer;
+        }
+        .dashboard-app {
+            flex-grow: 1;
+            margin-left: 250px; /* Adjust for sidebar width */
+            transition: margin-left 0.3s ease;
+        }
+        .dashboard-app.active {
+            margin-left: 0;
+        }
+        @media (max-width: 767px) {
+            .dashboard-nav {
+                width: 200px;
+            }
+            .dashboard-app {
+                margin-left: 0;
+            }
+        }
+    </style>
 </head>
-
-<style>
-    .profile-pic {
-        width: 50px;  /* Adjust as needed */
-        height: 50px; /* Adjust as needed */
-        border-radius: 50%; /* Circular image */
-        margin-right: 10px; /* Space between the image and text */
-    }
-</style>
 
 <body>
     <!-- Sidebar and Main Content -->
@@ -46,16 +79,16 @@
                 </a>
             </header>
             <nav class="dashboard-nav-list list-group list-group-flush">
-                <a href="{% url 'upload_document' %}" class="list-group-item dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-upload"></i> Upload Documents</a>
-                <a href="{% url 'insert_missing_id_card' %}" class="list-group-item dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-id-badge"></i> Insert Missing ID Card</a>
-                <a href="{% url 'user_communications' %}" class="list-group-item dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-comments"></i> Communications</a>
-                <a href="{% url 'history' %}" class="list-group-item dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-history"></i> Benefits</a>
-                <a href="{% url 'about' %}" class="list-group-item dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-info-circle"></i> About Us</a>
-                <a href="{% url 'contact_us' %}" class="list-group-item dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-envelope"></i> Contact Us</a>
-                <a href="{% url 'security_settings' %}" class="list-group-item dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-user-lock"></i> Security Settings</a>
-                <a href="{% url 'support_discussion' %}" class="list-group-item dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-headset"></i> Support Discussion</a>
-                <a href="{% url 'security_grade' %}" class="list-group-item dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-user-lock"></i> Police Grade</a>
-                <a href="{% url 'logout' %}" class="list-group-item dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                <a href="{% url 'upload_document' %}" class="list-group-item dashboard-nav-item"><i class="fas fa-upload"></i> Upload Documents</a>
+                <a href="{% url 'insert_missing_id_card' %}" class="list-group-item dashboard-nav-item"><i class="fas fa-id-badge"></i> Insert Missing ID Card</a>
+                <a href="{% url 'user_communications' %}" class="list-group-item dashboard-nav-item"><i class="fas fa-comments"></i> Communications</a>
+                <a href="{% url 'history' %}" class="list-group-item dashboard-nav-item"><i class="fas fa-history"></i> Benefits</a>
+                <a href="{% url 'about' %}" class="list-group-item dashboard-nav-item"><i class="fas fa-info-circle"></i> About Us</a>
+                <a href="{% url 'contact_us' %}" class="list-group-item dashboard-nav-item"><i class="fas fa-envelope"></i> Contact Us</a>
+                <a href="{% url 'security_settings' %}" class="list-group-item dashboard-nav-item"><i class="fas fa-user-lock"></i> Security Settings</a>
+                <a href="{% url 'support_discussion' %}" class="list-group-item dashboard-nav-item"><i class="fas fa-headset"></i> Support Discussion</a>
+                <a href="{% url 'security_grade' %}" class="list-group-item dashboard-nav-item"><i class="fas fa-user-lock"></i> Police Grade</a>
+                <a href="{% url 'logout' %}" class="list-group-item dashboard-nav-item"><i class="fas fa-sign-out-alt"></i> Logout</a>
             </nav>
         </div>
         <main class="dashboard-app">
@@ -63,29 +96,30 @@
                 <a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a>
             </header>
 
-        <!-- Main Content -->
-        <div class="container mt-4 flex-grow-1">
-            {% block content %}
-            {% endblock %}
-        </div>
+            <!-- Main Content -->
+            <div class="container mt-4 flex-grow-1">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </main>
     </div>
 
     <!-- Your custom JavaScript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-    <script>// Custom JavaScript for the user panel
-
+    <script>
         // Toggle the sidebar
         $(document).ready(function() {
-          $('.menu-toggle').on('click', function() {
-            $('.dashboard-nav').toggleClass('active');
-            $('.dashboard-app').toggleClass('active');
-          });
+            $('.menu-toggle').on('click', function() {
+                $('.dashboard-nav').toggleClass('active');
+                $('.dashboard-app').toggleClass('active');
+            });
         });
         
         // Animate the sidebar items on page load
         $(window).on('load', function() {
-          $('.dashboard-nav-item').addClass('animate__animated animate__fadeInLeft');
-        });</script>
+            $('.dashboard-nav-item').addClass('animate__animated animate__fadeInLeft');
+        });
+    </script>
 </body>
 </html>
