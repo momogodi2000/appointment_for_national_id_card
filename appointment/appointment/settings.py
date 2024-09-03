@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
 from pathlib import Path
+from decouple import config
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -47,8 +49,8 @@ AUTHENTICATION_BACKENDS = (
 
 
 # Social Auth Keys and Secrets (You need to replace these with your own keys)
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '<your-google-client-id>'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '<your-google-client-secret>'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '1024124076284-jncttujs54ucvpfhn04v3043r9lcgbvt.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
 
 SOCIAL_AUTH_FACEBOOK_KEY = '<your-facebook-app-id>'
 SOCIAL_AUTH_FACEBOOK_SECRET = '<your-facebook-app-secret>'
@@ -229,4 +231,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # OpenAI API Key
-OPENAI_API_KEY ='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'
+# settings.py
+from decouple import config
+
+OPENAI_API_KEY = config('OPENAI_API_KEY')

@@ -162,6 +162,7 @@ class AppointmentView(APIView):
         appointment.delete()
         return Response({"message": f"Appointment deleted successfully !"}, status=status.HTTP_200_OK)
 
+## clients panel
 
 class UserView(APIView):
     def get(self,request):
@@ -189,8 +190,72 @@ class UserView(APIView):
         user.delete()
         return Response({"message": f"User deleted successfully !"}, status=status.HTTP_200_OK)
     
+    def update_user(self, request, id):
+        try:
+            user = User.objects.get(pk=id)
+        except User.DoesNotExist:
+            return Response({"message": "User not found."}, status=status.HTTP_404_NOT_FOUND)
 
-#clients
+        user_update = UserSerializer(user, data=request.data, partial=True)
+        if user_update.is_valid():
+            user_update.save()
+            return Response({"message": "User updated successfully!"}, status=status.HTTP_200_OK)
+        return Response({"message": user_update.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+from rest_framework import status
+from rest_framework.permissions import AllowAny
+import requests
+import openai
+
+
+
+class SupportAPIView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        serializer = SupportSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        user_message = serializer.validated_data.get('message', '').strip()
+
+        # Filter to check if the question is related to national ID or administrative sector of Cameroon
+        if 'national id' in user_message.lower() or 'administrative sector' in user_message.lower():
+            try:
+                # Initialize OpenAI with the API key from settings
+                openai.api_key = settings.OPENAI_API_KEY
+
+                # Create a prompt for OpenAI
+                prompt = (
+                    "You are a support bot specializing in answering questions related to the national ID card "
+                    "and the administrative sectors of Cameroon. Provide clear and accurate responses to the user's "
+                    "questions."
+                )
+
+                # Call OpenAI's GPT-4 model
+                response = openai.ChatCompletion.create(
+                    model="gpt-4",
+                    messages=[
+                        {"role": "system", "content": prompt},
+                        {"role": "user", "content": user_message},
+                    ],
+                    max_tokens=150,
+                    n=1,
+                    stop=None,
+                    temperature=0.7,
+                )
+
+                bot_response = response.choices[0].message['content'].strip()
+
+            except openai.error.OpenAIError as e:
+                # Log the error as needed
+                bot_response = 'Sorry, there was an error processing your request.'
+        else:
+            bot_response = 'Please ask a question related to the national ID card or the administrative sector of Cameroon.'
+
+        return Response({"response": bot_response}, status=status.HTTP_200_OK)
+
+
 
 class MissingCardView(APIView):
     def get(self, request):
@@ -226,6 +291,7 @@ class CardStatusView(APIView):
         appointment.save()
         return Response({"message": f"Card {response} successfully !"}, status=status.HTTP_200_OK)
 
+
 class ContactUsView(APIView):
     def get(self, request):
         contacts = ContactUs.objects.all()
@@ -240,6 +306,9 @@ class ContactUsView(APIView):
             contact_us.save()
             return Response({"message": f"Message sent successfully !"}, status=status.HTTP_201_CREATED)
         return Response({"message": contact_us.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
 
 class NotificationsView(APIView):
     def get(self, request, id):
@@ -261,6 +330,9 @@ class NotificationsView(APIView):
         }
         serialized_notifications = NotificationSerializer(data=notifications, many=True)
         return Response({"message": f"Notifications fetched successfully !", "data":serialized_notifications.data, "context":context}, status=status.HTTP_200_OK)
+
+
+
 
 class CommunicationsView(APIView):
     def get(self, request):
@@ -299,6 +371,8 @@ class CommunicationsView(APIView):
         communication = Communication.objects.get(pk=id)
         communication.delete()
         return Response({"message": f"Communication deleted successfully !"}, status=status.HTTP_200_OK)
+
+
 
 
 class PaymentView(APIView):

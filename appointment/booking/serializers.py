@@ -12,11 +12,11 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = "__all__"
-    def create(self, validate_data):
-        validate_data["password"] = make_password(validate_data["password"])
-        new_user = User.objects.create(**validate_data)
-        new_user.save()
-        return new_user
+
+    def create(self, validated_data):
+        validated_data["password"] = make_password(validated_data["password"])
+        return User.objects.create(**validated_data)
+    
 
 class OfficeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -47,6 +47,8 @@ class DocumentSerializer(serializers.ModelSerializer):
         return new_document
 
 #clients 
+from datetime import datetime
+
 
 class MissingIDCardSerializer(serializers.ModelSerializer):
     class Meta:
@@ -55,6 +57,11 @@ class MissingIDCardSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return MissingIDCard.objects.create(**validated_data)
+    
+
+class SupportSerializer(serializers.Serializer):
+    message = serializers.CharField(max_length=500) 
+    
 
 
 class NotificationSerializer(serializers.ModelSerializer):
@@ -65,6 +72,8 @@ class NotificationSerializer(serializers.ModelSerializer):
         new_notification = Notification.objects.create(**validated_data)
         return new_notification
 
+
+
 class CommunicationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Communication
@@ -73,6 +82,8 @@ class CommunicationSerializer(serializers.ModelSerializer):
         new_communication =  Communication.objects.create(**validated_data)
         new_communication.save()
         return new_communication
+
+
 
 class ContactUsSerializer(serializers.ModelSerializer):
     class Meta:

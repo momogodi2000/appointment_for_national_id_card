@@ -58,7 +58,7 @@ class MissingIDCard(models.Model):
     name = models.CharField(max_length=255)
     email = models.EmailField()
     phone = models.CharField(max_length=20)
-    date_found = models.DateField(default='2024-01-01')  # Replace with an appropriate default date
+    date_found = models.DateField(null=True, blank=True)  # Allows any date, including no date
     id_card_image = models.ImageField(upload_to='missing_id_cards/')
 
     def __str__(self):
@@ -86,6 +86,8 @@ class Notification(models.Model):
 class Communication(models.Model):
      title = models.CharField(max_length=255)
      location = models.FileField(upload_to='static/communication/')
+
+
 
 class ContactUs(models.Model):
      message = models.CharField(max_length=255)
