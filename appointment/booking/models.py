@@ -19,6 +19,7 @@ class Office(models.Model):
     name = models.CharField(max_length=100)
     address = models.TextField()
 
+
 class Appointment(models.Model):
     STATUS_CHOICES = (
         ('created', 'Created'),
@@ -40,6 +41,8 @@ class Appointment(models.Model):
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Created')
     card_status = models.CharField(max_length=20, choices=CARD_CHOICES, default="pending")
 
+
+
 class Document(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     birth_certificate = models.FileField(upload_to='static/documents/')
@@ -52,6 +55,8 @@ class Document(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
 
 
 class MissingIDCard(models.Model):

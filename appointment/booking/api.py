@@ -203,6 +203,10 @@ class UserView(APIView):
         return Response({"message": user_update.errors}, status=status.HTTP_400_BAD_REQUEST)
 
 
+
+
+
+
 from rest_framework import status
 from rest_framework.permissions import AllowAny
 import requests
@@ -491,8 +495,7 @@ class DocumentView(APIView):
             "passport_photos": request.FILES["passport_photos"],
             "residence_permit": request.FILES["residence_permit"],
             "marriage_certificate": request.FILES["marriage_certificate"],
-            "death_certificate": request.FILES["death_certificate"],
-            "sworn_statement": request.FILES["sworn_statement"]
+          
         }
         document = DocumentSerializer(data=user_dic)
         if document.is_valid():
@@ -505,6 +508,8 @@ class DocumentView(APIView):
         document.delete()
         return Response({"message": "Document deleted successfully !"}, status=status.HTTP_200_OK)
     
+
+
 
 class ForgotPasswordView(APIView):
     def post(self, request):

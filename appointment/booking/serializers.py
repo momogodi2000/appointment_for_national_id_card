@@ -27,6 +27,9 @@ class OfficeSerializer(serializers.ModelSerializer):
         new_office.save()
         return new_office
 
+#clients 
+
+
 class AppointmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Appointment
@@ -35,6 +38,10 @@ class AppointmentSerializer(serializers.ModelSerializer):
         new_appointment = Appointment.objects.create(**validate_data)
         new_appointment.save()
         return new_appointment
+
+
+
+
 
 
 class DocumentSerializer(serializers.ModelSerializer):
@@ -46,7 +53,10 @@ class DocumentSerializer(serializers.ModelSerializer):
         new_document.save()
         return new_document
 
-#clients 
+
+
+
+
 from datetime import datetime
 
 
