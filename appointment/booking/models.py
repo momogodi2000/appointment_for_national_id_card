@@ -93,3 +93,8 @@ class ContactUs(models.Model):
      message = models.CharField(max_length=255)
      email = models.EmailField(max_length=50)
      name = models.CharField(max_length=255)
+
+
+class PasswordReset(models.Model):
+     user = models.ForeignKey(User, on_delete=models.CASCADE)
+     code = models.CharField(max_length=25)

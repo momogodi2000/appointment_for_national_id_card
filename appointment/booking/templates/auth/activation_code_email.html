@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password reset</title>
+</head>
+<body>
+    <div style="padding: 24; text-align: center;">
+            <h2>Fill in the form</h2>
+            <div>An email was sent to {{user.email}}, use it to fill the form</div>
+            <form action="{% url 'activation_code_email' %}" method="post">
+                {% csrf_token %}
+                <input type="email" name="email" hidden value="{{user.email}}">
+                <input type="text" name="code" placeholder="Activation code" id="">
+                <input type="password" name="new_password" placeholder="New password" id="">
+                <button type="submit" class="btn btn-primary btn-block">Reset password</button>
+            </form>
+    </div>
+</body>
+</html>

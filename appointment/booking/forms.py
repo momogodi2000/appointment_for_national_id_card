@@ -19,6 +19,18 @@ class LoginForm(AuthenticationForm):
 class CustomPasswordResetForm(PasswordResetForm):
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}))
 
+
+
+class ForgotPasswordForm(forms.Form):
+    email = forms.EmailField()
+
+
+class PasswordResetForm(forms.ModelForm):
+    class Meta:
+        model = PasswordReset
+        fields = ["user", "code"]
+
+
 class CustomUserCreationForm(RegistrationForm):
     class Meta(RegistrationForm.Meta):
         model = User

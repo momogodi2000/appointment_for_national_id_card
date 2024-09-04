@@ -202,6 +202,7 @@ class UserView(APIView):
             return Response({"message": "User updated successfully!"}, status=status.HTTP_200_OK)
         return Response({"message": user_update.errors}, status=status.HTTP_400_BAD_REQUEST)
 
+
 from rest_framework import status
 from rest_framework.permissions import AllowAny
 import requests
@@ -270,6 +271,46 @@ class MissingCardView(APIView):
             return Response({"message": "Missing ID uploaded successfully!"}, status=status.HTTP_201_CREATED)
         return Response({"message": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
+
+class NearbyPoliceStationsView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        # Get the latitude and longitude from the request data
+        latitude = request.data.get('latitude')
+        longitude = request.data.get('longitude')
+
+        if not latitude or not longitude:
+            return JsonResponse({"error": "Latitude and longitude are required."}, status=400)
+
+        # Google Maps Places API URL
+        google_maps_url = (
+            "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
+            "?location={},{}"
+            "&radius=5000"  # 5 km radius
+            "&type=police"
+            "&key=https://maps.googleapis.com/maps/api/js?key=AIzaSyAOVYRIgupAurZup5y1PRh8Ismb1A3lLao&libraries=places&callback=initMap"
+        ).format(latitude, longitude)
+
+        # Make the request to the Google Maps API
+        response = requests.get(google_maps_url)
+        
+        if response.status_code != 200:
+            return JsonResponse({"error": "Failed to retrieve data from Google Maps API."}, status=500)
+
+        data = response.json()
+
+        # Filter and format the data to send to the Flutter app
+        police_stations = []
+        for result in data.get('results', []):
+            police_stations.append({
+                "name": result.get("name"),
+                "address": result.get("vicinity"),
+                "latitude": result.get("geometry", {}).get("location", {}).get("lat"),
+                "longitude": result.get("geometry", {}).get("location", {}).get("lng"),
+            })
+
+        return JsonResponse({"police_stations": police_stations}, status=200)
 
 
 class CardStatusView(APIView):
@@ -463,3 +504,64 @@ class DocumentView(APIView):
         document = Document.objects.get(pk=document_id)
         document.delete()
         return Response({"message": "Document deleted successfully !"}, status=status.HTTP_200_OK)
+    
+
+class ForgotPasswordView(APIView):
+    def post(self, request):
+        email = request.data.get("email")
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            user = None
+
+        if user:
+            random_string = get_random_string(6)
+            mail_subject = 'Reset your password'
+            recepients = [f"{user.email}"]
+            message = f"Enter the activation code to proceed: {random_string}"
+            yag.send(to=recepients, subject=mail_subject, contents=message)
+            password_reset = None
+            try:
+                password_reset = PasswordReset.objects.get(user = user.pk)
+            except Exception as e:
+                pass
+            if password_reset is None:
+                data = {
+                    "code": random_string,
+                    "user": user.pk
+                }
+                form = PasswordResetSerializer(data=data)
+                if form.is_valid():
+                    form.save()
+            else:
+                password_reset.code = random_string
+                password_reset.save()
+            return Response({"message": "We sent an activation code to your mail, check it", "data":UserSerializer(user).data}, status=status.HTTP_200_OK)
+        return Response({"message": "Invalid email"}, status=status.HTTP_404_NOT_FOUND)
+    
+    def put(self, request):
+        user = None
+        try:
+            user = User.objects.get(email=request.data["email"])
+        except Exception as e:
+            pass
+        if user is None:
+            return Response({"message": "Invalid email"}, status=status.HTTP_404_NOT_FOUND)
+        password_reset = None
+        try:
+            password_reset = PasswordReset.objects.get(code=request.data["code"], user=user.pk)
+        except Exception as e:
+            pass
+        if password_reset is None:
+            return Response({"message": "Invalid activation code"}, status=status.HTTP_400_BAD_REQUEST)
+        data_without_email = {
+            "code": request.data["code"],
+            "user": user.pk
+        }
+        reset_serializer = PasswordResetSerializer(data=data_without_email)
+        if reset_serializer.is_valid():
+            hashedPassword = make_password(request.data["new_password"])
+            user.password = hashedPassword
+            user.save()
+            return Response({"message": "Password reset successful !"}, status=status.HTTP_200_OK)
+        return Response({"message": reset_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
