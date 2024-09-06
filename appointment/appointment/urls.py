@@ -22,11 +22,13 @@ urlpatterns = [
     path("api/appointments/edit-delete/<int:appointmentId>/", api.AppointmentView.as_view(), name="edit-delete-appointment"),
     path("api/user/get-add/", api.UserView.as_view(), name="get_add_user"),
 
+
     path("api/support/", api.SupportAPIView.as_view(), name='support_message'),
     path("api/nearby-police-stations/", api.NearbyPoliceStationsView.as_view(), name='nearby-police-stations'),
-
-
+    
     path("api/user/<int:id>/", api.UserView.as_view(), name="user_detail"),
+    path("api/users/<int:id>/", api.UserView.as_view(), name="get_update_user"),  # For fetching and updating a specific user by ID
+
     path("api/user/edit-delete/<int:id>/", api.UserView.as_view(), name="Edit_delete_user"),
     path("api/missing-cards/", api.MissingCardView.as_view(), name="Get post missing card(s)"),
     path("api/card-status/<int:appointment_id>/", api.CardStatusView.as_view(), name="Get_update_card_avalilability"),

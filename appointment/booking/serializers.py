@@ -27,7 +27,6 @@ class OfficeSerializer(serializers.ModelSerializer):
         new_office.save()
         return new_office
 
-#clients 
 
 
 class AppointmentSerializer(serializers.ModelSerializer):
@@ -68,6 +67,8 @@ class MissingIDCardSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         return MissingIDCard.objects.create(**validated_data)
     
+
+
 
 class SupportSerializer(serializers.Serializer):
     message = serializers.CharField(max_length=500) 

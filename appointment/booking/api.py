@@ -92,13 +92,20 @@ def generate_pdf_file(
     buffer.seek(0)
     return buffer
 
+
+
+
+
 class RegistrationView(APIView):
-    def post(self, request, *args, **kwargs):
-        user = UserSerializer(data = request.data)
-        if user.is_valid():
-            user.save()
-            return Response({"message": "User created successfully !"}, status=status.HTTP_201_CREATED)
-        return Response({"message": user.errors}, status=status.HTTP_400_BAD_REQUEST)
+    def post(self, request):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "User created successfully!"}, status=status.HTTP_201_CREATED)
+        return Response({"errors": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+    
+
+
 
 class LoginView(APIView):
     def post(self, request, *args, **kwargs):
@@ -420,6 +427,8 @@ class CommunicationsView(APIView):
 
 
 
+
+
 class PaymentView(APIView):
     def post(self, request):
         collect = campay.collect({
@@ -480,6 +489,7 @@ class PaymentView(APIView):
                 context = {
                     'message': 'An error occur with the payment please try later'}
             return Response({"message": context}, status=status.HTTP_400_BAD_REQUEST)
+  
                 
 class DocumentView(APIView):
     def get(self,request):
@@ -494,8 +504,7 @@ class DocumentView(APIView):
             "proof_of_nationality": request.FILES["proof_of_nationality"],
             "passport_photos": request.FILES["passport_photos"],
             "residence_permit": request.FILES["residence_permit"],
-            "marriage_certificate": request.FILES["marriage_certificate"],
-          
+            "marriage_certificate": request.FILES["marriage_certificate"]
         }
         document = DocumentSerializer(data=user_dic)
         if document.is_valid():
