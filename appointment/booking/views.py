@@ -52,11 +52,12 @@ import os
 
 
 # Replace with your Gmail credentials
-username = "kamsonganderson39@gmail.com"
-password = "zbci mysk xhds gjxe"
+username = "yvangodimomo@gmail.com"
+password = "pzls apph esje cgdl"
 
 # Create a yagmail object
 yag = yagmail.SMTP(username, password)
+
 
 def generate_pdf_file(
     payment_receipt_info
@@ -836,7 +837,7 @@ def delete_id_card(request, id_card_id):
 
 def manage_users(request):
     users = User.objects.all()
-    return render(request, 'panel/admin/manage_users.html', {'users': users})
+    return render(request, 'panel/admin/manage_user/manage_users.html', {'users': users})
 
 
 def add_user(request):
@@ -847,7 +848,7 @@ def add_user(request):
             return redirect('manage_users')
     else:
         form = UserForm()
-    return render(request, 'panel/admin/add_user.html', {'form': form})
+    return render(request, 'panel/admin/manage_user/add_user.html', {'form': form})
 
 
 def admin_edit_user(request, user_id):
@@ -859,7 +860,7 @@ def admin_edit_user(request, user_id):
             return redirect('manage_users')
     else:
         form = UserForm(instance=user)
-    return render(request, 'panel/admin/edit_user.html', {'form': form})
+    return render(request, 'panel/admin/manage_user/edit_user.html', {'form': form})
 
 
 def admin_delete_user(request, user_id):
@@ -870,11 +871,11 @@ def admin_delete_user(request, user_id):
 
 def manage_appointments(request):
     appointments = Appointment.objects.all()
-    return render(request, 'panel/police/manage_appointments.html', {'appointments': appointments})
+    return render(request, 'panel/admin/appoitment/manage_appointments.html', {'appointments': appointments})
 
 def admin_manage_appointments(request):
     appointments = Appointment.objects.all()
-    return render(request, 'panel/admin/manage_appointments.html', {'appointments': appointments})
+    return render(request, 'panel/admin/appoitment/manage_appointments.html', {'appointments': appointments})
 
 def approve_appointment(request, appointment_id):
     appointment = get_object_or_404(Appointment, id=appointment_id)
@@ -921,22 +922,36 @@ def map_view(request):
     return render(request, 'panel/admin/map/map.html')
 
 
+from django.shortcuts import render
 from django.db.models import Count, Avg
+from datetime import timedelta, date
 from .models import User, Appointment
+
 @login_required
 def analyse_view(request):
-    # Calculate role distribution
-    role_distribution = list(User.objects.values('role').annotate(count=Count('role')).order_by('role').values_list('count', flat=True))
+# User Role Distribution
+    role_distribution = User.objects.values('role').annotate(count=Count('role')).order_by('role')
+    role_data = [item['count'] for item in role_distribution]
     
-    # Calculate appointment status distribution
-    status_distribution = list(Appointment.objects.values('status').annotate(count=Count('status')).order_by('status').values_list('count', flat=True))
+    # Appointment Status Distribution
+    status_distribution = Appointment.objects.values('status').annotate(count=Count('status')).order_by('status')
+    status_data = [item['count'] for item in status_distribution]
 
-    # Calculate average number of appointments per officer
-    avg_appointments = Appointment.objects.values('officer').annotate(avg=Avg('id')).count()
+    # Average Appointments per Officer
+    avg_appointments = Appointment.objects.values('officer').annotate(avg_appointments=Count('id')).aggregate(avg_officer_appointments=Avg('avg_appointments'))['avg_officer_appointments']
+
+    # 6-month Estimation for appointments
+    today = date.today()
+    six_months_ago = today - timedelta(days=180)
+    six_month_appointments = Appointment.objects.filter(date__gte=six_months_ago).count()
+    
+    # Other statistics can be added here as necessary (e.g., user registration growth)
 
     context = {
-        'role_distribution': role_distribution,
-        'status_distribution': status_distribution,
+        'role_distribution': role_data,
+        'status_distribution': status_data,
         'avg_appointments': avg_appointments,
+        'six_month_appointments': six_month_appointments,
     }
+
     return render(request, 'panel/admin/analyse/analyse.html', context)

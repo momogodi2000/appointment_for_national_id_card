@@ -17,6 +17,7 @@ class UserSerializer(serializers.ModelSerializer):
         validated_data["password"] = make_password(validated_data["password"])
         return User.objects.create(**validated_data)
     
+    
 
 class OfficeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -105,6 +106,9 @@ class ContactUsSerializer(serializers.ModelSerializer):
         new_contact_us = ContactUs.objects.create(**validated_data)
         new_contact_us.save()
         return new_contact_us
+
+
+  
     
 class PasswordResetSerializer(serializers.ModelSerializer):
     class Meta:

@@ -15,6 +15,8 @@ class User(AbstractUser):
     address = models.TextField(null=True, blank=True)  # Temporarily allow null
     profile_picture = models.ImageField(upload_to='profile_pics/', null=True, blank=True) 
 
+
+
 class Office(models.Model):
     name = models.CharField(max_length=100)
     address = models.TextField()
@@ -67,15 +69,17 @@ class MissingIDCard(models.Model):
     id_card_image = models.ImageField(upload_to='missing_id_cards/')
 
     def __str__(self):
-        return self.name
-    
-    
+        return self.name 
 @classmethod
 def get_all_missing_cards(cls):
         return cls.objects.all()
 
 def __str__(self):
         return self.name
+
+
+
+
 
 class Notification(models.Model):
     appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE)
@@ -94,10 +98,14 @@ class Communication(models.Model):
 
 
 
+
+
 class ContactUs(models.Model):
      message = models.CharField(max_length=255)
      email = models.EmailField(max_length=50)
      name = models.CharField(max_length=255)
+
+
 
 
 class PasswordReset(models.Model):

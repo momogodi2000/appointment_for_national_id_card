@@ -135,7 +135,22 @@ class LoginView(APIView):
             status=status.HTTP_200_OK
         )
 
+
+
+def send_email(user_email, subject, message):
+    username = "yvangodimomo@gmail.com"
+    password = "pzls apph esje cgdl"
+    yag = yagmail.SMTP(username, password)
+    yag.send(to=user_email, subject=subject, contents=message)
+
+
 class AppointmentView(APIView):
+     # Initialize yagmail
+    def __init__(self):
+        self.username = "yvangodimomo@gmail.com"
+        self.password = "pzls apph esje cgdl"
+        self.yag = yagmail.SMTP(self.username, self.password)
+
     def get(self, request):
         appointments = Appointment.objects.all()
         serialized_appointments = AppointmentSerializer(appointments, many=True)
@@ -154,20 +169,36 @@ class AppointmentView(APIView):
             "messages": appointment.errors
         }, status=status.HTTP_400_BAD_REQUEST)
 
-    def put(self,request, appointmentId):
-        appointment = Appointment.objects.get(pk = appointmentId)
+    def put(self, request, appointmentId):
+        appointment = Appointment.objects.get(pk=appointmentId)
         appointment_response = request.data.get("response")
+        message = request.data.get("message", "")
         if not appointment:
-            return Response({"message": f"Appointment not found !"}, status=status.HTTP_404_NOT_FOUND)
-        
+            return Response({"message": "Appointment not found!"}, status=status.HTTP_404_NOT_FOUND)
+
         appointment.status = appointment_response
         appointment.save()
-        return Response({"message": f"Appointment {appointment_response} successfully !"}, status=status.HTTP_200_OK)
+
+        # Send email notification
+        if appointment_response == "approved":
+            subject = "Appointment Approved"
+            email_message = f"Dear {appointment.user.name}, your appointment has been approved.\n\n{message}"
+        else:
+            subject = "Appointment Rejected"
+            email_message = f"Dear {appointment.user.name}, your appointment has been rejected.\n\n{message}"
+
+        send_email(appointment.user.email, subject, email_message)
+
+        return Response({"message": f"Appointment {appointment_response} successfully!"}, status=status.HTTP_200_OK)
+
 
     def delete(self, request, appointmentId):
         appointment = Appointment.objects.get(pk=appointmentId)
         appointment.delete()
         return Response({"message": f"Appointment deleted successfully !"}, status=status.HTTP_200_OK)
+
+
+
 
 ## clients panel
 
@@ -281,6 +312,18 @@ class MissingCardView(APIView):
             serializer.save()
             return Response({"message": "Missing ID uploaded successfully!"}, status=status.HTTP_201_CREATED)
         return Response({"message": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+    
+
+
+    def delete(self, request, id=None):
+        try:
+            missing_card = MissingIDCard.objects.get(id=id)
+            missing_card.delete()
+            return Response({"message": "Missing ID card deleted successfully!"}, status=status.HTTP_204_NO_CONTENT)
+        except MissingIDCard.DoesNotExist:
+            return Response({"message": "Missing ID card not found."}, status=status.HTTP_404_NOT_FOUND)
+
+
 
 
 class NearbyPoliceStationsView(APIView):
@@ -358,6 +401,47 @@ class ContactUsView(APIView):
             contact_us.save()
             return Response({"message": f"Message sent successfully !"}, status=status.HTTP_201_CREATED)
         return Response({"message": contact_us.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ContactUsDeleteView(APIView):
+    def delete(self, request, pk):
+        try:
+            contact_us = ContactUs.objects.get(pk=pk)
+            contact_us.delete()
+            return Response({"message": "Message deleted successfully!"}, status=status.HTTP_204_NO_CONTENT)
+        except ContactUs.DoesNotExist:
+            return Response({"message": "Message not found!"}, status=status.HTTP_404_NOT_FOUND)
+
+
+# Gmail credentials
+username = "yvangodimomo@gmail.com"
+password = "pzls apph esje cgdl"
+
+# Create a yagmail object
+yag = yagmail.SMTP(username, password)
+
+class ContactUsReplyView(APIView):
+    def post(self, request, pk):
+        try:
+            contact_us = ContactUs.objects.get(pk=pk)
+            reply_message = request.data.get('reply_message', '')
+
+            if not reply_message:
+                return Response({"message": "Reply message cannot be empty!"}, status=status.HTTP_400_BAD_REQUEST)
+
+            # Send reply email to the contact us message sender using yagmail
+            yag.send(
+                to=contact_us.email,
+                subject="Reply to your inquiry",
+                contents=reply_message
+            )
+
+            return Response({"message": "Reply sent successfully!"}, status=status.HTTP_200_OK)
+
+        except ContactUs.DoesNotExist:
+            return Response({"message": "Message not found!"}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({"message": f"Failed to send reply: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 

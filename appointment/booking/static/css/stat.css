@@ -1,0 +1,21 @@
+body {
+    background-color: #f8f9fa; /* Light background */
+}
+
+.card {
+    margin-bottom: 20px;
+}
+
+.chart-container {
+    position: relative;
+    height: 40vh; /* Responsive height */
+    width: 100%;
+}
+
+h2 {
+    font-weight: bold;
+}
+
+.btn-success {
+    margin-top: 20px;
+}
