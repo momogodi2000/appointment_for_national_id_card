@@ -8,16 +8,27 @@ from django.contrib.auth.hashers import make_password
 
 # clients 
 
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = "__all__"
+        fields = ['id','username', 'email', 'password', 'groups', 'phone', 'profile_picture', 'role']
 
     def create(self, validated_data):
-        validated_data["password"] = make_password(validated_data["password"])
-        return User.objects.create(**validated_data)
-    
-    
+        groups_data = validated_data.pop('groups', None)  # Extract groups if present
+        password = validated_data.pop('password')  # Extract the password to hash it
+
+        user = User(**validated_data)  # Create user instance without saving it
+        user.set_password(password)  # Hash the password
+        user.save()  # Now save the user
+
+        # If groups were provided, set them for the user
+        if groups_data is not None:
+            user.groups.set(groups_data)
+
+        return user
+
+
 
 class OfficeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -38,7 +49,11 @@ class AppointmentSerializer(serializers.ModelSerializer):
         new_appointment = Appointment.objects.create(**validate_data)
         new_appointment.save()
         return new_appointment
-
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation['date'] = str(instance.date)  # Ensure it's a string
+        representation['time'] = str(instance.time)  # Ensure it's a string
+        return representation
 
 
 
@@ -111,11 +126,22 @@ class ContactUsSerializer(serializers.ModelSerializer):
   
     
 class PasswordResetSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = PasswordReset
         fields = "__all__"
     
     def create(self, validated_data):
         new_password_reset = PasswordReset.objects.create(**validated_data)
-        new_password_reset.save()
         return new_password_reset
+
+
+class StatisticsSerializer(serializers.Serializer):
+    user_count = serializers.IntegerField()
+    appointment_count = serializers.IntegerField()
+    document_count = serializers.IntegerField()
+    missing_id_card_count = serializers.IntegerField()
+    notification_count = serializers.IntegerField()
+    communication_count = serializers.IntegerField()
+    contact_us_count = serializers.IntegerField()
+    password_reset_count = serializers.IntegerField()

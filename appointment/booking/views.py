@@ -504,7 +504,7 @@ def insert_missing_id_card(request):
 
     found_id_cards = MissingIDCard.objects.all()
 
-    return render(request, 'panel/user/insert_missing_id_card.html', {'form': form, 'found_id_cards': found_id_cards})
+    return render(request, 'panel/user/manage_id/insert_missing_id_card.html', {'form': form, 'found_id_cards': found_id_cards})
 
 
 def contact_us(request):
@@ -520,7 +520,7 @@ def contact_us(request):
 
     else:
         form = ContactUsForm()
-        return render(request, 'panel/user/contact_us.html', {'form': form})
+        return render(request, 'panel/user/contact/contact_us.html', {'form': form})
 
 
 @login_required
@@ -637,7 +637,7 @@ def center(request):
 def communication_form(request):
     if request.method == "GET":
         form = CommunicationUploadForm()
-        return render(request, "panel/police/add_communication.html", {"form": form})
+        return render(request, "panel/police/communication/add_communication.html", {"form": form})
     else:
         form = CommunicationUploadForm(request.POST, request.FILES)
         if form.is_valid():
@@ -651,7 +651,7 @@ def communication_form(request):
 def communications(request):
     if (request.method=="GET"):
         communications = Communication.objects.all()
-        return render(request, "panel/police/communication.html", {"communications": communications})
+        return render(request, "panel/police/communication/communication.html", {"communications": communications})
 
 @login_required
 def admin_communications(request):
@@ -668,14 +668,14 @@ def user_communications(request):
 def card_status(request):
     if (request.method=="GET"):
         communications = Appointment.objects.all()
-        return render(request, "panel/police/card_status.html", {"cards": communications})
+        return render(request, "panel/police/card/card_status.html", {"cards": communications})
 
 @login_required
 def edit_card_status(request, id):
     appointment = Appointment.objects.get(pk=id)
     if request.method == "GET":
         form = EditCardStatusForm(instance=appointment)
-        return render(request, "panel/police/edit_card_status.html", {"form": form})
+        return render(request, "panel/police/card/edit_card_status.html", {"form": form})
 
     else:
         form = EditCardStatusForm(request.POST, instance=appointment)
@@ -699,7 +699,7 @@ def edit_communication(request, id):
     else:    
         single_communication = Communication.objects.get(pk=id)
         form = CommunicationUploadForm(instance=single_communication)
-        return render(request,"panel/police/edit_communication.html", {"form": form})
+        return render(request,"panel/police/communication/edit_communication.html", {"form": form})
 
 @login_required
 def delete_communication(request, id):

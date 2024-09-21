@@ -17,18 +17,15 @@ urlpatterns = [
     path("api/login/", api.LoginView.as_view(), name="api_login"),
     path("api/register/", api.RegistrationView.as_view(), name="api_register"),
     path("api/forgot-password/", api.ForgotPasswordView.as_view(), name="api_forgot_password"),
-
     path("api/appointments/get-add/", api.AppointmentView.as_view(), name="get_post_appointment"),
     path("api/appointments/edit-delete/<int:appointmentId>/", api.AppointmentView.as_view(), name="edit-delete-appointment"),
-
-
-
-
     path("api/user/get-add/", api.UserView.as_view(), name="get_add_user"),
+
+
+
     path("api/support/", api.SupportAPIView.as_view(), name='support_message'),
     path("api/nearby-police-stations/", api.NearbyPoliceStationsView.as_view(), name='nearby-police-stations'),
     path("api/user/<int:id>/", api.UserView.as_view(), name="user_detail"),
-    path("api/users/<int:id>/", api.UserView.as_view(), name="get_update_user"),  # For fetching and updating a specific user by ID
     path("api/user/edit-delete/<int:id>/", api.UserView.as_view(), name="Edit_delete_user"),
 
 
@@ -46,9 +43,15 @@ urlpatterns = [
     path("api/communications/<int:id>/", api.CommunicationsView.as_view(), name="Edit_delete_communications"),
 
     path("api/payments/", api.PaymentView.as_view(), name="make_payment"),
-    path("api/documents/", api.DocumentView.as_view(), name="add_get_document"),
-    path("api/documents/<int:document_id>/", api.DocumentView.as_view(), name="delete_document")
+
     
+    path("api/documents/", api.DocumentView.as_view(), name="add_get_document"),
+    path("api/documents/<int:document_id>/", api.DocumentView.as_view(), name="delete_document"),
+
+
+
+    path('api/statistics/', api.StatisticsAPIView.as_view(), name='statistics'),
+
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

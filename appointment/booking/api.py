@@ -34,6 +34,12 @@ from rest_framework import status
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.hashers import check_password
 from rest_framework.authtoken.models import Token
+from django.utils.crypto import get_random_string
+
+# Gmail credentials
+username = "yvangodimomo@gmail.com"
+password = "pzls apph esje cgdl"
+
 
 User = get_user_model()
 campay = CamPayClient({
@@ -42,55 +48,6 @@ campay = CamPayClient({
     "environment": "PROD"  # use "DEV" for demo mode or "PROD" for live mode
 })
 
-def generate_pdf_file(
-    payment_receipt_info
-):
-    from io import BytesIO
-
-    buffer = BytesIO()
-    p = canvas.Canvas(buffer)
-    current_user = payment_receipt_info["user"]
-
-    # Create a PDF document
-    p.drawString(100, 750, "Payment Receipt For National ID Card Establishment")
-
-    y = 700
-    for i in range(1):
-        p.drawString(100, y, f"Reference: {payment_receipt_info['reference']}")
-        p.drawString(100, y - 20, f"ID: {payment_receipt_info['reference']}")
-        p.drawString(100, y - 40, f"User: {current_user.username}")
-        p.drawString(100, y - 60, f"Phone Number: {payment_receipt_info['from']}")
-        p.drawString(100, y - 80, f"Fees: {payment_receipt_info['amount']}{payment_receipt_info['currency']}")
-        p.drawString(100, y - 100, f"Police station: {payment_receipt_info['location']}")
-        p.drawString(100, y - 120, f"Description: {payment_receipt_info['description']}")
-        p.drawString(100, y - 140, f"Date: {payment_receipt_info['date']}")
-        y -= 60
-
-    qrcode_info = {
-        f"Reference: {payment_receipt_info['reference']}",
-        f"ID: {payment_receipt_info['reference']}",
-        f"User: {current_user.username}",
-        f"Phone Number: {payment_receipt_info['from']}",
-        f"Fees: {payment_receipt_info['amount']}{payment_receipt_info['currency']}",
-        f"Police station: {payment_receipt_info['location']}",
-        f"Description: {payment_receipt_info['description']}",
-        f"Date: {payment_receipt_info['date']}"
-    }
-
-    qrw = QrCodeWidget(str(qrcode_info))
-    b = qrw.getBounds()
-    w=b[2] - b[0]
-    h=b[3] - b[1]
-    d = Drawing(400, 400, transform=[45./w,0,0,56./h,0,0])
-    d.add(qrw)
-    renderPDF.draw(d, p, 1, 1)
-    print(f"QR CODE INFO : {qrw.value}")
-
-    p.showPage()
-    p.save()
-
-    buffer.seek(0)
-    return buffer
 
 
 
@@ -103,7 +60,7 @@ class RegistrationView(APIView):
             serializer.save()
             return Response({"message": "User created successfully!"}, status=status.HTTP_201_CREATED)
         return Response({"errors": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
-    
+
 
 
 
@@ -134,6 +91,44 @@ class LoginView(APIView):
             {"data": UserSerializer(user).data, "token": token.key},
             status=status.HTTP_200_OK
         )
+
+
+
+class ForgotPasswordView(APIView):
+    def post(self, request):
+        email = request.data.get("email")
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return Response({"message": "Invalid email"}, status=status.HTTP_404_NOT_FOUND)
+
+        random_string = get_random_string(6)
+        mail_subject = 'Reset your password'
+        yag.send(to=[user.email], subject=mail_subject, contents=f"Enter the activation code to proceed: {random_string}")
+
+        password_reset, created = PasswordReset.objects.get_or_create(user=user)
+        password_reset.code = random_string
+        password_reset.save()
+
+        return Response({"message": "We sent an activation code to your mail, check it", "data": UserSerializer(user).data}, status=status.HTTP_200_OK)
+
+    def put(self, request):
+        email = request.data.get("email")
+        code = request.data.get("code")
+        new_password = request.data.get("new_password")
+
+        try:
+            user = User.objects.get(email=email)
+            password_reset = PasswordReset.objects.get(code=code, user=user)
+        except (User.DoesNotExist, PasswordReset.DoesNotExist):
+            return Response({"message": "Invalid email or activation code"}, status=status.HTTP_400_BAD_REQUEST)
+
+        user.password = make_password(new_password)  # Hash the new password
+        user.save()
+        password_reset.delete()  # Optionally delete the password reset code
+
+        return Response({"message": "Password reset successful!"}, status=status.HTTP_200_OK)
+
 
 
 
@@ -413,9 +408,6 @@ class ContactUsDeleteView(APIView):
             return Response({"message": "Message not found!"}, status=status.HTTP_404_NOT_FOUND)
 
 
-# Gmail credentials
-username = "yvangodimomo@gmail.com"
-password = "pzls apph esje cgdl"
 
 # Create a yagmail object
 yag = yagmail.SMTP(username, password)
@@ -511,12 +503,10 @@ class CommunicationsView(APIView):
 
 
 
-
-
 class PaymentView(APIView):
     def post(self, request):
         collect = campay.collect({
-                "amount": "10",  # The amount you want to collect
+                "amount": "5",  # The amount you want to collect
                 "currency": "XAF",
                 # Phone number to request amount from. Must include country code
                 "from": "237" + request.data.get("phone"),
@@ -574,7 +564,61 @@ class PaymentView(APIView):
                     'message': 'An error occur with the payment please try later'}
             return Response({"message": context}, status=status.HTTP_400_BAD_REQUEST)
   
-                
+def generate_pdf_file(
+    payment_receipt_info
+):
+    from io import BytesIO
+
+    buffer = BytesIO()
+    p = canvas.Canvas(buffer)
+    current_user = payment_receipt_info["user"]
+
+    # Create a PDF document
+    p.drawString(100, 750, "Payment Receipt For National ID Card Establishment")
+
+    y = 700
+    for i in range(1):
+        p.drawString(100, y, f"Reference: {payment_receipt_info['reference']}")
+        p.drawString(100, y - 20, f"ID: {payment_receipt_info['reference']}")
+        p.drawString(100, y - 40, f"User: {current_user.username}")
+        p.drawString(100, y - 60, f"Phone Number: {payment_receipt_info['from']}")
+        p.drawString(100, y - 80, f"Fees: {payment_receipt_info['amount']}{payment_receipt_info['currency']}")
+        p.drawString(100, y - 100, f"Police station: {payment_receipt_info['location']}")
+        p.drawString(100, y - 120, f"Description: {payment_receipt_info['description']}")
+        p.drawString(100, y - 140, f"Date: {payment_receipt_info['date']}")
+        y -= 60
+
+    qrcode_info = {
+        f"Reference: {payment_receipt_info['reference']}",
+        f"ID: {payment_receipt_info['reference']}",
+        f"User: {current_user.username}",
+        f"Phone Number: {payment_receipt_info['from']}",
+        f"Fees: {payment_receipt_info['amount']}{payment_receipt_info['currency']}",
+        f"Police station: {payment_receipt_info['location']}",
+        f"Description: {payment_receipt_info['description']}",
+        f"Date: {payment_receipt_info['date']}"
+    }
+
+    qrw = QrCodeWidget(str(qrcode_info))
+    b = qrw.getBounds()
+    w=b[2] - b[0]
+    h=b[3] - b[1]
+    d = Drawing(400, 400, transform=[45./w,0,0,56./h,0,0])
+    d.add(qrw)
+    renderPDF.draw(d, p, 1, 1)
+    print(f"QR CODE INFO : {qrw.value}")
+
+    p.showPage()
+    p.save()
+
+    buffer.seek(0)
+    return buffer
+
+
+
+
+
+
 class DocumentView(APIView):
     def get(self,request):
         documents = Document.objects.all()
@@ -604,62 +648,35 @@ class DocumentView(APIView):
 
 
 
-class ForgotPasswordView(APIView):
-    def post(self, request):
-        email = request.data.get("email")
-        try:
-            user = User.objects.get(email=email)
-        except User.DoesNotExist:
-            user = None
 
-        if user:
-            random_string = get_random_string(6)
-            mail_subject = 'Reset your password'
-            recepients = [f"{user.email}"]
-            message = f"Enter the activation code to proceed: {random_string}"
-            yag.send(to=recepients, subject=mail_subject, contents=message)
-            password_reset = None
-            try:
-                password_reset = PasswordReset.objects.get(user = user.pk)
-            except Exception as e:
-                pass
-            if password_reset is None:
-                data = {
-                    "code": random_string,
-                    "user": user.pk
-                }
-                form = PasswordResetSerializer(data=data)
-                if form.is_valid():
-                    form.save()
-            else:
-                password_reset.code = random_string
-                password_reset.save()
-            return Response({"message": "We sent an activation code to your mail, check it", "data":UserSerializer(user).data}, status=status.HTTP_200_OK)
-        return Response({"message": "Invalid email"}, status=status.HTTP_404_NOT_FOUND)
-    
-    def put(self, request):
-        user = None
-        try:
-            user = User.objects.get(email=request.data["email"])
-        except Exception as e:
-            pass
-        if user is None:
-            return Response({"message": "Invalid email"}, status=status.HTTP_404_NOT_FOUND)
-        password_reset = None
-        try:
-            password_reset = PasswordReset.objects.get(code=request.data["code"], user=user.pk)
-        except Exception as e:
-            pass
-        if password_reset is None:
-            return Response({"message": "Invalid activation code"}, status=status.HTTP_400_BAD_REQUEST)
-        data_without_email = {
-            "code": request.data["code"],
-            "user": user.pk
+from rest_framework.views import APIView
+from .models import User, Appointment, Document, MissingIDCard, Notification, Communication, ContactUs, PasswordReset
+from .serializers import StatisticsSerializer
+
+class StatisticsAPIView(APIView):
+    def get(self, request):
+        # Calculate statistics
+        user_count = User.objects.count()
+        appointment_count = Appointment.objects.count()
+        document_count = Document.objects.count()
+        missing_id_card_count = MissingIDCard.objects.count()
+        notification_count = Notification.objects.count()
+        communication_count = Communication.objects.count()
+        contact_us_count = ContactUs.objects.count()
+        password_reset_count = PasswordReset.objects.count()
+
+        data = {
+            "user_count": user_count,
+            "appointment_count": appointment_count,
+            "document_count": document_count,
+            "missing_id_card_count": missing_id_card_count,
+            "notification_count": notification_count,
+            "communication_count": communication_count,
+            "contact_us_count": contact_us_count,
+            "password_reset_count": password_reset_count,
         }
-        reset_serializer = PasswordResetSerializer(data=data_without_email)
-        if reset_serializer.is_valid():
-            hashedPassword = make_password(request.data["new_password"])
-            user.password = hashedPassword
-            user.save()
-            return Response({"message": "Password reset successful !"}, status=status.HTTP_200_OK)
-        return Response({"message": reset_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+        serializer = StatisticsSerializer(data=data)
+        if serializer.is_valid():
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
