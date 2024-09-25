@@ -1,85 +1,65 @@
+{% extends 'panel/police/base_police.html' %}
+
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Appointments</title>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+{% block title %}
+Manage Appointments
+{% endblock %}
 
-    <!-- Font Awesome CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+{% block styles %}
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{% static 'css/user_panel.css' %}">
-</head>
-<body>
-    <div class="dashboard">
-        <div class="dashboard-nav">
-            <header>
-                <a href="#" class="brand-logo"><i class="fas fa-anchor"></i> <span>Police Panel</span></a>
-            </header>
-            <nav class="dashboard-nav-list">
-                <a href="{% url 'officer_panel' %}" class="dashboard-nav-item"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-                <a href="{% url 'user_information' %}" class="dashboard-nav-item"><i class="fas fa-users"></i> User Information</a>
-                <a href="{% url 'communications' %}" class="dashboard-nav-item"><i class="fas fa-bell"></i> Communications</a>
-                <a href="{% url 'card_status' %}" class="dashboard-nav-item"><i class="fas fa-bell"></i> Cards Availablity</a>
-                <a href="{% url 'notifications' %}" class="dashboard-nav-item"><i class="fas fa-bell"></i> Notifications</a>
-                <a href="#" class="dashboard-nav-item"><i class="fas fa-cogs"></i> Settings</a>
-            </nav>
-            <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
+<!-- Font Awesome CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+<!-- Custom CSS -->
+{% endblock %}
+
+{% block content %}
+
+        <div class="dashboard-content">
+            <h1>Manage Appointments</h1>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Appointment ID</th>
+                        <th>User</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Payment</th>
+                        <th>Documents</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for appointment in appointments %}
+                    <tr>
+                        <td>{{ appointment.id }}</td>
+                        <td>{{ appointment.user }}</td>
+                        <td>{{ appointment.date }}</td>
+                        <td>{{ appointment.time }}</td>
+                        <td>{{ appointment.paid }}</td>
+                        <td>
+                            <a href="{% url 'view_docs' appointment.user_id %}">Link to Documents</a>
+                        </td>
+                        <td>{{ appointment.status }}</td>
+                        <td>
+                            {% if appointment.status in "Created created CREATED" %}
+                            <a href="{% url 'approve_appointment' appointment.id %}" class="btn btn-info btn-sm">Approve</a>
+                            <a href="{% url 'reject_appointment' appointment.id %}" class="btn btn-danger btn-sm">Reject</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
-        <main class="dashboard-app">
-            <header class="dashboard-toolbar">
-                <a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a>
-            </header>
-            <div class="dashboard-content">
-                <h1>Manage Appointments</h1>
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Appointment ID</th>
-                            <th>User</th>
-                            <th>Date</th>
-                            <th>Time</th>
-                            <th>Payment</th>
-                            <th>Documents</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for appointment in appointments %}
-                        <tr>
-                            <td>{{ appointment.id }}</td>
-                            <td>{{ appointment.user }}</td>
-                            <td>{{ appointment.date }}</td>
-                            <td>{{ appointment.time }}</td>
-                            <td>{{ appointment.paid }}</td>
-                            <td>
-                                <a href="{% url 'view_docs' appointment.user_id %}">Link to Documents</a>
-                            </td>
-                            <td>{{ appointment.status }}</td>
-                            <td>
-                                {% if appointment.status == "Created" or appointment.status == "created" or appointment.status == "CREATED" %}
-                                <a href="{% url 'approve_appointment' appointment.id %}" class="btn btn-info btn-sm">Approve</a>
-                                <a href="{% url 'reject_appointment' appointment.id %}" class="btn btn-danger btn-sm">Reject</a>
-                                {% endif %}
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </main>
-    </div>
+    </main>
+</div>
+{% endblock %}
 
-    <!-- Bootstrap JS -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <!-- Custom JavaScript -->
-    <script src="{% static 'js/police_panel.js' %}"></script>
-</body>
-</html>
+{% block scripts %}
+<!-- Custom JavaScript -->
+{% endblock %}

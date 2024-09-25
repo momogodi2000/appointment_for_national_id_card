@@ -789,13 +789,21 @@ def reply_contact(request):
     if request.method == 'POST':
         email = request.POST.get('email')
         message = request.POST.get('message')
-        send_mail(
-            'Reply to Your Contact Message',
-            message,
-            settings.DEFAULT_FROM_EMAIL,
-            [email],
-            fail_silently=False,
+
+        # Gmail credentials (directly used in the view)
+        username = "yvangodimomo@gmail.com"
+        password = "pzlsapphesjecgdl"  # Replace this with your app-specific password
+
+        # Initialize yagmail with Gmail credentials
+        yag = yagmail.SMTP(user=username, password=password)
+
+        # Sending the email
+        yag.send(
+            to=email,
+            subject='Reply to Your Contact Message',
+            contents=message
         )
+
         return redirect('manage_contact')
 
 def delete_contact(request, contact_id):

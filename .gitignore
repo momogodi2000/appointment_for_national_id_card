@@ -1,5 +1,6 @@
 env
 momo
-appointment/static
 .venv
 OPENAI_API_KEY=your_openai_api_key_here
+media
+missing_id_card

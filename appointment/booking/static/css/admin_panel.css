@@ -1,27 +1,36 @@
-Reset and basic styles
+/* Reset and basic styles */
 body {
     font-family: Arial, sans-serif;
     background-color: #f8f9fa; /* Light gray background */
     margin: 0;
     padding: 0;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
 /* Dashboard layout */
 .dashboard {
     display: flex;
     min-height: 100vh;
+    flex-direction: column;
 }
 
 .dashboard-nav {
     width: 250px;
     background-color: #fff; /* White sidebar background */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+    transition: width 0.3s ease-in-out; /* Add transition effect */
 }
 
 .dashboard-nav header {
     padding: 20px;
     background-color: #007bff; /* Blue header background */
     color: #fff;
+    text-align: center; /* Center the logo */
 }
 
 .dashboard-nav .brand-logo {
@@ -30,6 +39,7 @@ body {
     text-decoration: none;
     display: flex;
     align-items: center;
+    justify-content: center; /* Center the logo */
     margin-bottom: 10px;
 }
 
@@ -46,6 +56,8 @@ body {
     color: #333;
     text-decoration: none;
     margin-bottom: 10px;
+    padding: 10px; /* Add padding to the nav items */
+    border-bottom: 1px solid #ddd; /* Add border to the nav items */
 }
 
 .dashboard-nav .dashboard-nav-item i {
@@ -54,11 +66,14 @@ body {
 
 .dashboard-nav .dashboard-nav-item:hover {
     color: #007bff;
+    background-color: #f0f0f0; /* Add hover effect */
 }
 
 .dashboard-app {
     flex: 1;
     padding: 20px;
+    margin-left: 250px;
+    transition: margin-left 0.3s ease-in-out; /* Add transition effect */
 }
 
 .dashboard-content {
@@ -82,77 +97,40 @@ body {
     border-color: #0062cc;
 }
 
-
-/* admin pages*/
-
-/* .dashboard {
-    display: flex;
-    min-height: 100vh;
+/* Media queries */
+@media (max-width: 1200px) {
+    .dashboard-nav {
+        width: 200px;
+    }
+    .dashboard-app {
+        margin-left: 200px;
+    }
 }
 
-.dashboard-nav {
-    width: 250px;
-    background: #ffffff;
-    color: #fff;
-    flex-shrink: 0;
+@media (max-width: 992px) {
+    .dashboard-nav {
+        width: 150px;
+    }
+    .dashboard-app {
+        margin-left: 150px;
+    }
 }
-
-.dashboard-nav header {
-    padding: 1rem;
-    background: #212529;
-    text-align: center;
-} */
-
-.dashboard-nav-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.dashboard-nav-item {
-    padding: 0.75rem 1rem;
-    display: block;
-    color: #fff;
-    text-decoration: none;
-    transition: background 0.3s;
-}
-
-.dashboard-nav-item:hover {
-    background: #495057;
-}
-
-.dashboard-app {
-    flex-grow: 1;
-    padding: 1rem;
-}
-
-.dashboard-toolbar {
-    display: flex;
-    justify-content: flex-end;
-    padding: 1rem;
-    background: #f8f9fa;
-}
-
-.dashboard-content {
-    background: #fff;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-
-/* update for crud */
 
 @media (max-width: 768px) {
     .dashboard-nav {
         width: 100%;
-        height: auto;
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 1;
         display: none;
     }
     .dashboard-nav.active {
         display: block;
     }
     .dashboard-app {
+        margin-left: 0;
         padding: 0.5rem;
     }
     .dashboard-toolbar {
@@ -160,6 +138,16 @@ body {
     }
 }
 
+@media (max-width: 576px) {
+    .dashboard-content {
+        padding: 10px;
+    }
+    .dashboard-toolbar {
+        padding: 10px;
+    }
+}
+
+/* Animation */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -167,4 +155,13 @@ body {
     to {
         opacity: 1;
     }
+}
+
+/* Add active class styles */
+.dashboard-nav.active {
+    width: 250px; /* Set the width to the original value */
+}
+
+.dashboard-app.active {
+    margin-left: 250px; /* Set the margin to the original value */
 }

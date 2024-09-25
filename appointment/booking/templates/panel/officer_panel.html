@@ -49,7 +49,7 @@
     <div class="dashboard">
         <div class="dashboard-nav">
             <header>
-                <a href="{% url 'user_panel' %}" class="brand-logo animate__animated animate__fadeInLeft">
+                <a href="{% url 'officer_panel' %}" class="brand-logo animate__animated animate__fadeInLeft">
                     {% if user.profile_picture %}
                         <img src="{{ user.profile_picture.url }}" alt="{{ user.username }}'s profile picture" class="profile-pic" />
                     {% else %}

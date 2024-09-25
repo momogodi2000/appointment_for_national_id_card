@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/admin_panel.css' %}">
+    <style>
+        .profile-pic {
+            width: 50px;  /* Adjust as needed */
+            height: 50px; /* Adjust as needed */
+            border-radius: 50%; /* Circular image */
+            margin-right: 10px; /* Space between the image and text */
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="dashboard-nav">
+            <header>
+                <a href="{% url 'admin_panel' %}" class="brand-logo animate__animated animate__fadeInLeft">
+                    {% if user.profile_picture %}
+                        <img src="{{ user.profile_picture.url }}" alt="{{ user.username }}'s profile picture" class="profile-pic" />
+                    {% else %}
+                        <img src="{% static 'img/yvan.jpg' %}" alt="Default Avatar" class="profile-pic" />
+                    {% endif %}
+                    <span>{{ user.username }}'s Panel</span>
+                </a>
+            </header>
+            <nav class="dashboard-nav-list">
+                <a href="{% url 'admin_panel' %}" class="dashboard-nav-item"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                <a href="{% url 'manage_users' %}" class="dashboard-nav-item"><i class="fas fa-users-cog"></i> Manage Users</a>
+                <a href="{% url 'manage_appointments' %}" class="dashboard-nav-item"><i class="fas fa-calendar-alt"></i> Manage Appointments</a>
+                <a href="{% url 'manage_documents' %}" class="dashboard-nav-item"><i class="fas fa-file-upload"></i> Manage Documents</a>
+                <a href="{% url 'contact_messages' %}" class="dashboard-nav-item"><i class="fas fa-envelope"></i> Manage Contact</a>
+                <a href="{% url 'analyse' %}" class="dashboard-nav-item"><i class="fas fa-chart-pie"></i> Analyze</a>
+                <a href="{% url 'admin_communications' %}" class="dashboard-nav-item"><i class="fas fa-comments"></i> Communications</a>
+                <a href="{% url 'map' %}" class="dashboard-nav-item"><i class="fas fa-map-marker-alt"></i> Map</a>
+                <a href="{% url 'about_us' %}" class="dashboard-nav-item"><i class="fas fa-info-circle"></i> About Us</a>
+                <a href="{% url 'security_settings' %}" class="dashboard-nav-item"><i class="fas fa-cogs"></i> General Settings</a>
+                <a href="{% url 'logout' %}" class="dashboard-nav-item"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </nav>
+        </div>
+        <main class="dashboard-app">
+            <header class="dashboard-toolbar">
+                <a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a>
+            </header>
+            <div class="dashboard-content">
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Custom JavaScript -->
+    <script src="{% static 'js/momo.js' %}"></script>
+</body>
+</html>
