@@ -5,7 +5,7 @@ from .views import user_panel, book_appointment, upload_document, MissingIDCardF
 from .views import payment_page, AboutUsView
 from .views import history, about, center, manage_contact
 from django.contrib.auth.decorators import login_required
-from .views import manage_users, add_user, edit_user, delete_user, manage_appointments, approve_appointment, reject_appointment, manage_documents, delete_document
+from .views import manage_users, add_user, edit_user, delete_user, manage_appointments, approve_appointment, reject_appointment, manage_documents, delete_document, appointment_history, download_receipt
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -35,6 +35,9 @@ urlpatterns = [
     path('security-grade/', views.security_grade, name='security_grade'),
     path('view_detail/<str:grade>/', views.view_detail, name='view_detail'),
     path('center/', center, name='center'),
+
+    path('appointment/history/', appointment_history, name='appointment_history'),
+    path('receipt/<int:appointment_id>/', download_receipt, name='download_receipt'),
 
 
 

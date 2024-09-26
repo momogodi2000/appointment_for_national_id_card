@@ -1,0 +1,96 @@
+{% extends 'panel/base_page/base_user.html' %}
+
+{% load static %}
+
+{% block title %}Appointment History{% endblock %}
+
+{% block styles %}
+    <style>
+        .appointment-history {
+            margin: 20px auto;
+            width: 80%;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .appointment-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .appointment-table th, .appointment-table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        .appointment-table th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-view-receipt {
+            background-color: #28a745;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-view-receipt:hover {
+            background-color: #218838;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="appointment-history animate__animated animate__fadeInUp">
+    <h1>Appointment History</h1>
+    
+    <table class="table appointment-table">
+        <thead>
+            <tr>
+                <th>Appointment Date</th>
+                <th>Time</th>
+                <th>Office</th>
+                <th>Status</th>
+                <th>Card Status</th>
+                <th>Paid</th>
+                <th>Receipt</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for appointment in appointments %}
+                <tr>
+                    <td>{{ appointment.date }}</td>
+                    <td>{{ appointment.time }}</td>
+                    <td>{{ appointment.office.name }}</td>
+                    <td>{{ appointment.get_status_display }}</td>
+                    <td>{{ appointment.get_card_status_display }}</td>
+                    <td>{{ appointment.paid|yesno:"Yes,No" }}</td>
+                    <td>
+                        {% if appointment.paid %}
+                            <form action="{% url 'download_receipt' appointment.id %}" method="post">
+                                {% csrf_token %}
+                                <button class="btn btn-view-receipt" type="submit">View Receipt</button>
+                            </form>
+                        {% else %}
+                            Not Available
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        // You can add any JavaScript functionality here if necessary for further interactivity.
+    </script>
+{% endblock %}

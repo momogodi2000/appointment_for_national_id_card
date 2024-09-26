@@ -1,0 +1,221 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Support Chat{% endblock %}</title>
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+   <!-- Custom CSS -->
+   <link rel="stylesheet" href="{% static 'css/momo2.css' %}">
+   <style>
+    .profile-pic {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+
+    .carousel-inner img {
+        width: 100%;
+        height: 400px;
+        object-fit: cover;
+    }
+
+    .card {
+        border-radius: 10px;
+    }
+
+    .dashboard-nav-item {
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .dashboard-nav-item:hover {
+        background-color: #17a2b8;
+        color: white;
+    }
+
+    #map {
+        height: 400px;
+        width: 100%;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .dashboard-app h1 {
+        color: #007bff;
+    }
+
+    .animate-box {
+        animation-duration: 2s;
+    }
+    /* General Container Styles */
+.container-fluid {
+    padding: 20px;
+    background-color: #f8f9fa;  /* Light gray background */
+    min-height: 100vh;           /* Full height */
+}
+
+/* Loading Spinner Styles */
+.loading-spinner {
+    position: fixed;             /* Fixed position for spinner */
+    top: 50%;                   /* Center vertically */
+    left: 50%;                  /* Center horizontally */
+    transform: translate(-50%, -50%); /* Adjust to center */
+    z-index: 1050;              /* Ensure it's above other content */
+}
+
+/* Spinner Color */
+.spinner-border {
+    width: 3rem;                /* Spinner size */
+    height: 3rem;               /* Spinner size */
+}
+
+/* Hide loading spinner by default */
+.d-none {
+    display: none;              /* Utility class to hide elements */
+}
+
+/* Responsive Styles */
+@media (max-width: 576px) {
+    .container-fluid {
+        padding: 10px;          /* Adjust padding on smaller screens */
+    }
+
+    .loading-spinner {
+        width: 2rem;            /* Smaller spinner for mobile */
+        height: 2rem;           /* Smaller spinner for mobile */
+    }
+}
+</style>
+        {% block custom_css %}
+
+        {% endblock %}
+</head>
+<body>
+    <div class="dashboard">
+        <div class="dashboard">
+            <div class="dashboard-nav">
+                <header>
+                    <a href="{% url 'user_panel' %}" class="brand-logo animate__animated animate__fadeInLeft">
+                        {% if user.profile_picture %}
+                            <img src="{{ user.profile_picture.url }}" alt="{{ user.username }}'s profile picture" class="profile-pic" />
+                        {% else %}
+                            <img src="{% static 'img/yvan.jpg' %}" alt="Default Avatar" class="profile-pic" />
+                        {% endif %}
+                        <span>{{ user.username }}'s Panel</span>
+                    </a>
+                </header>
+                <nav class="dashboard-nav-list">
+                    <a href="{% url 'upload_document' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-upload"></i> Upload Documents</a>
+                    <a href="{% url 'insert_missing_id_card' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-id-badge"></i> Insert Missing ID Card</a>
+                    <a href="{% url 'user_communications' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-comments"></i> Communications</a>
+                    <a href="{% url 'history' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-history"></i> Benefits</a>
+                    <a href="{% url 'about' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-info-circle"></i> About Us</a>
+                    <a href="{% url 'contact_us' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-envelope"></i> Contact Us</a>
+                    <a href="{% url 'security_settings' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-user-lock"></i> Security Settings</a>
+                    <a href="{% url 'support_discussion' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-headset"></i> Support Discussion</a>
+                    <a href="{% url 'security_grade' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-user-shield"></i> Police Grade</a>
+                    <a href="{% url 'appointment_history' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-history"></i> Appointment history</a>
+                    <a href="{% url 'logout' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </nav>
+            </div>
+        </div>  
+
+        <main class="dashboard-app">
+            <header class="dashboard-toolbar">
+                <a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a>
+            </header>
+
+            
+    <div class="container-fluid">
+        {% block content %}
+        <!-- Main content will go here, overridden by child templates -->
+        {% endblock %}
+    </div>
+
+    <!-- Loading Spinner -->
+    <div class="loading-spinner d-none" id="loadingSpinner">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+    <!-- Custom JavaScript -->
+    {% block scripts %}
+    <script>
+        $(document).ready(function() {
+            $('#chatForm').on('submit', function(e) {
+                e.preventDefault();
+                const userMessage = $('#userInput').val().trim();
+                if (userMessage) {
+                    appendUserMessage(userMessage);
+                    $('#userInput').val('');
+                    fetchBotResponse(userMessage);
+                }
+            });
+
+            function appendUserMessage(message) {
+                $('#chatBody').append(`
+                    <div class="user-message animate__animated animate__fadeInRight">
+                        <div class="message-content">
+                            <p>${message}</p>
+                        </div>
+                    </div>
+                `);
+                scrollToBottom();
+            }
+
+            function appendBotMessage(message) {
+                $('#chatBody').append(`
+                    <div class="bot-message animate__animated animate__fadeInLeft">
+                        <div class="message-content">
+                            <p>${message}</p>
+                        </div>
+                    </div>
+                `);
+                scrollToBottom();
+            }
+
+            function fetchBotResponse(message) {
+                $('#loadingSpinner').removeClass('d-none');
+                $.ajax({
+                    url: "{% url 'get_bot_response' %}",
+                    method: 'POST',
+                    data: {
+                        'message': message,
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    },
+                    success: function(response) {
+                        $('#loadingSpinner').addClass('d-none');
+                        appendBotMessage(response.reply);
+                    },
+                    error: function() {
+                        $('#loadingSpinner').addClass('d-none');
+                        appendBotMessage("Sorry, I'm having trouble understanding you right now. Please try again later.");
+                    }
+                });
+            }
+
+            function scrollToBottom() {
+                $('#chatBody').scrollTop($('#chatBody')[0].scrollHeight);
+            }
+        });
+    </script>
+    {% endblock %}
+</body>
+</html>

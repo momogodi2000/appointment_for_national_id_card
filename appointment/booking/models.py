@@ -42,6 +42,8 @@ class Appointment(models.Model):
     paid = models.BooleanField(default=False)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Created')
     card_status = models.CharField(max_length=20, choices=CARD_CHOICES, default="pending")
+    receipt_reference = models.CharField(max_length=100, null=True, blank=True)  # Add this field to store receipt reference
+
 
 
 

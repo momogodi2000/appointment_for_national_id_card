@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'panel/base_page/base.html' %}
 
 {% block content %}
 <div class="container mt-5">
@@ -21,13 +21,13 @@
             {{ form.marriage_certificate.label_tag }} {{ form.marriage_certificate }}
         </div>
         <div class="error-message" id="error-message"></div>
-       
+
         <button type="submit" class="btn btn-primary">Upload</button>
     </form>
 
-    <div class="table-responsive">
+    <div class="table-responsive mt-5">
         <table class="table table-bordered table-hover preview-table" id="preview-table">
-            <thead>
+            <thead class="thead-dark">
                 <tr>
                     <th>Document Type</th>
                     <th>Preview</th>
@@ -40,6 +40,57 @@
     </div>
 </div>
 
+<!-- Custom Styles -->
+<style>
+    /* Form Group Styling */
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        font-weight: bold;
+        color: #2c3e50;
+    }
+
+    .form-group input[type="file"] {
+        border: 1px solid #ccc;
+        padding: 10px;
+        background-color: #f9f9f9;
+        border-radius: 5px;
+        width: 100%;
+    }
+
+    .error-message {
+        color: red;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    /* Table Styling */
+    .table-responsive {
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 20px;
+        background-color: #f8f9fa;
+    }
+
+    .table th, .table td {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .table img {
+        max-width: 100px;
+        border-radius: 5px;
+    }
+
+    .thead-dark {
+        background-color: #343a40;
+        color: white;
+    }
+</style>
+
+<!-- Updated JavaScript -->
 <script>
     document.getElementById('document-form').addEventListener('change', function(event) {
         var input = event.target;
@@ -55,6 +106,15 @@
         var errorMessage = document.getElementById('error-message');
         errorMessage.textContent = '';
 
+        // Clear any existing preview rows for the current document type
+        var existingRows = previewTable.querySelectorAll('tr');
+        existingRows.forEach(function(row) {
+            if (row.firstElementChild.textContent === documentType) {
+                row.remove();
+            }
+        });
+
+        // Validate and preview the uploaded file
         for (var i = 0; i < files.length; i++) {
             var file = files[i];
             var fileType = file.type;
@@ -82,7 +142,7 @@
                     previewTable.appendChild(row);
                 };
             })(file);
-            
+
             reader.readAsDataURL(file);
         }
     }

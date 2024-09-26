@@ -451,7 +451,7 @@ def track_application(request):
                 return render( request , "panel/user/card_status.html", {'status': 'Appointment id not found'})
         else:
             return render( request , "panel/user/card_status.html", {'status': 'Invalid appointment id'})
-    return render(request, 'panel/user/track_application.html')
+    return render(request, 'panel/user/manage_doc/track_application.html')
 
 from django.core.files.storage import FileSystemStorage
 
@@ -513,7 +513,7 @@ def contact_us(request):
         if form.is_valid():
             form.save()
             # Replace with your success template
-            return render(request, 'panel/user/contact_us_success.html')
+            return render(request, 'panel/user/contact/contact_us_success.html')
         else:
             print(f"Error: {form.errors}")
             return redirect("contact_us")
@@ -531,10 +531,46 @@ def history(request):
 def about(request):
     return render(request, 'panel/user/support/about.html')
 
+@login_required
+def appointment_history(request):
+    appointments = Appointment.objects.filter(user=request.user).order_by('-date')
+    context = {
+        'appointments': appointments,
+    }
+    return render(request, 'panel/user/history/appointment_history.html', context)
+
+@login_required
+def download_receipt(request, appointment_id):
+    try:
+        appointment = Appointment.objects.get(id=appointment_id, user=request.user)
+        if appointment.paid:
+            # Generate PDF for the receipt here (you can use the existing generate_pdf_file function)
+            payment_receipt_info = {
+                "amount": "10",  # Example amount
+                "currency": "XAF",
+                "user": request.user,
+                "date": appointment.date,
+                'reference': "123456789",  # Example reference
+                "description": "NATIONAL ID CARD FEES",
+                "location": appointment.office.name,
+            }
+            buffer = generate_pdf_file(payment_receipt_info)
+            response = FileResponse(buffer, as_attachment=True, filename='receipt.pdf', content_type='application/pdf')
+            response.headers['Content-Disposition'] = 'inline; filename="receipt.pdf"'
+            response.headers['Content-Type'] = 'application/pdf'
+            return response
+        else:
+            return HttpResponse("Receipt not available for unpaid appointments.")
+    except Appointment.DoesNotExist:
+        return HttpResponse("Invalid Appointment.")
 
 
 
 # Set your OpenAI API key
+import openai
+
+# Ensure you set your OpenAI API key in your environment or here (not recommended in production)
+openai.api_key = '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'
 
 @login_required
 def support_discussion(request):
@@ -545,14 +581,16 @@ def get_bot_response(request):
     if request.method == 'POST':
         user_message = request.POST.get('message')
         try:
-            response = client.chat.completions.create(model="gpt-4",
-            messages=[
-                {"role": "system", "content": "You are a helpful assistant specialized in Cameroonian national ID card delivery and administrative matters. Provide concise and accurate information."},
-                {"role": "user", "content": user_message}
-            ],
-            max_tokens=150,
-            temperature=0.5)
-            bot_reply = response.choices[0].message.content.strip()
+            response = openai.ChatCompletion.create(
+                model="gpt-4",
+                messages=[
+                    {"role": "system", "content": "You are a helpful assistant specialized in Cameroonian national ID card delivery and administrative matters. Provide concise and accurate information."},
+                    {"role": "user", "content": user_message}
+                ],
+                max_tokens=150,
+                temperature=0.5
+            )
+            bot_reply = response.choices[0].message['content'].strip()
             return JsonResponse({'reply': bot_reply})
         except Exception as e:
             print(f"OpenAI API Error: {e}")
@@ -560,6 +598,7 @@ def get_bot_response(request):
     else:
         return JsonResponse({'error': 'Invalid request method.'}, status=400)
 
+        
 
 def security_grade(request):
     return render(request, 'panel/user/grade/security_grade.html')
