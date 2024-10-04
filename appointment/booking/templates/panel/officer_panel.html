@@ -1,204 +1,140 @@
+{% extends 'panel/base_page/base_police.html' %}
+
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Police Panel</title>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Font Awesome CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{% static 'css/momo.css' %}">
-    <style>
-        .card-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-top: 20px;
-        }
-        .card {
-            margin: 15px;
-            flex: 1 0 200px; /* Flex items with a minimum width */
-            max-width: 300px; /* Limit the maximum width */
-        }
-        .chart-container {
-            margin-top: 30px;
-        }
-        @media (max-width: 768px) {
-            .card-container {
-                flex-direction: column; /* Stack cards vertically on small screens */
-            }
-        }
-        @media (max-width: 576px) {
-            .chart-container {
-                margin-top: 20px;
-            }
-        }
-        .profile-pic {
-        width: 50px;  /* Adjust as needed */
-        height: 50px; /* Adjust as needed */
-        border-radius: 50%; /* Circular image */
-        margin-right: 10px; /* Space between the image and text */
-    }
-    </style>
-</head>
-<body>
-    <div class="dashboard">
-        <div class="dashboard-nav">
-            <header>
-                <a href="{% url 'officer_panel' %}" class="brand-logo animate__animated animate__fadeInLeft">
-                    {% if user.profile_picture %}
-                        <img src="{{ user.profile_picture.url }}" alt="{{ user.username }}'s profile picture" class="profile-pic" />
-                    {% else %}
-                        <img src="{% static 'img/yvan.jpg' %}" alt="Default Avatar" class="profile-pic" />
-                    {% endif %}
-                    <span>{{ user.username }}'s Panel</span>
-                </a>
-            </header>
-            <nav class="dashboard-nav-list">
-                <a href="#" class="dashboard-nav-item"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-                <a href="{% url 'manage_appointments' %}" class="dashboard-nav-item"><i class="fas fa-calendar-check"></i> Manage Appointments</a>
-                <a href="{% url 'user_information' %}" class="dashboard-nav-item"><i class="fas fa-users"></i> User Information</a>
-                <!--<a href="{% url 'notifications' %}" class="dashboard-nav-item"><i class="fas fa-bell"></i> Notifications</a>-->
-                <a href="{% url 'communications' %}" class="dashboard-nav-item"><i class="fas fa-comment"></i> Communications</a>
-                <a href="{% url 'card_status' %}" class="dashboard-nav-item"><i class="fas fa-id-card"></i> Card Availability</a>
-                <a href="{% url 'manage_contact' %}" class="dashboard-nav-item"><i class="fas fa-envelope"></i> Manage Contact Message</a>
-                <a href="{% url 'manage_id' %}" class="dashboard-nav-item"><i class="fas fa-id-card"></i> Manage Missing ID Card</a>
-                <a href="{% url 'security_settings' %}" class="dashboard-nav-item"><i class="fas fa-cogs"></i> Settings</a>
-                <a href="{%url 'logout' %}" class="dashboard-nav-item"><i class="fas fa-sign-out-alt"></i> Logout</a>
-            </nav>
-        </div>
-        <main class="dashboard-app">
-            <header class="dashboard-toolbar">
-                <a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a>
-            </header>
-            <div class="dashboard-content">
-                <h1>Welcome to the Police Panel!</h1>
-                <p>Here you can manage appointments, view user information, notifications, and settings.</p>
-                
-                <!-- Cards Container -->
-                <div class="card-container">
-                    <div class="card text-center">
-                        <div class="card-body">
-                            <h5 class="card-title"><i class="fas fa-user"></i> User</h5>
-                            <p class="card-text">Manage user information and roles.</p>
-                            <p class="card-text">Count: {{ user_count }}</p>
-                            <a href="{% url 'user_information' %}" class="btn btn-primary">View</a>
-                        </div>
-                    </div>
-                    <div class="card text-center">
-                        <div class="card-body">
-                            <h5 class="card-title"><i class="fas fa-chart-line"></i> Statistics</h5>
-                            <p class="card-text">View system statistics and metrics.</p>
-                            <p class="card-text">Count: {{ appointment_count }}</p>
-                            <a href="#" class="btn btn-primary">View</a>
-                        </div>
-                    </div>
-                    <div class="card text-center">
-                        <div class="card-body">
-                            <h5 class="card-title"><i class="fas fa-chart-pie"></i> Analyze</h5>
-                            <p class="card-text">Analyze data and trends.</p>
-                            <p class="card-text">Count: {{ document_count }}</p>
-                            <a href="#" class="btn btn-primary">View</a>
-                        </div>
-                    </div>
-                    <div class="card text-center">
-                        <div class="card-body">
-                            <h5 class="card-title"><i class="fas fa-money-bill-wave"></i> Payment</h5>
-                            <p class="card-text">Manage payments and transactions.</p>
-                            <p class="card-text">Count: {{ missing_id_card_count }}</p>
-                            <a href="#" class="btn btn-primary">View</a>
-                        </div>
-                    </div>
-                    <div class="card text-center">
-                        <div class="card-body">
-                            <h5 class="card-title"><i class="fas fa-id-card"></i> Missing ID Card</h5>
-                            <p class="card-text">Manage reports of missing ID cards.</p>
-                            <p class="card-text">Count: {{ notification_count }}</p>
-                            <a href="#" class="btn btn-primary">View</a>
-                        </div>
-                    </div>
-                    <div class="card text-center">
-                        <div class="card-body">
-                            <h5 class="card-title"><i class="fas fa-calendar-alt"></i> Appointment</h5>
-                            <p class="card-text">Manage user appointments.</p>
-                            <p class="card-text">Count: {{ communication_count }}</p>
-                            <a href="#" class="btn btn-primary">View</a>
-                        </div>
-                    </div>
-                </div>
+{% block content %}
+<div class="dashboard-content">
+    <h1 class="text-center mb-4">Welcome to the Police Panel!</h1>
+    <p class="text-center">Here you can manage appointments, view user information, notifications, and settings.</p>
 
-                <!-- Statistics Graph -->
-                <div class="chart-container">
-                    <canvas id="statisticsChart"></canvas>
-                </div>
-
-                <!-- Card Table -->
-                <div class="table-responsive mt-4">
-                    <h2>Regional Information</h2>
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Region</th>
-                                <th>Headquarters</th>
-                                <th>Departments</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for office in regions %}
-                            <tr>
-                                <td>{{ office.name }}</td>
-                                <td>{{ office.headquarter }}</td>
-                                <td>{{ office.population }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+    <!-- Cards Container -->
+    <div class="row card-container mb-4">
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-user"></i> User</h5>
+                    <p class="card-text">Manage user information and roles.</p>
+                    <p class="card-text">Count: {{ user_count }}</p>
+                    <a href="{% url 'user_information' %}" class="btn btn-primary">View</a>
                 </div>
             </div>
-        </main>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-chart-line"></i> Statistics</h5>
+                    <p class="card-text">View system statistics and metrics.</p>
+                    <p class="card-text">Count: {{ appointment_count }}</p>
+                    <a href="#" class="btn btn-primary">View</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-chart-pie"></i> Analyze</h5>
+                    <p class="card-text">Analyze data and trends.</p>
+                    <p class="card-text">Count: {{ document_count }}</p>
+                    <a href="#" class="btn btn-primary">View</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-money-bill-wave"></i> Payment</h5>
+                    <p class="card-text">Manage payments and transactions.</p>
+                    <p class="card-text">Count: {{ missing_id_card_count }}</p>
+                    <a href="#" class="btn btn-primary">View</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-id-card"></i> Missing ID Card</h5>
+                    <p class="card-text">Manage reports of missing ID cards.</p>
+                    <p class="card-text">Count: {{ notification_count }}</p>
+                    <a href="#" class="btn btn-primary">View</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-calendar-alt"></i> Appointment</h5>
+                    <p class="card-text">Manage user appointments.</p>
+                    <p class="card-text">Count: {{ communication_count }}</p>
+                    <a href="#" class="btn btn-primary">View</a>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Custom JavaScript -->
-    <script src="{% static 'js/momo.js' %}"></script>
-    <script>
-        // Chart.js script
-        var ctx = document.getElementById('statisticsChart').getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Users', 'Appointments', 'Documents', 'Missing ID Cards', 'Notifications', 'Communications', 'Contact Us'],
-                datasets: [{
-                    label: 'Counts',
-                    data: [
-                        {{ user_count }},
-                        {{ appointment_count }},
-                        {{ document_count }},
-                        {{ missing_id_card_count }},
-                        {{ notification_count }},
-                        {{ communication_count }},
-                        {{ contact_us_count }}
-                    ],
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
+    <!-- Statistics Graph -->
+    <div class="chart-container mb-4">
+        <canvas id="statisticsChart"></canvas>
+    </div>
+
+    <!-- Regional Information Table -->
+    <div class="table-responsive mt-4">
+        <h2 class="text-center mb-4">Regional Information</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Region</th>
+                    <th>Headquarters</th>
+                    <th>Departments</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for office in regions %}
+                <tr>
+                    <td>{{ office.name }}</td>
+                    <td>{{ office.headquarter }}</td>
+                    <td>{{ office.population }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Chart.js script for displaying data
+    var ctx = document.getElementById('statisticsChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Users', 'Appointments', 'Documents', 'Missing ID Cards', 'Notifications', 'Communications', 'Contact Us'],
+            datasets: [{
+                label: 'Counts',
+                data: [
+                    {{ user_count }},
+                    {{ appointment_count }},
+                    {{ document_count }},
+                    {{ missing_id_card_count }},
+                    {{ notification_count }},
+                    {{ communication_count }},
+                    {{ contact_us_count }}
+                ],
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
                 }
             }
-        });
-    </script>
-</body>
-</html>
+        }
+    });
+</script>
+{% endblock %}

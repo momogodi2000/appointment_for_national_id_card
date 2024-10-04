@@ -1,0 +1,216 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Police Panel{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <!-- Custom CSS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/momo2.css' %}">
+
+    <style>
+        /* Main layout for dashboard */
+        .dashboard {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .dashboard-nav {
+            width: 250px;
+            background-color: #343a40;
+            padding-top: 10px;
+            transition: width 0.3s;
+        }
+
+        .dashboard-nav a {
+            color: #ffffff;
+        }
+
+        .dashboard-nav header {
+            padding: 10px;
+        }
+
+        /* Sidebar open/close toggle */
+        .dashboard-nav.closed {
+            width: 70px;
+        }
+
+        .dashboard-nav.closed .dashboard-nav-item span {
+            display: none;
+        }
+
+        .dashboard-nav-item {
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .dashboard-nav-item i {
+            margin-right: 10px;
+        }
+
+        .dashboard-app {
+            flex-grow: 1;
+            padding: 20px;
+        }
+
+        /* Light Theme */
+        body.light-theme {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        /* Dark Theme */
+        body.dark-theme {
+            background-color: #333333;
+            color: #ffffff;
+        }
+
+        .dashboard-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #ced4da;
+        }
+
+        .profile-pic {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        /* Responsive Design for Mobile Devices */
+        @media (max-width: 768px) {
+            .dashboard {
+                flex-direction: column;
+            }
+
+            .dashboard-nav {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            .dashboard-nav.closed {
+                height: auto;
+                width: 100%;
+            }
+
+            .dashboard-nav-item {
+                justify-content: center;
+            }
+
+            .dashboard-app {
+                padding: 10px;
+            }
+
+            .dashboard-toolbar {
+                padding: 5px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard">
+        <div class="dashboard-nav" id="sidebar">
+            <header>
+                <a href="{% url 'officer_panel' %}" class="brand-logo animate__animated animate__fadeInLeft">
+                    {% if user.profile_picture %}
+                    <img src="{{ user.profile_picture.url }}" alt="{{ user.username }}'s profile picture"
+                        class="profile-pic" />
+                    {% else %}
+                    <img src="{% static 'img/yvan.jpg' %}" alt="Default Avatar" class="profile-pic" />
+                    {% endif %}
+                    <span>{{ user.username }}'s Panel</span>
+                </a>
+            </header>
+            <nav class="dashboard-nav-list">
+                <a href="{% url 'officer_panel' %}" class="dashboard-nav-item"><i
+                        class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a>
+                <a href="{% url 'profile_police' %}" class="dashboard-nav-item"><i
+                        class="fas fa-user-circle"></i> <span>Profile Overview</span></a>
+                <a href="{% url 'manage_appointments' %}" class="dashboard-nav-item"><i
+                        class="fas fa-calendar-check"></i> <span>Manage Appointments</span></a>
+                <a href="{% url 'user_information' %}" class="dashboard-nav-item"><i
+                        class="fas fa-users"></i> <span>User Information</span></a>
+                <a href="{% url 'communications' %}" class="dashboard-nav-item"><i
+                        class="fas fa-comment"></i> <span>Communications</span></a>
+                <a href="{% url 'card_status' %}" class="dashboard-nav-item"><i
+                        class="fas fa-id-card"></i> <span>Card Availability</span></a>
+                <a href="{% url 'manage_contact' %}" class="dashboard-nav-item"><i
+                        class="fas fa-envelope"></i> <span>Manage Contact Message</span></a>
+                <a href="{% url 'manage_id' %}" class="dashboard-nav-item"><i
+                        class="fas fa-id-card"></i> <span>Manage Missing ID Card</span></a>
+                <a href="{% url 'setting_police' %}" class="dashboard-nav-item"><i class="fas fa-cogs"></i> <span>Settings</span></a>
+                <a href="{% url 'logout' %}" class="dashboard-nav-item"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
+            </nav>
+        </div>
+
+        <main class="dashboard-app">
+            <header class="dashboard-toolbar">
+                <a href="#!" class="menu-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></a>
+                <div class="header-icons">
+                    <i class="fas fa-globe icon" title="Change Language" onclick="toggleLanguage()"></i>
+                    <i class="fas fa-paint-brush icon" title="Change Theme" onclick="toggleTheme()"></i>
+                    <div class="search-bar">
+                        <input type="text" placeholder="Search..." aria-label="Search" />
+                        <button class="btn btn-outline-secondary" type="button"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+            </header>
+
+            <div class="dashboard-content">
+                <div class="container">
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Custom JavaScript -->
+
+    <script>
+        let currentLanguage = 'en'; // Default language
+        let currentTheme = 'light';  // Default theme
+
+        function toggleLanguage() {
+            currentLanguage = currentLanguage === 'en' ? 'fr' : 'en';
+            document.body.setAttribute('lang', currentLanguage);
+        }
+
+        function toggleTheme() {
+            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.body.classList.toggle('dark-theme', currentTheme === 'dark');
+            document.body.classList.toggle('light-theme', currentTheme === 'light');
+        }
+
+        // Sidebar toggle function
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('closed');
+        }
+
+        // Apply initial theme class
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.classList.add(currentTheme === 'light' ? 'light-theme' : 'dark-theme');
+        });
+    </script>
+</body>
+
+</html>

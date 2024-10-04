@@ -6,6 +6,8 @@ from .views import payment_page, AboutUsView
 from .views import history, about, center, manage_contact
 from django.contrib.auth.decorators import login_required
 from .views import manage_users, add_user, edit_user, delete_user, manage_appointments, approve_appointment, reject_appointment, manage_documents, delete_document, appointment_history, download_receipt
+from .views import view_detail_admin
+
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -14,6 +16,8 @@ urlpatterns = [
     path('forgot-password/', views.forgot_password, name='forgot_password'),
     path("auth/activation_code_email", views.activation_code_email, name="activation_code_email"),
 
+
+## user url
     path('logout/', views.logout, name='logout'),
     path('user_panel/', views.user_panel, name='user_panel'),
     path('officer_panel/', views.officer_panel, name='officer_panel'),
@@ -38,10 +42,12 @@ urlpatterns = [
 
     path('appointment/history/', appointment_history, name='appointment_history'),
     path('receipt/<int:appointment_id>/', download_receipt, name='download_receipt'),
+    path('admin/view/<str:model_name>/', view_detail_admin, name='view_detail_admin'),
+
+    path('profile_user/', views.profile_user, name='profile_user'),
 
 
-
-
+## police url
     # path('generated-pdf/'),
 
     path('police/manage-appointments/', views.manage_appointments, name='manage_appointments'),
@@ -67,8 +73,10 @@ urlpatterns = [
     path('add_missing_id_card/', views.add_missing_id_card, name='add_missing_id_card'),
     path('delete_id_card/<int:id_card_id>/', views.delete_id_card, name='delete_id_card'),
 
+    path('setting_police/', views.setting_police, name='setting_police'),
+    path('profile_police/', views.profile_police, name='profile_police'),
 
-
+## admin url
 
     path('panel/admin/manage-users/', manage_users, name='manage_users'),
     path('panel/admin/add-user/', add_user, name='add_user'),

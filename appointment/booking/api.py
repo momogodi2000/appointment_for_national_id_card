@@ -152,7 +152,7 @@ class AppointmentView(APIView):
         return Response({
             "data": serialized_appointments.data
         }, status = status.HTTP_200_OK)
-    
+
     def post(self,request):
         appointment = AppointmentSerializer(data=request.data)
         if appointment.is_valid():
@@ -202,7 +202,7 @@ class UserView(APIView):
         users = User.objects.all()
         users_serialized = UserSerializer(users, many=True)
         return Response({"message": f"Users fetched successfully !", "data":users_serialized.data}, status=status.HTTP_200_OK)
-    
+
     def post(self,request):
         user = UserSerializer(data=request.data)
         if user.is_valid():
@@ -217,12 +217,12 @@ class UserView(APIView):
             user_update.save()
             return Response({"message": f"User updated successfully !"}, status=status.HTTP_200_OK)
         return Response({"message": user_update.errors}, status=status.HTTP_400_BAD_REQUEST)
-    
+
     def delete(self, request, id):
         user = User.objects.get(pk=id)
         user.delete()
         return Response({"message": f"User deleted successfully !"}, status=status.HTTP_200_OK)
-    
+
     def update_user(self, request, id):
         try:
             user = User.objects.get(pk=id)
@@ -244,6 +244,9 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny
 import requests
 import openai
+from openai import OpenAI
+
+client = OpenAI(api_key=settings.OPENAI_API_KEY)
 
 
 
@@ -261,7 +264,6 @@ class SupportAPIView(APIView):
         if 'national id' in user_message.lower() or 'administrative sector' in user_message.lower():
             try:
                 # Initialize OpenAI with the API key from settings
-                openai.api_key = settings.OPENAI_API_KEY
 
                 # Create a prompt for OpenAI
                 prompt = (
@@ -271,21 +273,19 @@ class SupportAPIView(APIView):
                 )
 
                 # Call OpenAI's GPT-4 model
-                response = openai.ChatCompletion.create(
-                    model="gpt-4",
-                    messages=[
-                        {"role": "system", "content": prompt},
-                        {"role": "user", "content": user_message},
-                    ],
-                    max_tokens=150,
-                    n=1,
-                    stop=None,
-                    temperature=0.7,
-                )
+                response = client.chat.completions.create(model="gpt-4",
+                messages=[
+                    {"role": "system", "content": prompt},
+                    {"role": "user", "content": user_message},
+                ],
+                max_tokens=150,
+                n=1,
+                stop=None,
+                temperature=0.7)
 
-                bot_response = response.choices[0].message['content'].strip()
+                bot_response = response.choices[0].message.content.strip()
 
-            except openai.error.OpenAIError as e:
+            except openai.OpenAIError as e:
                 # Log the error as needed
                 bot_response = 'Sorry, there was an error processing your request.'
         else:
@@ -307,7 +307,7 @@ class MissingCardView(APIView):
             serializer.save()
             return Response({"message": "Missing ID uploaded successfully!"}, status=status.HTTP_201_CREATED)
         return Response({"message": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
-    
+
 
 
     def delete(self, request, id=None):
@@ -343,7 +343,7 @@ class NearbyPoliceStationsView(APIView):
 
         # Make the request to the Google Maps API
         response = requests.get(google_maps_url)
-        
+
         if response.status_code != 200:
             return JsonResponse({"error": "Failed to retrieve data from Google Maps API."}, status=500)
 
@@ -389,7 +389,7 @@ class ContactUsView(APIView):
         # if serialized_contacts.is_valid():
         return Response({"message": f"Contact us messages fetched successfully !", "data":serialized_contacts.data}, status=status.HTTP_200_OK)
         # return Response({"message": serialized_contacts.errors}, status=status.HTTP_400_BAD_REQUEST)
-        
+
     def post(self, request):
         contact_us = ContactUsSerializer(data=request.data)
         if contact_us.is_valid():
@@ -467,7 +467,7 @@ class CommunicationsView(APIView):
         communications = Communication.objects.all()
         serialized_communications = CommunicationSerializer(communications, many=True)
         return Response({"message": f"Communications fetched successfully !", "data":serialized_communications.data}, status=status.HTTP_200_OK)
-    
+
     def post(self, request):
         file = request.FILES["file"]
         title = request.data.get("title")
@@ -494,7 +494,7 @@ class CommunicationsView(APIView):
             communication.save()
             return Response({"message": f"Communication edited successfully !"}, status=status.HTTP_201_CREATED) 
         return Response({"message": communication.errors}, status=status.HTTP_400_BAD_REQUEST)
-    
+
     def delete(self, request, id):
         communication = Communication.objects.get(pk=id)
         communication.delete()
@@ -563,7 +563,7 @@ class PaymentView(APIView):
                 context = {
                     'message': 'An error occur with the payment please try later'}
             return Response({"message": context}, status=status.HTTP_400_BAD_REQUEST)
-  
+
 def generate_pdf_file(
     payment_receipt_info
 ):
@@ -624,7 +624,7 @@ class DocumentView(APIView):
         documents = Document.objects.all()
         serialized_documents = DocumentSerializer(documents, many=True)
         return Response({"message": f"Documents fetched successfully !", "data":serialized_documents.data}, status=status.HTTP_200_OK)
-    
+
     def post(self,request):
         user_dic = {
             "user": request.data["user"],
@@ -644,7 +644,7 @@ class DocumentView(APIView):
         document = Document.objects.get(pk=document_id)
         document.delete()
         return Response({"message": "Document deleted successfully !"}, status=status.HTTP_200_OK)
-    
+
 
 
 

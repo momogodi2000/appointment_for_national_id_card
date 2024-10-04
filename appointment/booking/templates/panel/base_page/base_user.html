@@ -79,10 +79,12 @@
                     </a>
                 </header>
                 <nav class="dashboard-nav-list">
+                    <a href="{% url 'user_panel' %}" class="dashboard-nav-item active"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                    <a href="{% url 'profile_user' %}" class="dashboard-nav-item"><i class="fas fa-user-circle"></i> Profile Overview</a>
                     <a href="{% url 'upload_document' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-upload"></i> Upload Documents</a>
                     <a href="{% url 'insert_missing_id_card' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-id-badge"></i> Insert Missing ID Card</a>
                     <a href="{% url 'user_communications' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-comments"></i> Communications</a>
-                    <a href="{% url 'history' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-history"></i> Benefits</a>
+                    <a href="{% url 'track_application' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-map-marker-alt"></i> Track Application</a>                    <a href="{% url 'history' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-history"></i> Benefits</a>
                     <a href="{% url 'about' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-info-circle"></i> About Us</a>
                     <a href="{% url 'contact_us' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-envelope"></i> Contact Us</a>
                     <a href="{% url 'security_settings' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-user-lock"></i> Security Settings</a>

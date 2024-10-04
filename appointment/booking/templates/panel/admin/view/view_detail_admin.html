@@ -1,0 +1,102 @@
+{% extends 'panel/base_page/base_admin.html' %}
+
+{% block title %}{{ model_name|title }} Details{% endblock %}
+
+{% block content %}
+<h1 class="mt-4">{{ model_name|title }} Details</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            {% if model_name == 'user' %}
+                <th>ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Date Joined</th>
+            {% elif model_name == 'appointment' %}
+                <th>ID</th>
+                <th>User</th>
+                <th>Date</th>
+                <th>Status</th>
+            {% elif model_name == 'document' %}
+                <th>ID</th>
+                <th>Document Type</th>
+                <th>User</th>
+                <th>Upload Date</th>
+            {% elif model_name == 'missing_id_card' %}
+                <th>ID</th>
+                <th>User</th>
+                <th>Date Reported</th>
+            {% elif model_name == 'notification' %}
+                <th>ID</th>
+                <th>Message</th>
+                <th>Date</th>
+            {% elif model_name == 'communication' %}
+                <th>ID</th>
+                <th>Message</th>
+                <th>Date</th>
+            {% elif model_name == 'contact_us' %}
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Message</th>
+            {% elif model_name == 'office' %}
+                <th>ID</th>
+                <th>Location</th>
+                <th>Contact</th>
+            {% elif model_name == 'password_reset' %}
+                <th>ID</th>
+                <th>User</th>
+                <th>Request Date</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in data %}
+            <tr>
+                {% if model_name == 'user' %}
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.username }}</td>
+                    <td>{{ item.email }}</td>
+                    <td>{{ item.date_joined }}</td>
+                {% elif model_name == 'appointment' %}
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.user }}</td>
+                    <td>{{ item.date }}</td>
+                    <td>{{ item.status }}</td>
+                {% elif model_name == 'document' %}
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.document_type }}</td>
+                    <td>{{ item.user }}</td>
+                    <td>{{ item.upload_date }}</td>
+                {% elif model_name == 'missing_id_card' %}
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.user }}</td>
+                    <td>{{ item.date_reported }}</td>
+                {% elif model_name == 'notification' %}
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.message }}</td>
+                    <td>{{ item.date }}</td>
+                {% elif model_name == 'communication' %}
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.message }}</td>
+                    <td>{{ item.date }}</td>
+                {% elif model_name == 'contact_us' %}
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.email }}</td>
+                    <td>{{ item.message }}</td>
+                {% elif model_name == 'office' %}
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.location }}</td>
+                    <td>{{ item.contact }}</td>
+                {% elif model_name == 'password_reset' %}
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.user }}</td>
+                    <td>{{ item.request_date }}</td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

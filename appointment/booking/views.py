@@ -219,7 +219,7 @@ def forgot_password(request):
                 return render(request, "auth/activation_code_email.html", {"user":user})
             return redirect('forgot_password')
         return redirect('forgot_password')
-        
+
     else:
         form = ForgotPasswordForm()
 
@@ -279,7 +279,7 @@ def officer_panel(request):
 
 @login_required
 def admin_panel(request):
-       # Count the instances of each model
+    # Count the instances of each model
     user_count = User.objects.count()
     appointment_count = Appointment.objects.count()
     document_count = Document.objects.count()
@@ -287,12 +287,13 @@ def admin_panel(request):
     notification_count = Notification.objects.count()
     communication_count = Communication.objects.count()
     contact_us_count = ContactUs.objects.count()
+    office_count = Office.objects.count()  # Count for Office model
+    password_reset_count = PasswordReset.objects.count()  # Count for PasswordReset model
 
-    # Fetch region data
+    # Fetch office data
     regions = Office.objects.all()
 
-
-   # Render the template with the counts and regions
+    # Render the template with the counts and regions
     return render(request, 'panel/admin_panel.html', {
         'user_count': user_count,
         'appointment_count': appointment_count,
@@ -301,11 +302,42 @@ def admin_panel(request):
         'notification_count': notification_count,
         'communication_count': communication_count,
         'contact_us_count': contact_us_count,
+        'office_count': office_count,  # Pass office count to template
+        'password_reset_count': password_reset_count,  # Pass password reset count to template
         'regions': regions
     })
 
 
+MODEL_MAPPING = {
+    'user': User,
+    'appointment': Appointment,
+    'document': Document,
+    'missing_id_card': MissingIDCard,
+    'notification': Notification,
+    'communication': Communication,
+    'contact_us': ContactUs,
+    'office': Office,
+    'password_reset': PasswordReset,
+}
+
+@login_required
+def view_detail_admin(request, model_name):
+    # Get the model class from the mapping
+    model_class = MODEL_MAPPING.get(model_name)
+
+    if model_class is None:
+        return render(request, 'panel/error.html', {'message': 'Invalid model requested.'})
+
+    # Fetch all instances of the model
+    data = model_class.objects.all()
+
+    # Render the template with the data
+    return render(request, 'panel/admin/view/view_detail_admin.html', {
+        'data': data,
+        'model_name': model_name,
+    })
 #clients panel
+
 
 
 @login_required
@@ -491,6 +523,11 @@ def security_settings(request):
 
     return render(request, 'panel/user/security_settings.html', context)
 
+@login_required
+def profile_user(request):
+    return render(request, 'panel/user/profile/profile_user.html', {'user': request.user})
+
+
 
 @login_required
 def insert_missing_id_card(request):
@@ -567,10 +604,11 @@ def download_receipt(request, appointment_id):
 
 
 # Set your OpenAI API key
-import openai
+from openai import OpenAI
+
+client = OpenAI(api_key='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')
 
 # Ensure you set your OpenAI API key in your environment or here (not recommended in production)
-openai.api_key = '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'
 
 @login_required
 def support_discussion(request):
@@ -581,16 +619,14 @@ def get_bot_response(request):
     if request.method == 'POST':
         user_message = request.POST.get('message')
         try:
-            response = openai.ChatCompletion.create(
-                model="gpt-4",
-                messages=[
-                    {"role": "system", "content": "You are a helpful assistant specialized in Cameroonian national ID card delivery and administrative matters. Provide concise and accurate information."},
-                    {"role": "user", "content": user_message}
-                ],
-                max_tokens=150,
-                temperature=0.5
-            )
-            bot_reply = response.choices[0].message['content'].strip()
+            response = client.chat.completions.create(model="gpt-4",
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant specialized in Cameroonian national ID card delivery and administrative matters. Provide concise and accurate information."},
+                {"role": "user", "content": user_message}
+            ],
+            max_tokens=150,
+            temperature=0.5)
+            bot_reply = response.choices[0].message.content.strip()
             return JsonResponse({'reply': bot_reply})
         except Exception as e:
             print(f"OpenAI API Error: {e}")
@@ -598,7 +634,7 @@ def get_bot_response(request):
     else:
         return JsonResponse({'error': 'Invalid request method.'}, status=400)
 
-        
+
 
 def security_grade(request):
     return render(request, 'panel/user/grade/security_grade.html')
@@ -670,6 +706,46 @@ def center(request):
 
 
 # police view
+
+
+@login_required
+def setting_police(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        current_password = request.POST.get('currentPassword')
+        new_password = request.POST.get('newPassword')
+        confirm_password = request.POST.get('confirmPassword')
+        profile_picture = request.FILES.get('profile_picture')
+
+        # Update name and email
+        request.user.name = name
+        request.user.email = email
+
+        # Check current password for security
+        if not request.user.check_password(current_password):
+            context = {'error': 'Current password is incorrect'}
+        else:
+            # Update password if provided and valid
+            if new_password and new_password == confirm_password:
+                request.user.set_password(new_password)
+
+            # Update profile picture if provided
+            if profile_picture:
+                request.user.profile_picture = profile_picture
+
+            request.user.save()
+            context = {'success': 'Settings updated successfully'}
+            # Redirect to avoid resubmission on refresh
+            return redirect('user_panel')
+    else:
+        context = {}
+
+    return render(request, 'panel/police/profile/setting_police.html', context)
+
+@login_required
+def profile_police(request):
+    return render(request, 'panel/police/profile/profile_police.html', {'user': request.user})
 
 
 @login_required
@@ -979,7 +1055,7 @@ def analyse_view(request):
 # User Role Distribution
     role_distribution = User.objects.values('role').annotate(count=Count('role')).order_by('role')
     role_data = [item['count'] for item in role_distribution]
-    
+
     # Appointment Status Distribution
     status_distribution = Appointment.objects.values('status').annotate(count=Count('status')).order_by('status')
     status_data = [item['count'] for item in status_distribution]
@@ -991,7 +1067,7 @@ def analyse_view(request):
     today = date.today()
     six_months_ago = today - timedelta(days=180)
     six_month_appointments = Appointment.objects.filter(date__gte=six_months_ago).count()
-    
+
     # Other statistics can be added here as necessary (e.g., user registration growth)
 
     context = {
