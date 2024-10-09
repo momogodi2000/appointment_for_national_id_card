@@ -31,7 +31,7 @@ urlpatterns = [
     path('security-settings/', views.security_settings, name='security_settings'),
     path('insert_missing_id_card/', views.insert_missing_id_card, name='insert_missing_id_card'),
     path('contact-us/', views.contact_us, name='contact_us'),
-    path('user-communication/', views.user_communications, name="user_communications"),
+
     path('history/', login_required(history), name='history'),
     path('about/', about, name='about'),
     path('support_discussion/', views.support_discussion, name='support_discussion'),
@@ -53,19 +53,17 @@ urlpatterns = [
     path('police/manage-appointments/', views.manage_appointments, name='manage_appointments'),
     path('panel/admin/manage-appointments/', views.admin_manage_appointments, name='admin_manage_appointments'),
     path('police/user-information/', views.user_information, name='user_information'),
-    path('view-docs/<int:user_id>/', views.get_documents, name='view_docs'),
+    path('view-docs/<int:id>/', views.get_documents, name='view_docs'),
     path('edit-appointment/<int:pk>/', views.edit_appointment, name='edit_appointment'),
     path('approve-appointment/<int:pk>/', views.approve_appointment, name='approve_appointment'),
     path('delete-appointment/<int:pk>/', views.delete_appointment, name='delete_appointment'),
     path('edit-user/<int:pk>/', views.edit_user, name='edit_user'),
     path('delete-user/<int:pk>/', views.delete_user, name='delete_user'),
     path('notifications/', views.notifications, name='notifications'),
-    path('communication/', views.communications, name="communications"),
-    path('communication-form/', views.communication_form, name="communication_form"),
+
     path('card_status/', views.card_status, name="card_status"),
     path('edit_card_status/<int:id>/', views.edit_card_status, name="edit_card_status"),
-    path("edit-communication/<int:id>", views.edit_communication, name="edit_communication"),
-    path("delete-communication/<int:id>", views.delete_communication, name="delete_communication"),
+ 
     path('manage_contact/', views.manage_contact, name='manage_contact'),
     path('reply_contact/', views.reply_contact, name='reply_contact'),
     path('delete_contact/<int:contact_id>/', views.delete_contact, name='delete_contact'),
@@ -93,4 +91,16 @@ urlpatterns = [
     path('analyse/', views.analyse_view, name='analyse'),
 
    
+
+    path('post/', views.post_communication, name='post_communication'),
+    path('view/', views.view_communications, name='view_communications'),
+    path('edit/<int:pk>/', views.edit_communication, name='edit_communication'),
+    path('delete/<int:pk>/', views.delete_communication, name='delete_communication'),
+
+    path('communications/', views.communication_list, name='communication_list'),
+    path('download/<int:communication_id>/', views.download_communication, name='download_communication'),
+    path('communication/<int:communication_id>/', views.communication_detail, name='communication_detail'),
+
+
+
 ]

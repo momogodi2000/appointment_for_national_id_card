@@ -6,139 +6,167 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Admin Panel{% endblock %}</title>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{% static 'css/momo.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Animation library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 
-    <style>
-        .profile-pic {
-            width: 50px;  /* Adjust as needed */
-            height: 50px; /* Adjust as needed */
-            border-radius: 50%; /* Circular image */
-            margin-right: 10px; /* Space between the image and text */
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {"50":"#eff6ff","100":"#dbeafe","200":"#bfdbfe","300":"#93c5fd","400":"#60a5fa","500":"#3b82f6","600":"#2563eb","700":"#1d4ed8","800":"#1e40af","900":"#1e3a8a","950":"#172554"}
+                    }
+                },
+                fontFamily: {
+                    'body': [
+                        'Inter', 
+                        'ui-sans-serif', 
+                        'system-ui', 
+                        '-apple-system', 
+                        'system-ui', 
+                        'Segoe UI', 
+                        'Roboto', 
+                        'Helvetica Neue', 
+                        'Arial', 
+                        'Noto Sans', 
+                        'sans-serif', 
+                        'Apple Color Emoji', 
+                        'Segoe UI Emoji', 
+                        'Segoe UI Symbol', 
+                        'Noto Color Emoji'
+                    ],
+                    'sans': [
+                        'Inter', 
+                        'ui-sans-serif', 
+                        'system-ui', 
+                        '-apple-system', 
+                        'system-ui', 
+                        'Segoe UI', 
+                        'Roboto', 
+                        'Helvetica Neue', 
+                        'Arial', 
+                        'Noto Sans', 
+                        'sans-serif', 
+                        'Apple Color Emoji', 
+                        'Segoe UI Emoji', 
+                        'Segoe UI Symbol', 
+                        'Noto Color Emoji'
+                    ]
+                }
+            }
         }
-        .header-icons {
-            display: flex;
-            align-items: center;
-        }
-        .header-icons .icon {
-            margin-left: 15px;
-            cursor: pointer;
-            font-size: 1.5rem;
-        }
-        .search-bar {
-            margin-left: auto;
-            display: flex;
-            align-items: center;
-        }
-        .search-bar input {
-            border-radius: 20px;
-            border: 1px solid #ced4da;
-            padding: 5px 15px;
-            width: 200px;
-        }
-        /* Light Theme */
-body.light-theme {
-    background-color: #ffffff;
-    color: #000000;
-}
-
-/* Dark Theme */
-body.dark-theme {
-    background-color: #333333;
-    color: #ffffff;
-}
-    </style>
+    </script>
 </head>
-<body>
-    <div class="dashboard">
-        <div class="dashboard-nav">
-            <header>
-                <a href="{% url 'admin_panel' %}" class="brand-logo animate__animated animate__fadeInLeft">
-                    {% if user.profile_picture %}
-                        <img src="{{ user.profile_picture.url }}" alt="{{ user.username }}'s profile picture" class="profile-pic" />
-                    {% else %}
-                        <img src="{% static 'img/yvan.jpg' %}" alt="Default Avatar" class="profile-pic" />
-                    {% endif %}
-                    <span>{{ user.username }}'s Panel</span>
-                </a>
-            </header>
-            <nav class="dashboard-nav-list">
-                <a href="{% url 'admin_panel' %}" class="dashboard-nav-item"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-                <a href="{% url 'manage_users' %}" class="dashboard-nav-item"><i class="fas fa-users-cog"></i> Manage Users</a>
-                <a href="{% url 'manage_documents' %}" class="dashboard-nav-item"><i class="fas fa-file-upload"></i> Manage Documents</a>
-                <a href="{% url 'contact_messages' %}" class="dashboard-nav-item"><i class="fas fa-envelope"></i> Manage Contact</a>
-                <a href="{% url 'analyse' %}" class="dashboard-nav-item"><i class="fas fa-chart-pie"></i> Analyze</a>
-                <a href="{% url 'admin_communications' %}" class="dashboard-nav-item"><i class="fas fa-comments"></i> Communications</a>
-                <a href="{% url 'map' %}" class="dashboard-nav-item"><i class="fas fa-map-marker-alt"></i> Map</a>
-                <a href="{% url 'about_us' %}" class="dashboard-nav-item"><i class="fas fa-info-circle"></i> About Us</a>
-                <a href="#" class="dashboard-nav-item"><i class="fas fa-cogs"></i> General Settings</a>
-                <a href="{% url 'logout' %}" class="dashboard-nav-item"><i class="fas fa-sign-out-alt"></i> Logout</a>
-            </nav>
-        </div>
-        <main class="dashboard-app">
-            <header class="dashboard-toolbar">
-                <a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a>
-                <div class="header-icons">
-                    <i class="fas fa-globe icon" title="Change Language" onclick="toggleLanguage()"></i>
-                    <i class="fas fa-paint-brush icon" title="Change Theme" onclick="toggleTheme()"></i>
-                    <div class="search-bar">
-                        <input type="text" placeholder="Search..." aria-label="Search" />
-                        <button class="btn btn-outline-secondary" type="button"><i class="fas fa-search"></i></button>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300 ease-in-out">
+    <div class="flex h-screen bg-gray-50 dark:bg-gray-900">
+        <!-- Sidebar -->
+        <aside class="w-64 hidden md:block bg-white dark:bg-gray-800 shadow-lg transition-all duration-300 ease-in-out" id="sidebar">
+            <div class="flex flex-col h-full">
+                <div class="flex items-center justify-center h-16 bg-primary-600 dark:bg-primary-800">
+                    <a href="{% url 'admin_panel' %}" class="flex items-center space-x-2 text-white">
+                        <img src="{% if user.profile_picture %}{{ user.profile_picture.url }}{% else %}{% static 'img/yvan.jpg' %}{% endif %}" alt="{{ user.username }}'s profile picture" class="w-10 h-10 rounded-full border-2 border-white" />
+                        <span class="text-lg font-semibold">{{ user.username }}'s Panel</span>
+                    </a>
+                </div>
+                <nav class="flex-grow py-4">
+                    <a href="{% url 'admin_panel' %}" class="flex items-center py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"><i class="fas fa-tachometer-alt mr-3 text-primary-500"></i>Dashboard</a>
+                    <a href="{% url 'manage_users' %}" class="flex items-center py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"><i class="fas fa-users-cog mr-3 text-primary-500"></i>Manage Users</a>
+                    <a href="{% url 'manage_documents' %}" class="flex items-center py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"><i class="fas fa-file-upload mr-3 text-primary-500"></i>Manage Documents</a>
+                    <a href="{% url 'contact_messages' %}" class="flex items-center py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"><i class="fas fa-envelope mr-3 text-primary-500"></i>Manage Contact</a>
+                    <a href="{% url 'analyse' %}" class="flex items-center py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"><i class="fas fa-chart-pie mr-3 text-primary-500"></i>Analyze</a>
+                    <a href="{% url 'admin_communications' %}" class="flex items-center py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"><i class="fas fa-comments mr-3 text-primary-500"></i>Communications</a>
+                    <a href="{% url 'map' %}" class="flex items-center py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"><i class="fas fa-map-marker-alt mr-3 text-primary-500"></i>Map</a>
+                    <a href="{% url 'about_us' %}" class="flex items-center py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"><i class="fas fa-info-circle mr-3 text-primary-500"></i>About Us</a>
+                    <a href="#" class="flex items-center py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"><i class="fas fa-cogs mr-3 text-primary-500"></i>General Settings</a>
+                    <a href="{% url 'logout' %}" class="flex items-center py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"><i class="fas fa-sign-out-alt mr-3 text-primary-500"></i>Logout</a>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Top Navbar -->
+            <header class="bg-white dark:bg-gray-800 shadow-md z-10">
+                <div class="container mx-auto px-4 py-3">
+                    <div class="flex items-center justify-between">
+                        <button id="sidebar-toggle" class="text-gray-500 focus:outline-none lg:hidden">
+                            <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M4 6H20M4 12H20M4 18H11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <div class="relative flex-1 max-w-xl mx-4">
+                            <input type="text" class="w-full bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full py-2 px-4 pl-10 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all duration-300" placeholder="Search...">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg class="h-5 w-5 text-gray-500" viewBox="0 0 24 24" fill="none">
+                                    <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <button onclick="toggleLanguage()" class="text-gray-500 hover:text-gray-600 focus:outline-none mr-4 transition-colors duration-200">
+                                <i class="fas fa-globe"></i>
+                            </button>
+                            <button onclick="toggleTheme()" class="text-gray-500 hover:text-gray-600 focus:outline-none transition-colors duration-200">
+                                <i class="fas fa-moon"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </header>
-            
-            <div class="dashboard-content">
-                <div class="container">
+
+            <!-- Page Content -->
+            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
+                <div class="container mx-auto px-6 py-8">
                     {% block content %}{% endblock %}
                 </div>
-            </div>
-        </main>
+            </main>
+        </div>
     </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <!-- Custom JavaScript -->
-    <script src="{% static 'js/momo.js' %}"></script>
     <script>
-        let currentLanguage = 'en'; // Default language
-        let currentTheme = 'light';  // Default theme
+        let currentLanguage = 'en';
+        let currentTheme = 'light';
         
         function toggleLanguage() {
-            if (currentLanguage === 'en') {
-                currentLanguage = 'fr';
-                // Change language in your application
-                document.body.setAttribute('lang', 'fr');
-                // Optionally, update text content or reload page with new language
-            } else {
-                currentLanguage = 'en';
-                document.body.setAttribute('lang', 'en');
-            }
-            // Here you can trigger a refresh or update the text dynamically
+            currentLanguage = currentLanguage === 'en' ? 'fr' : 'en';
+            document.documentElement.lang = currentLanguage;
+            // Here you would update your app's language
+            document.querySelector('button[onclick="toggleLanguage()"] i').classList.add('animate__animated', 'animate__flipInY');
+            setTimeout(() => {
+                document.querySelector('button[onclick="toggleLanguage()"] i').classList.remove('animate__animated', 'animate__flipInY');
+            }, 1000);
         }
         
         function toggleTheme() {
-            if (currentTheme === 'light') {
-                currentTheme = 'dark';
-                document.body.classList.add('dark-theme');
-                document.body.classList.remove('light-theme');
-            } else {
-                currentTheme = 'light';
-                document.body.classList.add('light-theme');
-                document.body.classList.remove('dark-theme');
-            }
+            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.classList.toggle('dark');
+            document.querySelector('button[onclick="toggleTheme()"] i').classList.toggle('fa-moon');
+            document.querySelector('button[onclick="toggleTheme()"] i').classList.toggle('fa-sun');
+            document.querySelector('button[onclick="toggleTheme()"] i').classList.add('animate__animated', 'animate__rotateIn');
+            setTimeout(() => {
+                document.querySelector('button[onclick="toggleTheme()"] i').classList.remove('animate__animated', 'animate__rotateIn');
+            }, 1000);
         }
         
-        // Apply initial theme class
-        document.addEventListener('DOMContentLoaded', () => {
-            document.body.classList.add(currentTheme === 'light' ? 'light-theme' : 'dark-theme');
+        // Apply initial theme
+        if (currentTheme === 'dark' || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            document.querySelector('button[onclick="toggleTheme()"] i').classList.remove('fa-moon');
+            document.querySelector('button[onclick="toggleTheme()"] i').classList.add('fa-sun');
+        }
+
+        // Sidebar toggle for mobile
+        document.getElementById('sidebar-toggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('hidden');
+            document.getElementById('sidebar').classList.toggle('animate__animated');
+            document.getElementById('sidebar').classList.toggle('animate__slideInLeft');
         });
-        </script>
+    </script>
 </body>
 </html>

@@ -1,0 +1,24 @@
+{% extends 'panel/base_page/base.html' %}
+{% load static %}
+
+{% block title %}
+Communication Detail
+{% endblock %}
+
+{% block styles %}
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container mx-auto p-6">
+    <h1 class="text-3xl font-bold mb-6 text-gray-800">{{ communication.title }}</h1>
+    <div class="mb-4">
+        <img src="{{ communication.photo.url }}" alt="{{ communication.title }}" class="rounded shadow-md">
+    </div>
+    <p class="text-gray-700"><strong>Date:</strong> {{ communication.date|date:"Y-m-d H:i" }}</p>
+    <p class="text-gray-700"><strong>Description:</strong> {{ communication.description }}</p>
+    <a href="{% url 'communication_list' %}" class="mt-4 inline-block bg-gray-300 text-gray-700 rounded-lg px-4 py-2 hover:bg-gray-400 transition-colors">
+        Back to Communications
+    </a>
+</div>
+{% endblock %}

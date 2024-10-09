@@ -2,37 +2,40 @@
 {% load static %}
 
 {% block content %}
-<div class="container">
-    <h2>Book Appointment</h2>
+<div class="container mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+    <h2 class="text-3xl font-bold mb-6">Book Appointment</h2>
     <form id="appointmentForm" method="post">
         {% csrf_token %}
-        <div class="form-group">
-            <label for="datepicker">Select Appointment Date:</label>
-            <input type="date" id="datepicker" name="date" class="form-control" required>
+        <div class="mb-4">
+            <label for="datepicker" class="block text-gray-700 font-semibold mb-2">Select Appointment Date:</label>
+            <input type="date" id="datepicker" name="date" class="border border-gray-300 rounded-md p-2 w-full" required>
         </div>
-        <!-- <button type="submit" class="btn btn-primary">Book Appointment</button> -->
-        <button id="form-btn" type="submit" class="btn btn-primary">
-            Book Appointment</button>
+        <div class="mb-4">
+            <label for="timepicker" class="block text-gray-700 font-semibold mb-2">Select Appointment Time:</label>
+            <input type="time" id="timepicker" name="time" class="border border-gray-300 rounded-md p-2 w-full" required>
+        </div>
+        <div class="mb-4">
+            <input type="text" hidden id="document" name="document" value="{{document}}" class="border border-gray-300 rounded-md p-2 w-full">
+        </div>
+        <button id="form-btn" type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition duration-200">
+            Book Appointment
+        </button>
     </form>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
-    // JavaScript code for datepicker initialization and form submission handling
     $(document).ready(function() {
         $('#appointmentForm').on('submit', function(event) {
             event.preventDefault();
             var formData = $(this).serialize();
-            console.log("form");
             $.ajax({
                 url: "{% url 'book_appointment' %}",
                 type: "POST",
                 data: formData,
                 success: function(response) {
                     alert('Appointment booked successfully!');
-                    // Optionally redirect to another page or perform other actions
-                    window.location.href = "{% url 'payment_page' %}"
+                    window.location.href = "{% url 'payment_page' %}";
                 },
                 error: function(xhr, status, error) {
                     alert('Error booking appointment. Please try again.');

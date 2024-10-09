@@ -4,82 +4,39 @@
 
 {% block title %}Appointment History{% endblock %}
 
-{% block styles %}
-    <style>
-        .appointment-history {
-            margin: 20px auto;
-            width: 80%;
-            background-color: #f9f9f9;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .appointment-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-
-        .appointment-table th, .appointment-table td {
-            padding: 12px;
-            border: 1px solid #ddd;
-            text-align: center;
-        }
-
-        .appointment-table th {
-            background-color: #007bff;
-            color: white;
-        }
-
-        .btn-view-receipt {
-            background-color: #28a745;
-            color: white;
-            padding: 5px 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .btn-view-receipt:hover {
-            background-color: #218838;
-        }
-    </style>
-{% endblock %}
-
 {% block content %}
-<div class="appointment-history animate__animated animate__fadeInUp">
-    <h1>Appointment History</h1>
+<div class="container mx-auto p-6 mt-10 bg-white rounded-lg shadow-md animate__animated animate__fadeInUp">
+    <h1 class="text-2xl font-bold mb-4">Appointment History</h1>
     
-    <table class="table appointment-table">
-        <thead>
+    <table class="min-w-full border-collapse bg-gray-100">
+        <thead class="bg-blue-600 text-white">
             <tr>
-                <th>Appointment Date</th>
-                <th>Time</th>
-                <th>Office</th>
-                <th>Status</th>
-                <th>Card Status</th>
-                <th>Paid</th>
-                <th>Receipt</th>
+                <th class="py-2 px-4 border">Appointment Date</th>
+                <th class="py-2 px-4 border">Time</th>
+                <th class="py-2 px-4 border">Office</th>
+                <th class="py-2 px-4 border">Status</th>
+                <th class="py-2 px-4 border">Card Status</th>
+                <th class="py-2 px-4 border">Paid</th>
+                <th class="py-2 px-4 border">Receipt</th>
             </tr>
         </thead>
         <tbody>
             {% for appointment in appointments %}
-                <tr>
-                    <td>{{ appointment.date }}</td>
-                    <td>{{ appointment.time }}</td>
-                    <td>{{ appointment.office.name }}</td>
-                    <td>{{ appointment.get_status_display }}</td>
-                    <td>{{ appointment.get_card_status_display }}</td>
-                    <td>{{ appointment.paid|yesno:"Yes,No" }}</td>
-                    <td>
+                <tr class="hover:bg-gray-50">
+                    <td class="py-2 px-4 border">{{ appointment.date }}</td>
+                    <td class="py-2 px-4 border">{{ appointment.time }}</td>
+                    <td class="py-2 px-4 border">{{ appointment.office.name }}</td>
+                    <td class="py-2 px-4 border">{{ appointment.get_status_display }}</td>
+                    <td class="py-2 px-4 border">{{ appointment.get_card_status_display }}</td>
+                    <td class="py-2 px-4 border">{{ appointment.paid|yesno:"Yes,No" }}</td>
+                    <td class="py-2 px-4 border">
                         {% if appointment.paid %}
-                            <form action="{% url 'download_receipt' appointment.id %}" method="post">
+                            <form action="{% url 'download_receipt' appointment.id %}" method="post" class="inline">
                                 {% csrf_token %}
-                                <button class="btn btn-view-receipt" type="submit">View Receipt</button>
+                                <button type="submit" class="bg-green-600 text-white py-1 px-3 rounded hover:bg-green-700 transition">View Receipt</button>
                             </form>
                         {% else %}
-                            Not Available
+                            <span class="text-gray-500">Not Available</span>
                         {% endif %}
                     </td>
                 </tr>

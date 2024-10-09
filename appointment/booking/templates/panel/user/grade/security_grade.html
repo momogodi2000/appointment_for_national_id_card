@@ -6,113 +6,121 @@
 {% endblock %}
 
 {% block styles %}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/grade.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
-<div class="container my-4">
+<div class="container mx-auto my-4">
 
-    <h1 class="my-4 text-center">Cameroon Police Officer Grades</h1>
-    <div class="row">
+    <h1 class="my-4 text-3xl font-bold text-center">Cameroon Police Officer Grades</h1>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <!-- Example of a police corps card -->
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <img src="{% static 'img/national_police.jpeg' %}" class="card-img-top" alt="National Police">
-                <div class="card-body">
-                    <h5 class="card-title">National Police</h5>
-                    <p class="card-text">The National Police is responsible for maintaining public order and safety in urban areas.</p>
-                    <a href="{% url 'view_detail' grade='national_police' %}" class="btn btn-primary">View Details</a>
+        <div class="mb-4">
+            <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                <img src="{% static 'img/national_police.jpeg' %}" class="w-full h-48 object-cover" alt="National Police">
+                <div class="p-4">
+                    <h5 class="text-xl font-semibold">National Police</h5>
+                    <p class="text-gray-600">The National Police is responsible for maintaining public order and safety in urban areas.</p>
+                    <a href="{% url 'view_detail' grade='national_police' %}" class="mt-2 inline-block bg-blue-500 text-white font-semibold py-2 px-4 rounded">View Details</a>
                 </div>
             </div>
         </div>
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <img src="{% static 'img/judicial_police.jpeg' %}" class="card-img-top" alt="Judicial Police">
-                <div class="card-body">
-                    <h5 class="card-title">Judicial Police</h5>
-                    <p class="card-text">The Judicial Police handles criminal investigations and supports the judicial system.</p>
-                    <a href="{% url 'view_detail' grade='judicial_police' %}" class="btn btn-primary">View Details</a>
+        
+        <div class="mb-4">
+            <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                <img src="{% static 'img/judicial_police.jpeg' %}" class="w-full h-48 object-cover" alt="Judicial Police">
+                <div class="p-4">
+                    <h5 class="text-xl font-semibold">Judicial Police</h5>
+                    <p class="text-gray-600">The Judicial Police handles criminal investigations and supports the judicial system.</p>
+                    <a href="{% url 'view_detail' grade='judicial_police' %}" class="mt-2 inline-block bg-blue-500 text-white font-semibold py-2 px-4 rounded">View Details</a>
                 </div>
             </div>
         </div>
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <img src="{% static 'img/gendarmerie.jpeg' %}" class="card-img-top" alt="National Gendarmerie">
-                <div class="card-body">
-                    <h5 class="card-title">National Gendarmerie</h5>
-                    <p class="card-text">A paramilitary force with both military and police duties, operating in rural areas and along borders.</p>
-                    <a href="{% url 'view_detail' grade='gendarmerie' %}" class="btn btn-primary">View Details</a>
+
+        <div class="mb-4">
+            <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                <img src="{% static 'img/gendarmerie.jpeg' %}" class="w-full h-48 object-cover" alt="National Gendarmerie">
+                <div class="p-4">
+                    <h5 class="text-xl font-semibold">National Gendarmerie</h5>
+                    <p class="text-gray-600">A paramilitary force with both military and police duties, operating in rural areas and along borders.</p>
+                    <a href="{% url 'view_detail' grade='gendarmerie' %}" class="mt-2 inline-block bg-blue-500 text-white font-semibold py-2 px-4 rounded">View Details</a>
                 </div>
             </div>
         </div>
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <img src="{% static 'img/assistant.jpeg' %}" class="card-img-top" alt="Assistant Police">
-                <div class="card-body">
-                    <h5 class="card-title">Assistant Police</h5>
-                    <p class="card-text">Supervises a team of Police Officers.</p>
-                    <a href="{% url 'view_detail' grade='assistant' %}" class="btn btn-primary">View Details</a>
+
+        <div class="mb-4">
+            <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                <img src="{% static 'img/assistant.jpeg' %}" class="w-full h-48 object-cover" alt="Assistant Police">
+                <div class="p-4">
+                    <h5 class="text-xl font-semibold">Assistant Police</h5>
+                    <p class="text-gray-600">Supervises a team of Police Officers.</p>
+                    <a href="{% url 'view_detail' grade='assistant' %}" class="mt-2 inline-block bg-blue-500 text-white font-semibold py-2 px-4 rounded">View Details</a>
                 </div>
             </div>
         </div>
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <img src="{% static 'img/Sergeant.jpeg' %}" class="card-img-top" alt="Sergeant">
-                <div class="card-body">
-                    <h5 class="card-title">Sergeant</h5>
-                    <p class="card-text">Lads a larger team and provides tactical leadership.</p>
-                    <a href="{% url 'view_detail' grade='sergeant' %}" class="btn btn-primary">View Details</a>
+
+        <div class="mb-4">
+            <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                <img src="{% static 'img/Sergeant.jpeg' %}" class="w-full h-48 object-cover" alt="Sergeant">
+                <div class="p-4">
+                    <h5 class="text-xl font-semibold">Sergeant</h5>
+                    <p class="text-gray-600">Leads a larger team and provides tactical leadership.</p>
+                    <a href="{% url 'view_detail' grade='sergeant' %}" class="mt-2 inline-block bg-blue-500 text-white font-semibold py-2 px-4 rounded">View Details</a>
                 </div>
             </div>
         </div>
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <img src="{% static 'img/ip.jpeg' %}" class="card-img-top" alt="Inspector">
-                <div class="card-body">
-                    <h5 class="card-title">Inspector</h5>
-                    <p class="card-text">Investigates crimes, supervises lower ranks, and manages specific units.</p>
-                    <a href="{% url 'view_detail' grade='Inspector' %}" class="btn btn-primary">View Details</a>
+
+        <div class="mb-4">
+            <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                <img src="{% static 'img/ip.jpeg' %}" class="w-full h-48 object-cover" alt="Inspector">
+                <div class="p-4">
+                    <h5 class="text-xl font-semibold">Inspector</h5>
+                    <p class="text-gray-600">Investigates crimes, supervises lower ranks, and manages specific units.</p>
+                    <a href="{% url 'view_detail' grade='Inspector' %}" class="mt-2 inline-block bg-blue-500 text-white font-semibold py-2 px-4 rounded">View Details</a>
                 </div>
             </div>
         </div>
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <img src="{% static 'img/so.jpeg' %}" class="card-img-top" alt="Senior Inspector">
-                <div class="card-body">
-                    <h5 class="card-title">Senior Inspector</h5>
-                    <p class="card-text">Leads investigations, manages units, and reports to commissioned officers.</p>
-                    <a href="{% url 'view_detail' grade='senior_inspector' %}" class="btn btn-primary">View Details</a>
+
+        <div class="mb-4">
+            <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                <img src="{% static 'img/so.jpeg' %}" class="w-full h-48 object-cover" alt="Senior Inspector">
+                <div class="p-4">
+                    <h5 class="text-xl font-semibold">Senior Inspector</h5>
+                    <p class="text-gray-600">Leads investigations, manages units, and reports to commissioned officers.</p>
+                    <a href="{% url 'view_detail' grade='senior_inspector' %}" class="mt-2 inline-block bg-blue-500 text-white font-semibold py-2 px-4 rounded">View Details</a>
                 </div>
             </div>
         </div>
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <img src="{% static 'img/police2.jpeg' %}" class="card-img-top" alt="Police Officer">
-                <div class="card-body">
-                    <h5 class="card-title">Police Officer</h5>
-                    <p class="card-text">Holds a leadership position such as company commander or station chief.</p>
-                    <a href="{% url 'view_detail' grade='police_officer' %}" class="btn btn-primary">View Details</a>
+
+        <div class="mb-4">
+            <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                <img src="{% static 'img/police2.jpeg' %}" class="w-full h-48 object-cover" alt="Police Officer">
+                <div class="p-4">
+                    <h5 class="text-xl font-semibold">Police Officer</h5>
+                    <p class="text-gray-600">Holds a leadership position such as company commander or station chief.</p>
+                    <a href="{% url 'view_detail' grade='police_officer' %}" class="mt-2 inline-block bg-blue-500 text-white font-semibold py-2 px-4 rounded">View Details</a>
                 </div>
             </div>
         </div>
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <img src="{% static 'img/tenue.jpeg' %}" class="card-img-top" alt="Commissioner">
-                <div class="card-body">
-                    <h5 class="card-title">Commissioner</h5>
-                    <p class="card-text">Oversees larger units such as districts or departments.</p>
-                    <a href="{% url 'view_detail' grade='commissioner' %}" class="btn btn-primary">View Details</a>
+
+        <div class="mb-4">
+            <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                <img src="{% static 'img/tenue.jpeg' %}" class="w-full h-48 object-cover" alt="Commissioner">
+                <div class="p-4">
+                    <h5 class="text-xl font-semibold">Commissioner</h5>
+                    <p class="text-gray-600">Oversees larger units such as districts or departments.</p>
+                    <a href="{% url 'view_detail' grade='commissioner' %}" class="mt-2 inline-block bg-blue-500 text-white font-semibold py-2 px-4 rounded">View Details</a>
                 </div>
             </div>
         </div>
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <img src="{% static 'img/cyber.jpeg' %}" class="card-img-top" alt="General Inspector">
-                <div class="card-body">
-                    <h5 class="card-title">General Inspector</h5>
-                    <p class="card-text">Highest rank in the National Police, responsible for national security operations.</p>
-                    <a href="{% url 'view_detail' grade='general_inspector' %}" class="btn btn-primary">View Details</a>
+
+        <div class="mb-4">
+            <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                <img src="{% static 'img/cyber.jpeg' %}" class="w-full h-48 object-cover" alt="General Inspector">
+                <div class="p-4">
+                    <h5 class="text-xl font-semibold">General Inspector</h5>
+                    <p class="text-gray-600">Highest rank in the National Police, responsible for national security operations.</p>
+                    <a href="{% url 'view_detail' grade='general_inspector' %}" class="mt-2 inline-block bg-blue-500 text-white font-semibold py-2 px-4 rounded">View Details</a>
                 </div>
             </div>
         </div>
@@ -121,13 +129,12 @@
 {% endblock %}
 
 {% block scripts %}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Police Officer Grades page JavaScript
 
         // Animate the corps cards on page load
         document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.card').forEach(function(card) {
+            document.querySelectorAll('.shadow-md').forEach(function(card) {
                 card.classList.add('animate__animated', 'animate__fadeInUp');
             });
         });

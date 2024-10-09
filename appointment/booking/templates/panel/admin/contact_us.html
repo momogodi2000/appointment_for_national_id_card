@@ -1,27 +1,26 @@
-{% extends 'panel/admin/base_admin.html' %}
+{% extends 'panel/base_page/base_admin.html' %}
+
 {% block content %}
-<h1>All contact us messages</h1>
-<div class="table-responsive">
-    <table class="table table-striped">
+<h1 class="text-3xl font-bold mb-6">All Contact Us Messages</h1>
+<div class="overflow-x-auto">
+    <table class="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
         <thead>
-            <tr>
-                <th>Message ID</th>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Message</th>
+            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                <th class="py-3 px-4 border-b">Message ID</th>
+                <th class="py-3 px-4 border-b">Username</th>
+                <th class="py-3 px-4 border-b">Email</th>
+                <th class="py-3 px-4 border-b">Message</th>
             </tr>
         </thead>
-        <tbody>
-            <tbody>
-                {% for appointment in contact %}
-                <tr>
-                    <td>{{ appointment.id }}</td>
-                    <td>{{ appointment.name }}</td>
-                    <td>{{ appointment.email }}</td>
-                    <td>{{ appointment.message }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
+        <tbody class="text-gray-600 text-sm font-light">
+            {% for appointment in contact %}
+            <tr class="hover:bg-gray-100 border-b border-gray-300">
+                <td class="py-3 px-4">{{ appointment.id }}</td>
+                <td class="py-3 px-4">{{ appointment.name }}</td>
+                <td class="py-3 px-4">{{ appointment.email }}</td>
+                <td class="py-3 px-4">{{ appointment.message }}</td>
+            </tr>
+            {% endfor %}
         </tbody>
     </table>
 </div>

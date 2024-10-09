@@ -1,129 +1,172 @@
-<!-- base.html -->
 {% load static %}
+
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Home{% endblock %}</title>
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-    <!-- Font Awesome CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-
-    <!-- Animate CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-
-    <!-- Your custom CSS -->
-    <link rel="stylesheet" href="{% static 'css/base.css' %}">
-    <style>
-        .dashboard-nav {
-            width: 250px;
-            background-color: #f8f9fa;
-            transition: transform 0.3s ease;
-            position: fixed;
-            height: 100%;
-            overflow: auto;
-            transform: translateX(-100%);
-        }
-        .dashboard-nav.active {
-            transform: translateX(0);
-        }
-        .dashboard-nav-item {
-            padding: 15px;
-        }
-        .dashboard-toolbar {
-            padding: 10px;
-            background-color: #343a40;
-            color: white;
-        }
-        .menu-toggle {
-            color: white;
-            cursor: pointer;
-        }
-        .dashboard-app {
-            flex-grow: 1;
-            margin-left: 250px; /* Adjust for sidebar width */
-            transition: margin-left 0.3s ease;
-        }
-        .dashboard-app.active {
-            margin-left: 0;
-        }
-        @media (max-width: 767px) {
-            .dashboard-nav {
-                width: 200px;
-            }
-            .dashboard-app {
-                margin-left: 0;
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {"50":"#eff6ff","100":"#dbeafe","200":"#bfdbfe","300":"#93c5fd","400":"#60a5fa","500":"#3b82f6","600":"#2563eb","700":"#1d4ed8","800":"#1e40af","900":"#1e3a8a","950":"#172554"}
+                    }
+                },
+                fontFamily: {
+                    'body': [
+                        'Inter', 
+                        'ui-sans-serif', 
+                        'system-ui', 
+                        '-apple-system', 
+                        'system-ui', 
+                        'Segoe UI', 
+                        'Roboto', 
+                        'Helvetica Neue', 
+                        'Arial', 
+                        'Noto Sans', 
+                        'sans-serif', 
+                        'Apple Color Emoji', 
+                        'Segoe UI Emoji', 
+                        'Segoe UI Symbol', 
+                        'Noto Color Emoji'
+                    ],
+                    'sans': [
+                        'Inter', 
+                        'ui-sans-serif', 
+                        'system-ui', 
+                        '-apple-system', 
+                        'system-ui', 
+                        'Segoe UI', 
+                        'Roboto', 
+                        'Helvetica Neue', 
+                        'Arial', 
+                        'Noto Sans', 
+                        'sans-serif', 
+                        'Apple Color Emoji', 
+                        'Segoe UI Emoji', 
+                        'Segoe UI Symbol', 
+                        'Noto Color Emoji'
+                    ]
+                }
             }
         }
-    </style>
+    </script>
 </head>
-
-<body>
-    <!-- Sidebar and Main Content -->
-    <div class="d-flex">
-        <!-- Sidebar -->
-        <div class="dashboard-nav bg-light">
-            <header class="p-3">
-                <a href="{% url 'user_panel' %}" class="brand-logo animate__animated animate__fadeInLeft d-flex align-items-center">
-                    {% if user.profile_picture %}
-                        <img src="{{ user.profile_picture.url }}" alt="{{ user.username }}'s profile picture" class="profile-pic" />
-                    {% else %}
-                        <img src="{% static 'img/yvan.jpg' %}" alt="Default Avatar" class="profile-pic" />
-                    {% endif %}
-                    <span>{{ user.username }}'s Panel</span>
-                </a>
-            </header>
-            <nav class="dashboard-nav-list list-group list-group-flush">
-                <a href="{% url 'user_panel' %}" class="dashboard-nav-item active"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-                <a href="{% url 'profile_user' %}" class="dashboard-nav-item"><i class="fas fa-user-circle"></i> Profile Overview</a>
-                <a href="{% url 'upload_document' %}" class="list-group-item dashboard-nav-item"><i class="fas fa-upload"></i> Upload Documents</a>
-                <a href="{% url 'insert_missing_id_card' %}" class="list-group-item dashboard-nav-item"><i class="fas fa-id-badge"></i> Insert Missing ID Card</a>
-                <a href="{% url 'user_communications' %}" class="list-group-item dashboard-nav-item"><i class="fas fa-comments"></i> Communications</a>
-                <a href="{% url 'track_application' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-map-marker-alt"></i> Track Application</a>
-                <a href="{% url 'history' %}" class="list-group-item dashboard-nav-item"><i class="fas fa-history"></i> Benefits</a>
-                <a href="{% url 'about' %}" class="list-group-item dashboard-nav-item"><i class="fas fa-info-circle"></i> About Us</a>
-                <a href="{% url 'contact_us' %}" class="list-group-item dashboard-nav-item"><i class="fas fa-envelope"></i> Contact Us</a>
-                <a href="{% url 'security_settings' %}" class="list-group-item dashboard-nav-item"><i class="fas fa-user-lock"></i> Security Settings</a>
-                <a href="{% url 'support_discussion' %}" class="list-group-item dashboard-nav-item"><i class="fas fa-headset"></i> Support Discussion</a>
-                <a href="{% url 'security_grade' %}" class="list-group-item dashboard-nav-item"><i class="fas fa-user-lock"></i> Police Grade</a>
-                <a href="{% url 'appointment_history' %}" class="dashboard-nav-item animate__animated animate__fadeInLeft"><i class="fas fa-history"></i> Appointment history</a>
-                <a href="{% url 'logout' %}" class="list-group-item dashboard-nav-item"><i class="fas fa-sign-out-alt"></i> Logout</a>
-            </nav>
-        </div>
-        <main class="dashboard-app">
-            <header class="dashboard-toolbar">
-                <a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a>
-            </header>
-
-            <!-- Main Content -->
-            <div class="container mt-4 flex-grow-1">
-                {% block content %}
-                {% endblock %}
+<body class="bg-gray-50 dark:bg-gray-900">
+    <div class="antialiased bg-gray-50 dark:bg-gray-900">
+        <nav class="bg-white border-b border-gray-200 px-4 py-2.5 dark:bg-gray-800 dark:border-gray-700 fixed left-0 right-0 top-0 z-50">
+            <div class="flex flex-wrap justify-between items-center">
+                <div class="flex justify-start items-center">
+                    <button data-drawer-target="drawer-navigation" data-drawer-toggle="drawer-navigation" aria-controls="drawer-navigation" class="p-2 mr-2 text-gray-600 rounded-lg cursor-pointer md:hidden hover:text-gray-900 hover:bg-gray-100 focus:bg-gray-100 dark:focus:bg-gray-700 focus:ring-2 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                        <svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+                        </svg>
+                        <svg aria-hidden="true" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="sr-only">Toggle sidebar</span>
+                    </button>
+                    <a href="{% url 'user_panel' %}" class="flex items-center justify-between mr-4">
+                        <img src="{% if user.profile_picture %}{{ user.profile_picture.url }}{% else %}{% static 'img/yvan.jpg' %}{% endif %}" class="mr-3 h-8 rounded-full" alt="{{ user.username }}'s profile picture" />
+                        <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">{{ user.username }}'s Panel</span>
+                    </a>
+                </div>
+                <div class="flex items-center lg:order-2">
+                    <button type="button" class="flex mx-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="dropdown">
+                        <span class="sr-only">Open user menu</span>
+                        <img class="w-8 h-8 rounded-full" src="{% if user.profile_picture %}{{ user.profile_picture.url }}{% else %}{% static 'img/yvan.jpg' %}{% endif %}" alt="{{ user.username }}'s profile picture">
+                    </button>
+                    <!-- Dropdown menu -->
+                    <div class="hidden z-50 my-4 w-56 text-base list-none bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600" id="dropdown">
+                        <div class="py-3 px-4">
+                            <span class="block text-sm font-semibold text-gray-900 dark:text-white">{{ user.username }}</span>
+                            <span class="block text-sm text-gray-500 truncate dark:text-gray-400">{{ user.email }}</span>
+                        </div>
+                        <ul class="py-1 text-gray-500 dark:text-gray-400" aria-labelledby="dropdown">
+                            <li>
+                                <a href="{% url 'profile_user' %}" class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">My profile</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'security_settings' %}" class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Account settings</a>
+                            </li>
+                        </ul>
+                        <ul class="py-1 text-gray-500 dark:text-gray-400" aria-labelledby="dropdown">
+                            <li>
+                                <a href="{% url 'logout' %}" class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign out</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
+        </nav>
+
+        <!-- Sidebar -->
+        <aside id="drawer-navigation" class="fixed top-0 left-0 z-40 w-64 h-screen pt-14 transition-transform -translate-x-full bg-white border-r border-gray-200 md:translate-x-0 dark:bg-gray-800 dark:border-gray-700" aria-label="Sidenav">
+            <div class="overflow-y-auto py-5 px-3 h-full bg-white dark:bg-gray-800">
+                <ul class="space-y-2">
+                    <li>
+                        <a href="{% url 'user_panel' %}" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <i class="fas fa-tachometer-alt w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                            <span class="ml-3">Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'profile_user' %}" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <i class="fas fa-user-circle w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                            <span class="ml-3">Profile Overview</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'upload_document' %}" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <i class="fas fa-upload w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                            <span class="ml-3">Upload Documents</span>
+                        </a>
+                    </li>
+
+                        <a href="{% url 'insert_missing_id_card' %}" class="block py-2 px-4 rounded hover:bg-blue-700 transition-colors"><i class="fas fa-id-badge mr-2"></i> Insert Missing ID Card</a>
+                        <a href="{% url 'communication_list' %}" class="block py-2 px-4 rounded hover:bg-blue-700 transition-colors"><i class="fas fa-comments mr-2"></i> Communications</a>
+                        <a href="{% url 'track_application' %}" class="block py-2 px-4 rounded hover:bg-blue-700 transition-colors"><i class="fas fa-map-marker-alt mr-2"></i> Track Application</a>
+                        <a href="{% url 'history' %}" class="block py-2 px-4 rounded hover:bg-blue-700 transition-colors"><i class="fas fa-history mr-2"></i> Benefits</a>
+                        <a href="{% url 'support_discussion' %}" class="block py-2 px-4 rounded hover:bg-blue-700 transition-colors"><i class="fas fa-headset mr-2"></i> Support Discussion</a>
+                        <a href="{% url 'security_grade' %}" class="block py-2 px-4 rounded hover:bg-blue-700 transition-colors"><i class="fas fa-user-shield mr-2"></i> Police Grade</a>
+                        <a href="{% url 'appointment_history' %}" class="block py-2 px-4 rounded hover:bg-blue-700 transition-colors"><i class="fas fa-history mr-2"></i> Appointment History</a>
+                                            <!-- Add more menu items here -->
+                </ul>
+                <ul class="pt-5 mt-5 space-y-2 border-t border-gray-200 dark:border-gray-700">
+                    <li>
+                        <a href="{% url 'about' %}" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
+                            <i class="fas fa-info-circle w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                            <span class="ml-3">About Us</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'contact_us' %}" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
+                            <i class="fas fa-envelope w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                            <span class="ml-3">Contact Us</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'support_discussion' %}" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
+                            <i class="fas fa-headset w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                            <span class="ml-3">Support Discussion</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="p-4 md:ml-64 h-auto pt-20">
+            {% block content %}
+            {% endblock %}
         </main>
     </div>
 
-    <!-- Your custom JavaScript -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Toggle the sidebar
-        $(document).ready(function() {
-            $('.menu-toggle').on('click', function() {
-                $('.dashboard-nav').toggleClass('active');
-                $('.dashboard-app').toggleClass('active');
-            });
-        });
-        
-        // Animate the sidebar items on page load
-        $(window).on('load', function() {
-            $('.dashboard-nav-item').addClass('animate__animated animate__fadeInLeft');
-        });
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
 </body>
 </html>

@@ -336,6 +336,7 @@ def view_detail_admin(request, model_name):
         'data': data,
         'model_name': model_name,
     })
+
 #clients panel
 
 
@@ -346,7 +347,6 @@ def user_panel(request):
 
 @login_required
 def book_appointment(request):
-    print("post inner1")
     if request.method == 'POST':
         print(request.POST)
         print(request.user)
@@ -361,17 +361,22 @@ def book_appointment(request):
         date = request.POST.get('date')
         time = "8:00"
 
+        document = Document.objects.get(pk=request.POST['document'])
 
-        print(office)
         appointment = Appointment.objects.create(
             user=user,
             officer=officer,
             office=office,
             date=date,
             time=time,
+            document=document
         )
-
-        context = {}
+        
+        request.session["appointment"]= appointment.pk
+        context = {
+            'appointment': appointment.id
+        }
+        print(context)
         return render(request, 'panel/user/payment_page.html', context)
 
     else:
@@ -389,7 +394,7 @@ def upload_document(request):
             document.save()
             form = AppointmentForm()
 
-            return render(request, 'panel/user/book_appointment.html', {'form': form})
+            return render(request, 'panel/user/book_appointment.html', {'form': form, 'document': document.pk})
         else:
             return HttpResponse("Error uploading documents. Please try again.")
     else:
@@ -398,8 +403,8 @@ def upload_document(request):
 
 # @login_required
 
-def get_documents(request, user_id):
-    document_links = Document.objects.get(user=user_id)
+def get_documents(request, id):
+    document_links = Document.objects.get(pk=id)
     return render(request, "panel/police/view_docs.html", {"documents":document_links})
 
 def payment_page(request):
@@ -441,7 +446,8 @@ def payment_page(request):
             "description": "NATIONAL ID CARD FEES",
             "location": "Mendong"
             }
-            userAppointment = Appointment.objects.get(user=request.user.id)
+            print(request.session)
+            userAppointment = Appointment.objects.get(pk=request.session["appointment"])
             print(f"User appointments: {userAppointment}")
             userAppointment.paid = True
             userAppointment.save()
@@ -452,7 +458,7 @@ def payment_page(request):
             response.headers['Content-Type'] = 'application/pdf'
             return response
         else:
-            userAppointment = Appointment.objects.get(user=request.user.id)
+            userAppointment = Appointment.objects.get(pk=request.session["appointment"])
             userAppointment.paid = False
             userAppointment.save()
             if collect.get('reason'):
@@ -467,8 +473,7 @@ def payment_page(request):
                 return render(request, 'panel/user/payment_page.html', context)
 
     else:
-        context = {}
-        return render(request, 'panel/user/payment_page.html', context)
+        return render(request, 'panel/user/payment_page.html')
 
 @login_required
 def track_application(request):
@@ -640,9 +645,6 @@ def security_grade(request):
     return render(request, 'panel/user/grade/security_grade.html')
 
 
-
-
-
 def view_detail(request, grade):
     grades_info = {
       'national_police': {
@@ -705,7 +707,95 @@ def center(request):
     return render(request, 'panel/user/grade/center.html')
 
 
+import base64
+from .models import Communication
+import qrcode
+import io
+
+def communication_list(request):
+    communications = Communication.objects.all()
+    return render(request, 'panel/user/com/communications.html', {'communications': communications})
+
+def download_communication(request, communication_id):
+    communication = get_object_or_404(Communication, id=communication_id)
+    
+    # Create the QR code
+    qr_img = qrcode.make(f'Title: {communication.title}\nLocation: {communication.location}\nDate: {communication.date}\nDescription: {communication.description}')
+    qr_buffer = io.BytesIO()
+    qr_img.save(qr_buffer)
+    qr_buffer.seek(0)
+    
+    # Create the response with the communication's details
+    response = HttpResponse(content_type='application/pdf')  # Change this if your files are not PDF
+    response['Content-Disposition'] = f'attachment; filename="{communication.title}.pdf"'
+    
+    # You can use a library like ReportLab to generate a PDF with the details and QR code
+    # Here we'll just simulate that by writing a simple text response for now
+    response.write(f'Downloading communication: {communication.title}\n\n')
+    response.write(f'Date: {communication.date}\n')
+    response.write(f'Location: {communication.location}\n')
+    response.write(f'Description: {communication.description}\n')
+    
+    # Add the QR code image
+    response.write('<img src="data:image/png;base64,')
+    response.write(base64.b64encode(qr_buffer.getvalue()).decode())
+    response.write('" />')
+
+    return response
+
+def communication_detail(request, communication_id):
+    communication = get_object_or_404(Communication, id=communication_id)
+    return render(request, 'panel/user/com/communication_detail.html', {'communication': communication})
+
+
+
 # police view
+
+from django.contrib import messages  # <-- Import this
+from .models import Communication
+from .forms import CommunicationForm
+
+def post_communication(request):
+    if request.method == 'POST':
+        form = CommunicationForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('view_communications')
+    else:
+        form = CommunicationForm()
+    
+    return render(request, 'panel/police/com/post_communication.html', {'form': form})
+
+def view_communications(request):
+    communications = Communication.objects.all().order_by('-date')
+    return render(request, 'panel/police/com/view_communications.html', {'communications': communications})
+
+
+# Edit Communication View
+def edit_communication(request, pk):
+    communication = get_object_or_404(Communication, pk=pk)
+
+    if request.method == 'POST':
+        form = CommunicationForm(request.POST, request.FILES, instance=communication)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Communication updated successfully!')
+            return redirect('view_communications')  # Redirect after successful edit
+    else:
+        form = CommunicationForm(instance=communication)
+
+    return render(request, 'panel/police/com/edit_communication.html', {'form': form})
+
+# Delete Communication View
+def delete_communication(request, pk):
+    communication = get_object_or_404(Communication, pk=pk)
+
+    if request.method == 'POST':
+        communication.delete()
+        messages.success(request, 'Communication deleted successfully!')
+        return redirect('view_communications')  # Redirect after successful deletion
+
+    return render(request, 'panel/police/com/delete_communication.html', {'communication': communication})
 
 
 @login_required
@@ -749,35 +839,12 @@ def profile_police(request):
 
 
 @login_required
-def communication_form(request):
-    if request.method == "GET":
-        form = CommunicationUploadForm()
-        return render(request, "panel/police/communication/add_communication.html", {"form": form})
-    else:
-        form = CommunicationUploadForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect("communications")
-        else:
-            print(form.errors)
-            return redirect("communication_form")
-
-@login_required
-def communications(request):
-    if (request.method=="GET"):
-        communications = Communication.objects.all()
-        return render(request, "panel/police/communication/communication.html", {"communications": communications})
-
-@login_required
 def admin_communications(request):
     if (request.method=="GET"):
         communications = Communication.objects.all()
         return render(request, "panel/admin/communications.html", {"communications": communications})
 
-@login_required
-def user_communications(request):
-    communications = Communication.objects.all()
-    return render(request, "panel/user/communication.html", {"communications": communications})
+
 
 @login_required
 def card_status(request):
@@ -803,24 +870,6 @@ def contact_messages(request):
     contact_us =  ContactUs.objects.all()
     return render(request, "panel/admin/contact_us.html", {"contact":contact_us})
 
-@login_required
-def edit_communication(request, id):
-    communication = get_object_or_404(Communication, pk=id)
-    if request.method == "POST":
-        form = CommunicationUploadForm(request.POST, instance=communication)
-        if form.is_valid():
-            form.save()
-            return redirect('communications')
-    else:    
-        single_communication = Communication.objects.get(pk=id)
-        form = CommunicationUploadForm(instance=single_communication)
-        return render(request,"panel/police/communication/edit_communication.html", {"form": form})
-
-@login_required
-def delete_communication(request, id):
-    communication = get_object_or_404(Communication, pk=id)
-    communication.delete()
-    return redirect("communications")
 
 @login_required
 def user_information(request):

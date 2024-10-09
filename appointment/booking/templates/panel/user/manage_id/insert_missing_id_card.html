@@ -6,105 +6,116 @@
 {% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <h1 class="mb-4">Insert Missing ID Card</h1>
-    <form method="POST" action="{% url 'insert_missing_id_card' %}" enctype="multipart/form-data" class="needs-validation" novalidate>
+<div class="container mx-auto mt-5 p-5 bg-white rounded-lg shadow-md">
+    <h1 class="mb-4 text-2xl font-bold">Insert Missing ID Card</h1>
+    <form method="POST" action="{% url 'insert_missing_id_card' %}" enctype="multipart/form-data" class="space-y-4 needs-validation" novalidate>
         {% csrf_token %}
         <div class="form-group">
-            <label for="name">Your Name</label>
-            <input type="text" class="form-control" id="name" name="name" required>
-            <div class="invalid-feedback">
-                Please enter your name.
-            </div>
+            <label for="name" class="block text-sm font-semibold text-gray-700">Your Name</label>
+            <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200" id="name" name="name" required>
+            <div class="text-red-600 text-sm hidden" id="name-error">Please enter your name.</div>
         </div>
         <div class="form-group">
-            <label for="email">Email Address</label>
-            <input type="email" class="form-control" id="email" name="email" required>
-            <div class="invalid-feedback">
-                Please enter a valid email address.
-            </div>
+            <label for="email" class="block text-sm font-semibold text-gray-700">Email Address</label>
+            <input type="email" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200" id="email" name="email" required>
+            <div class="text-red-600 text-sm hidden" id="email-error">Please enter a valid email address.</div>
         </div>
         <div class="form-group">
-            <label for="phone">Phone Number</label>
-            <input type="tel" class="form-control" id="phone" name="phone" required>
-            <div class="invalid-feedback">
-                Please enter your phone number.
-            </div>
+            <label for="phone" class="block text-sm font-semibold text-gray-700">Phone Number</label>
+            <input type="tel" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200" id="phone" name="phone" required>
+            <div class="text-red-600 text-sm hidden" id="phone-error">Please enter your phone number.</div>
         </div>
         <div class="form-group">
-            <label for="id_card_image">Upload ID Card Image</label>
-            <input type="file" class="form-control-file" id="id_card_image" name="id_card_image" required>
-            <div class="invalid-feedback">
-                Please upload an image of the ID card.
-            </div>
+            <label for="id_card_image" class="block text-sm font-semibold text-gray-700">Upload ID Card Image</label>
+            <input type="file" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200" id="id_card_image" name="id_card_image" required>
+            <div class="text-red-600 text-sm hidden" id="image-error">Please upload an image of the ID card.</div>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#idCardModal">ID Cards Found</button>
+        <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-2 px-4 rounded-md shadow hover:bg-blue-700 transition duration-200">Submit</button>
+        <button type="button" class="mt-2 w-full bg-green-600 text-white font-semibold py-2 px-4 rounded-md shadow hover:bg-green-700 transition duration-200" data-modal-toggle="idCardModal">ID Cards Found</button>
     </form>
-</div>
-<div>
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="idCardModal" tabindex="-1" role="dialog" aria-labelledby="idCardModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="idCardModalLabel">Found ID Cards</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+<div id="idCardModal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="idCardModalLabel" role="dialog" aria-modal="true">
+    <div class="flex items-center justify-center min-h-screen">
+        <div class="modal-content bg-white rounded-lg shadow-lg overflow-hidden w-11/12 md:w-3/4">
+            <div class="modal-header p-4 border-b">
+                <h5 class="modal-title text-xl font-bold" id="idCardModalLabel">Found ID Cards</h5>
+                <button type="button" class="text-gray-500 hover:text-gray-700" onclick="closeModal('idCardModal')">&times;</button>
             </div>
-            <div class="modal-body">
-                <table class="table table-striped table-responsive">
-                    <thead>
+            <div class="modal-body p-4">
+                <table class="min-w-full table-auto">
+                    <thead class="bg-gray-800 text-white">
                         <tr>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>ID Card Image</th>
+                            <th class="py-2 px-4">Name</th>
+                            <th class="py-2 px-4">Email</th>
+                            <th class="py-2 px-4">Phone</th>
+                            <th class="py-2 px-4">ID Card Image</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for card in found_id_cards %}
                         <tr>
-                            <td>{{ card.name }}</td>
-                            <td>{{ card.email }}</td>
-                            <td>{{ card.phone }}</td>
-                            <td><img src="{{ card.id_card_image.url }}" alt="ID Card Image" class="img-thumbnail" width="100"></td>
+                            <td class="border px-4 py-2">{{ card.name }}</td>
+                            <td class="border px-4 py-2">{{ card.email }}</td>
+                            <td class="border px-4 py-2">{{ card.phone }}</td>
+                            <td class="border px-4 py-2"><img src="{{ card.id_card_image.url }}" alt="ID Card Image" class="w-24 h-24 rounded-lg shadow" /></td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <div class="modal-footer p-4">
+                <button type="button" class="bg-gray-400 text-white font-semibold py-2 px-4 rounded-md shadow hover:bg-gray-500 transition duration-200" onclick="closeModal('idCardModal')">Close</button>
             </div>
         </div>
     </div>
 </div>
+
 {% endblock %}
 
 {% block scripts %}
-    <!-- Form Validation -->
-    <script>
-        // Example starter JavaScript for disabling form submissions if there are invalid fields
-        (function() {
-            'use strict';
-            window.addEventListener('load', function() {
-                // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                var forms = document.getElementsByClassName('needs-validation');
-                // Loop over them and prevent submission
-                var validation = Array.prototype.filter.call(forms, function(form) {
-                    form.addEventListener('submit', function(event) {
-                        if (form.checkValidity() === false) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }
-                        form.classList.add('was-validated');
-                    }, false);
-                });
-            }, false);
-        })();
-    </script>
+<script>
+// Modal functionality
+function closeModal(modalId) {
+    document.getElementById(modalId).classList.add('hidden');
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Form validation
+    const form = document.querySelector('.needs-validation');
+    form.addEventListener('submit', function(event) {
+        let valid = true;
+
+        // Clear previous error messages
+        document.querySelectorAll('.text-red-600').forEach(function(element) {
+            element.classList.add('hidden');
+        });
+
+        // Validate fields
+        if (!form.checkValidity()) {
+            valid = false;
+            if (!form.name.value) {
+                document.getElementById('name-error').classList.remove('hidden');
+            }
+            if (!form.email.value) {
+                document.getElementById('email-error').classList.remove('hidden');
+            }
+            if (!form.phone.value) {
+                document.getElementById('phone-error').classList.remove('hidden');
+            }
+            if (!form.id_card_image.value) {
+                document.getElementById('image-error').classList.remove('hidden');
+            }
+        }
+
+        if (!valid) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+
+        form.classList.add('was-validated');
+    });
+});
+</script>
 {% endblock %}

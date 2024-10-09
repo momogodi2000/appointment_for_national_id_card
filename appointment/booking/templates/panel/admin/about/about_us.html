@@ -1,133 +1,83 @@
-{% extends 'panel/admin/base_about.html' %}
+{% extends 'panel/base_page/base_admin.html' %}
 {% load static %}
 
 {% block content %}
-<div>
-</div>
-<div class="about-us-container">
-    <div class="container">
-        <h1 class="mt-4">About Us</h1>
-        <p>Welcome to the National ID Admin Panel. Our platform is dedicated to streamlining the process of National ID card deliverance. We ensure that the management of users, appointments, and documents is efficient and effective.</p>
-        
-        <!-- Portfolio Section -->
-        <section class="portfolio-section mt-5">
-            <h2>Developer Portfolio</h2>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <h5>Homepage</h5>
-                        </div>
-                        <div class="card-body">
-                            <p>Am momo godi yvan a junoir developer from AICS Cameroon, Am a backend developer. I practice karate since 2012.</p>
-                            <img src="{% static 'img/Welcome.jpeg' %}" class="img-fluid" alt="Headshot">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <h5>Skills</h5>
-                        </div>
-                        <div class="card-body">
-                            <ul>
-                                <li>Programming Languages: Python, JavaScript, PHP, Dart</li>
-                                <li>Frameworks: Django, Laravel, Flutter, Next.js, Flask</li>
-                                <li>Libraries: Bootstrap, jQuery</li>
-                                <li>Tools: Git, Docker</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <h5>Projects</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="card project-card">
-                                        <img src="{% static 'img/proj.png' %}" class="card-img-top" alt="Project 1">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Projector Management App</h5>
-                                            <p class="card-text">Projector management app in Django.</p>
-                                            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#project1Modal">Live Demo</a>
-                                            <a href="https://github.com/momogodi2000/projector-management-app-in-django.git" target="_blank" class="btn btn-secondary">View Code</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="card project-card">
-                                        <img src="{% static 'img/proj2.jpeg' %}" class="card-img-top" alt="Project 2">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Appointments for Id card</h5>
-                                            <p class="card-text">Appointment for Id Card</p>
-                                            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#project2Modal">Live Demo</a>
-                                            <a href="https://github.com/momogodi2000/Book_id_mobile.git" target="_blank" class="btn btn-secondary">View Code</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="card project-card">
-                                        <img src="{% static 'img/proj3.jpeg' %}" class="card-img-top" alt="Project 3">
-                                        <div class="card-body">
-                                            <h5 class="card-title">E-Commerce App in Django</h5>
-                                            <p class="card-text">E-commerce app in Python.</p>
-                                            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#project3Modal">Live Demo</a>
-                                            <a href="https://github.com/momogodi2000/eshop_App.git" target="_blank" class="btn btn-secondary">View Code</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <h5>About Me</h5>
-                        </div>
-                        <div class="card-body">
-                            <p>"Hi, I'm Momo Godi Yvan, a junior backend developer from AICS Cameroon. I've been passionate about programming since [start date] and have been honing my skills in backend development. I've had experience working with [programming languages or technologies, e.g., Python, Django, Flask, or Node.js].
+<div class="about-us-container py-12 px-6 md:px-12 bg-gray-50">
+    <div class="container mx-auto">
+        <!-- Title Section -->
+        <h1 class="text-4xl font-bold text-center mb-8">About Us</h1>
+        <p class="text-center text-lg text-gray-700 mb-6">Welcome to the National ID Admin Panel. Our platform is dedicated to streamlining the process of National ID card deliverance. We ensure efficient management of users, appointments, and documents to enhance the overall experience.</p>
 
-                                In addition to my technical pursuits, I've been a dedicated karate practitioner since 2012. Karate has taught me discipline, focus, and the importance of perseverance, qualities that I also apply to my work as a developer.</p>
-                        </div>
+        <!-- Developer Portfolio Section -->
+        <section class="portfolio-section">
+            <h2 class="text-3xl font-semibold mb-6">Developer Portfolio</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project 1 -->
+                <div class="bg-white rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                    <img src="{% static 'img/proj.png' %}" class="w-full h-40 object-cover rounded-t-lg" alt="Project 1">
+                    <div class="p-4">
+                        <h5 class="text-xl font-semibold mb-2">Projector Management App</h5>
+                        <p class="text-gray-600 mb-4">A Django-based projector management application.</p>
+                        <a href="#" class="text-blue-500 hover:underline mr-2" data-toggle="modal" data-target="#project1Modal">Live Demo</a>
+                        <a href="https://github.com/momogodi2000/projector-management-app-in-django.git" target="_blank" class="text-blue-500 hover:underline">View Code</a>
                     </div>
                 </div>
-                <div class="col-md-12">
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <h5>Contact Information</h5>
-                        </div>
-                        <div class="card-body">
-                            <p>Make it easy for potential employers or clients to get in touch. Include your email address, a contact form, and links to relevant social media profiles (GitHub, LinkedIn, etc.).</p>
-                            <ul class="list-unstyled">
-                                <li>Email: <a href="mailto:yvangodimomo@gmail.com">yvangodimomo@gmail.com</a></li>
-                                <li>GitHub: <a href="https://github.com/momogodi2000" target="_blank">myprofile</a></li>
-                                <li>LinkedIn: <a href="https://www.linkedin.com/in/momo-godi-yvan-206642244/" target="_blank">myprofile</a></li>
-                            </ul>
-                        </div>
+
+                <!-- Project 2 -->
+                <div class="bg-white rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                    <img src="{% static 'img/proj2.jpeg' %}" class="w-full h-40 object-cover rounded-t-lg" alt="Project 2">
+                    <div class="p-4">
+                        <h5 class="text-xl font-semibold mb-2">Appointments for ID Card</h5>
+                        <p class="text-gray-600 mb-4">A mobile app for booking National ID appointments.</p>
+                        <a href="#" class="text-blue-500 hover:underline mr-2" data-toggle="modal" data-target="#project2Modal">Live Demo</a>
+                        <a href="https://github.com/momogodi2000/Book_id_mobile.git" target="_blank" class="text-blue-500 hover:underline">View Code</a>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="bg-white rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                    <img src="{% static 'img/proj3.jpeg' %}" class="w-full h-40 object-cover rounded-t-lg" alt="Project 3">
+                    <div class="p-4">
+                        <h5 class="text-xl font-semibold mb-2">E-Commerce App in Django</h5>
+                        <p class="text-gray-600 mb-4">A Python-powered e-commerce platform built with Django.</p>
+                        <a href="#" class="text-blue-500 hover:underline mr-2" data-toggle="modal" data-target="#project3Modal">Live Demo</a>
+                        <a href="https://github.com/momogodi2000/eshop_App.git" target="_blank" class="text-blue-500 hover:underline">View Code</a>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- About Me Section -->
+        <section class="about-me-section mt-12">
+            <h2 class="text-3xl font-semibold mb-6">About Me</h2>
+            <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-2xl transition-shadow duration-300">
+                <p class="text-gray-700">Hi, I'm <strong>Momo Godi Yvan</strong>, a junior backend developer from AICS Cameroon. I've been honing my skills in backend development with a focus on languages such as Python, Django, and Flask. Karate, which I've practiced since 2012, has shaped my discipline and dedication both in and outside the coding world.</p>
+                <p class="mt-4 text-gray-700">My expertise lies in developing robust backend solutions that streamline processes and solve real-world problems.</p>
+            </div>
+        </section>
+
+        <!-- Contact Information Section -->
+        <section class="contact-info-section mt-12">
+            <h2 class="text-3xl font-semibold mb-6">Contact Information</h2>
+            <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-2xl transition-shadow duration-300">
+                <p class="text-gray-700">Feel free to reach out for project collaborations or job opportunities:</p>
+                <ul class="list-disc list-inside mt-4 text-gray-700">
+                    <li>Email: <a href="mailto:yvangodimomo@gmail.com" class="text-blue-500 hover:underline">yvangodimomo@gmail.com</a></li>
+                    <li>GitHub: <a href="https://github.com/momogodi2000" target="_blank" class="text-blue-500 hover:underline">myprofile</a></li>
+                    <li>LinkedIn: <a href="https://www.linkedin.com/in/momo-godi-yvan-206642244/" target="_blank" class="text-blue-500 hover:underline">myprofile</a></li>
+                </ul>
+            </div>
+        </section>
+
         <!-- Team Section -->
-        <section class="team-section mt-5">
-            <h2>Meet the Team</h2>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="card team-card">
-                        <img src="{% static 'img/maison.jpg' %}" class="card-img-top" alt="Team Member 1">
-                        <div class="card-body">
-                            <h5 class="card-title">Momo Yvan</h5>
-                            <p class="card-text">Project Manager</p>
-                            <p class="card-text">Lead Developer</p>
-                            <p class="card-text">Designer</p>
-
-
-                        </div>
+        <section class="team-section mt-12">
+            <h2 class="text-3xl font-semibold mb-6">Meet the Team</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                    <img src="{% static 'img/maison.jpg' %}" class="w-full h-40 object-cover rounded-t-lg" alt="Momo Yvan">
+                    <div class="p-4">
+                        <h5 class="text-xl font-semibold mb-2">Momo Yvan</h5>
+                        <p class="text-gray-600">Project Manager, Lead Developer, Designer</p>
                     </div>
                 </div>
             </div>
@@ -135,6 +85,9 @@
     </div>
 </div>
 
-
-
+<!-- Optional JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+<script>
+    // You can add more interactivity or animations using JavaScript
+</script>
 {% endblock %}

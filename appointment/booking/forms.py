@@ -134,3 +134,20 @@ class EditCardStatusForm(forms.ModelForm):
             "id": forms.CharField(max_length=35),
             "card_status": forms.Select(attrs={"required": True}, choices=Appointment.CARD_CHOICES)
         }
+
+
+# forms.py
+
+# forms.py
+
+from django import forms
+from .models import Communication
+
+class CommunicationForm(forms.ModelForm):
+    class Meta:
+        model = Communication
+        fields = ['title', 'photo', 'description']  # Ensure there's no 'location'
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'block w-full border border-gray-300 p-2 rounded-md'}),
+            'description': forms.Textarea(attrs={'class': 'block w-full border border-gray-300 p-2 rounded-md'}),
+        }

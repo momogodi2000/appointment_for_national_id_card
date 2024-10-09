@@ -1,29 +1,33 @@
-{% extends 'panel/admin/base_admin.html' %}
+{% extends 'panel/base_page/base_admin.html' %}
 
 {% block content %}
-<h1>Manage Users</h1>
-<div class="table-responsive">
-    <table class="table table-striped">
+<h1 class="text-3xl font-bold mb-4">Manage Users</h1>
+<div class="overflow-x-auto">
+    <table class="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
         <thead>
-            <tr>
-                <th>ID</th>
-                <th>Role</th>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Actions</th>
+            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                <th class="py-3 px-4 border-b">ID</th>
+                <th class="py-3 px-4 border-b">Role</th>
+                <th class="py-3 px-4 border-b">Username</th>
+                <th class="py-3 px-4 border-b">Email</th>
+                <th class="py-3 px-4 border-b text-center">Actions</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="text-gray-600 text-sm font-light">
             {% for user in users %}
             {% if user.id != request.user.id %}
-            <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.role }}</td>
-                <td>{{ user.username }}</td>
-                <td>{{ user.email }}</td>
-                <td>
-                    <a href="{% url 'admin_edit_user' user.id %}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i> Edit</a>
-                    <a href="{% url 'admin_delete_user' user.id %}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Delete</a>
+            <tr class="hover:bg-gray-100 border-b border-gray-300">
+                <td class="py-3 px-4">{{ user.id }}</td>
+                <td class="py-3 px-4">{{ user.role }}</td>
+                <td class="py-3 px-4">{{ user.username }}</td>
+                <td class="py-3 px-4">{{ user.email }}</td>
+                <td class="py-3 px-4 text-center">
+                    <a href="{% url 'admin_edit_user' user.id %}" class="text-blue-500 hover:underline">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
+                    <a href="{% url 'admin_delete_user' user.id %}" class="text-red-500 hover:underline ml-4">
+                        <i class="fas fa-trash"></i> Delete
+                    </a>
                 </td>
             </tr>
             {% endif %}
@@ -31,5 +35,7 @@
         </tbody>
     </table>
 </div>
-<a href="{% url 'add_user' %}" class="btn btn-success"><i class="fas fa-plus"></i> Add User</a>
+<a href="{% url 'add_user' %}" class="mt-4 inline-block bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+    <i class="fas fa-plus"></i> Add User
+</a>
 {% endblock %}

@@ -1,94 +1,36 @@
-{% extends 'panel/base_page/base_support.html' %}
+{% extends 'panel/base_page/base.html' %}
 
 {% block title %}Support Discussion{% endblock %}
 
 {% block content %}
-<div class="container-fluid chat-container">
-    <div class="row justify-content-center">
-        <div class="col-md-6 chat-box">
-            <div class="chat-header">
-                <h3><i class="fas fa-comments"></i> Support Chat</h3>
-            </div>
-            <div class="chat-body" id="chatBody">
-                <!-- Chat messages will appear here -->
-                <div class="bot-message">
-                    <div class="message-content">
-                        <p>Hello! I'm here to assist you with questions about national ID card delivery and Cameroonian administrative matters. How can I help you today?</p>
-                    </div>
+<div class="flex items-center justify-center min-h-screen bg-gray-100 p-5">
+    <div class="w-full max-w-md bg-white rounded-lg shadow-lg overflow-hidden">
+        <div class="bg-blue-600 text-white p-4 text-center">
+            <h3 class="text-lg font-semibold"><i class="fas fa-comments"></i> Support Chat</h3>
+        </div>
+        <div class="chat-body p-4 h-80 overflow-y-auto" id="chatBody">
+            <!-- Chat messages will appear here -->
+            <div class="bot-message mb-4">
+                <div class="message-content bg-gray-300 rounded-lg p-2">
+                    <p>Hello! I'm here to assist you with questions about national ID card delivery and Cameroonian administrative matters. How can I help you today?</p>
                 </div>
             </div>
-            <div class="chat-footer">
-                <form id="chatForm">
-                    <div class="input-group">
-                        <input type="text" id="userInput" class="form-control" placeholder="Type your message here..." autocomplete="off" required>
-                        <div class="input-group-append">
-                            <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i></button>
-                        </div>
-                    </div>
-                </form>
-            </div>
+        </div>
+        <div class="p-4 border-t">
+            <form id="chatForm" class="flex">
+                <input type="text" id="userInput" class="flex-1 border border-gray-300 rounded-l-lg p-2" placeholder="Type your message here..." autocomplete="off" required>
+                <button type="submit" class="bg-blue-600 text-white rounded-r-lg px-4">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </form>
         </div>
     </div>
 </div>
 
 <style>
-    /* Chat Container Styles */
-    .chat-container {
-        padding: 20px;
-        background-color: #f8f9fa;
-        min-height: 100vh; /* Full height */
-    }
-
-    /* Chat Box Styles */
-    .chat-box {
-        background-color: white;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-        animation: fadeIn 0.5s ease; /* Animation for chat box */
-    }
-
-    .chat-header {
-        background-color: #007bff;
-        color: white;
-        padding: 15px;
-        text-align: center;
-    }
-
-    .chat-body {
-        max-height: 400px;
-        overflow-y: auto;
-        padding: 15px;
-    }
-
     .user-message, .bot-message {
-        margin: 10px 0;
         opacity: 0; /* Start hidden for animation */
         animation: fadeIn 0.5s forwards; /* Fade in animation */
-    }
-
-    .user-message .message-content {
-        background-color: #d1ecf1;
-        border-radius: 5px;
-        padding: 10px;
-        display: inline-block;
-        animation-delay: 0.5s; /* Delay for user messages */
-    }
-
-    .bot-message .message-content {
-        background-color: #e2e3e5;
-        border-radius: 5px;
-        padding: 10px;
-        display: inline-block;
-        animation-delay: 0.5s; /* Delay for bot messages */
-    }
-
-    .loading-spinner {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 1050;
     }
 
     /* Keyframes for fade-in animation */
@@ -97,16 +39,12 @@
         to { opacity: 1; }
     }
 
-    /* Responsive Styles */
-    @media (max-width: 576px) {
-        .chat-box {
-            width: 100%; /* Full width on small screens */
-        }
-
-        .loading-spinner {
-            width: 2rem;
-            height: 2rem;
-        }
+    .loading-spinner {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1050;
     }
 </style>
 {% endblock %}

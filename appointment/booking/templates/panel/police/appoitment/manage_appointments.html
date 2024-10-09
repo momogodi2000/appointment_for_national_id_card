@@ -1,4 +1,4 @@
-{% extends 'panel/police/base_police.html' %}
+{% extends 'panel/base_page/base_police.html' %}
 
 {% load static %}
 
@@ -42,7 +42,7 @@ Manage Appointments
                         <td>{{ appointment.time }}</td>
                         <td>{{ appointment.paid }}</td>
                         <td>
-                            <a href="{% url 'view_docs' appointment.user_id %}">Link to Documents</a>
+                            <a href="{% url 'view_docs' appointment.document %}">Link to Documents</a>
                         </td>
                         <td>{{ appointment.status }}</td>
                         <td>

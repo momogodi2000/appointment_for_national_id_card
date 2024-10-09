@@ -1,59 +1,66 @@
-{% extends 'panel/base_page/base.html' %}
+{% extends 'panel/base_page/base_user.html' %}
 
 {% block title %}Security Settings{% endblock %}
 
 {% block content %}
-<div class="container">
-    <h2>Security Settings</h2>
-    <form method="post" action="{% url 'security_settings' %}" enctype="multipart/form-data">
+<div class="container mx-auto p-4">
+    <h2 class="text-2xl font-bold mb-4">Security Settings</h2>
+
+    <!-- Profile Picture Section -->
+    <div class="mb-4 flex items-center">
+        {% if user.profile_picture %}
+            <img src="{{ user.profile_picture.url }}" alt="Profile Picture" class="h-24 w-24 rounded-full border border-gray-300 mr-4">
+        {% else %}
+            <div class="h-24 w-24 rounded-full border border-gray-300 mr-4 flex items-center justify-center text-gray-500">
+                No Image
+            </div>
+        {% endif %}
+        <div>
+            <label for="profile_picture" class="block text-sm font-medium text-gray-700">Profile Picture</label>
+            <input type="file" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 p-2" id="profile_picture" name="profile_picture">
+        </div>
+    </div>
+
+    <form method="post" action="{% url 'security_settings' %}" enctype="multipart/form-data" class="space-y-4">
         {% csrf_token %}
-        
+
         <!-- Name -->
         <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" class="form-control" id="name" name="name" value="{{ user.name }}" placeholder="Enter your name">
+            <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+            <input type="text" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 p-2" id="name" name="name" value="{{ user.name }}" placeholder="Enter your name">
         </div>
 
         <!-- Email -->
         <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}" placeholder="Enter your email">
-        </div>
-
-        <!-- Profile Picture -->
-        <div class="form-group">
-            <label for="profile_picture">Profile Picture</label>
-            <input type="file" class="form-control-file" id="profile_picture" name="profile_picture">
-            {% if user.profile_picture %}
-                <img src="{{ user.profile_picture.url }}" alt="Profile Picture" class="avatar-img">
-            {% endif %}
+            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+            <input type="email" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 p-2" id="email" name="email" value="{{ user.email }}" placeholder="Enter your email">
         </div>
 
         <!-- Current Password -->
         <div class="form-group">
-            <label for="currentPassword">Current Password</label>
-            <input type="password" class="form-control" id="currentPassword" name="currentPassword" placeholder="Enter current password">
+            <label for="currentPassword" class="block text-sm font-medium text-gray-700">Current Password</label>
+            <input type="password" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 p-2" id="currentPassword" name="currentPassword" placeholder="Enter current password">
         </div>
 
         <!-- New Password -->
         <div class="form-group">
-            <label for="newPassword">New Password</label>
-            <input type="password" class="form-control" id="newPassword" name="newPassword" placeholder="Enter new password">
+            <label for="newPassword" class="block text-sm font-medium text-gray-700">New Password</label>
+            <input type="password" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 p-2" id="newPassword" name="newPassword" placeholder="Enter new password">
         </div>
 
         <!-- Confirm New Password -->
         <div class="form-group">
-            <label for="confirmPassword">Confirm New Password</label>
-            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm new password">
+            <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirm New Password</label>
+            <input type="password" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 p-2" id="confirmPassword" name="confirmPassword" placeholder="Confirm new password">
         </div>
 
-        <button type="submit" class="btn btn-primary">Update Profile</button>
+        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md py-2">Update Profile</button>
     </form>
 
     {% if error %}
-        <p class="text-danger">{{ error }}</p>
+        <p class="text-red-600 mt-4">{{ error }}</p>
     {% elif success %}
-        <p class="text-success">{{ success }}</p>
+        <p class="text-green-600 mt-4">{{ success }}</p>
     {% endif %}
 </div>
 {% endblock %}

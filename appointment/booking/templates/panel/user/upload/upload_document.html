@@ -1,36 +1,41 @@
 {% extends 'panel/base_page/base.html' %}
 
 {% block content %}
-<div class="container mt-5">
-    <h1>Upload Documents</h1>
+<div class="container mx-auto mt-5 p-6 bg-white rounded-lg shadow-md">
+    <h1 class="text-2xl font-bold mb-6">Upload Documents</h1>
     <form method="post" enctype="multipart/form-data" id="document-form">
         {% csrf_token %}
-        <div class="form-group">
-            {{ form.birth_certificate.label_tag }} {{ form.birth_certificate }}
+        <div class="mb-4">
+            <label class="block text-gray-700 font-semibold">{{ form.birth_certificate.label }}</label>
+            {{ form.birth_certificate }}
         </div>
-        <div class="form-group">
-            {{ form.proof_of_nationality.label_tag }} {{ form.proof_of_nationality }}
+        <div class="mb-4">
+            <label class="block text-gray-700 font-semibold">{{ form.proof_of_nationality.label }}</label>
+            {{ form.proof_of_nationality }}
         </div>
-        <div class="form-group">
-            {{ form.passport_photos.label_tag }} {{ form.passport_photos }}
+        <div class="mb-4">
+            <label class="block text-gray-700 font-semibold">{{ form.passport_photos.label }}</label>
+            {{ form.passport_photos }}
         </div>
-        <div class="form-group">
-            {{ form.residence_permit.label_tag }} {{ form.residence_permit }}
+        <div class="mb-4">
+            <label class="block text-gray-700 font-semibold">{{ form.residence_permit.label }}</label>
+            {{ form.residence_permit }}
         </div>
-        <div class="form-group">
-            {{ form.marriage_certificate.label_tag }} {{ form.marriage_certificate }}
+        <div class="mb-4">
+            <label class="block text-gray-700 font-semibold">{{ form.marriage_certificate.label }}</label>
+            {{ form.marriage_certificate }}
         </div>
-        <div class="error-message" id="error-message"></div>
+        <div class="text-red-500 font-bold mb-4" id="error-message"></div>
 
-        <button type="submit" class="btn btn-primary">Upload</button>
+        <button type="submit" class="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600 transition duration-200">Upload</button>
     </form>
 
-    <div class="table-responsive mt-5">
-        <table class="table table-bordered table-hover preview-table" id="preview-table">
-            <thead class="thead-dark">
+    <div class="mt-5">
+        <table class="min-w-full bg-gray-100 border border-gray-300 rounded-lg overflow-hidden" id="preview-table">
+            <thead class="bg-gray-800 text-white">
                 <tr>
-                    <th>Document Type</th>
-                    <th>Preview</th>
+                    <th class="py-2 px-4 border-b">Document Type</th>
+                    <th class="py-2 px-4 border-b">Preview</th>
                 </tr>
             </thead>
             <tbody>
@@ -39,56 +44,6 @@
         </table>
     </div>
 </div>
-
-<!-- Custom Styles -->
-<style>
-    /* Form Group Styling */
-    .form-group {
-        margin-bottom: 20px;
-    }
-
-    .form-group label {
-        font-weight: bold;
-        color: #2c3e50;
-    }
-
-    .form-group input[type="file"] {
-        border: 1px solid #ccc;
-        padding: 10px;
-        background-color: #f9f9f9;
-        border-radius: 5px;
-        width: 100%;
-    }
-
-    .error-message {
-        color: red;
-        font-weight: bold;
-        margin-bottom: 20px;
-    }
-
-    /* Table Styling */
-    .table-responsive {
-        border: 1px solid #ddd;
-        border-radius: 10px;
-        padding: 20px;
-        background-color: #f8f9fa;
-    }
-
-    .table th, .table td {
-        vertical-align: middle;
-        text-align: center;
-    }
-
-    .table img {
-        max-width: 100px;
-        border-radius: 5px;
-    }
-
-    .thead-dark {
-        background-color: #343a40;
-        color: white;
-    }
-</style>
 
 <!-- Updated JavaScript -->
 <script>
@@ -135,6 +90,7 @@
 
                     typeCell.textContent = documentType;
                     img.src = e.target.result;
+                    img.classList.add('w-24', 'h-24', 'object-cover', 'rounded'); // Tailwind classes for image styling
                     previewCell.appendChild(img);
 
                     row.appendChild(typeCell);

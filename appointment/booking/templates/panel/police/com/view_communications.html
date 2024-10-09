@@ -1,0 +1,32 @@
+<!-- communication_list.html -->
+
+{% extends 'panel/base_page/base_police.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mx-auto p-6">
+    <h1 class="text-2xl font-bold text-center mb-6">All Communications</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {% for communication in communications %}
+        <div class="bg-white rounded-lg shadow-md p-4">
+            {% if communication.photo %}
+            <img src="{{ communication.photo.url }}" class="w-full h-40 object-cover rounded-md mb-4" alt="{{ communication.title }}">
+            {% else %}
+            <img src="{% static 'default_image.jpg' %}" class="w-full h-40 object-cover rounded-md mb-4" alt="No Image Available">
+            {% endif %}
+            <h2 class="text-lg font-bold mb-2">{{ communication.title }}</h2>
+            <p class="text-sm text-gray-600 mb-2">{{ communication.date|date:"F d, Y H:i" }}</p>
+            <p class="text-gray-700">{{ communication.description|truncatewords:20 }}</p>
+            <!-- Edit and Delete Buttons -->
+            <div class="mt-4">
+                <a href="{% url 'edit_communication' communication.id %}" class="bg-yellow-500 text-white px-3 py-2 rounded-md hover:bg-yellow-600">Edit</a>
+                <a href="{% url 'delete_communication' communication.id %}" class="bg-red-500 text-white px-3 py-2 rounded-md hover:bg-red-600">Delete</a>
+            </div>
+        </div>
+        {% empty %}
+        <p>No communications found.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

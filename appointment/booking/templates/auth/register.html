@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
         body {
             background-image: url("{% static 'img/auth.jpeg' %}"); /* Add your background image here */
@@ -14,57 +13,26 @@
             background-position: center;
             font-family: 'Arial', sans-serif;
         }
-        .form-container {
-            max-width: 400px;
-            margin: 100px auto;
-            padding: 30px;
-            border-radius: 10px;
-            background-color: rgba(255, 255, 255, 0.9);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            animation: fadeIn 0.8s ease;
-        }
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #333;
-        }
-        .logo {
-            display: block;
-            margin: 0 auto 20px;
-            width: 100px; /* Adjust logo size */
-        }
-        /* Responsive styles */
-        @media (max-width: 576px) {
-            .form-container {
-                margin: 20px;
-                padding: 15px;
-            }
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="form-container">
-            <img src="{% static 'icon/logo.ico' %}" alt="Logo" class="logo"> <!-- Add your logo here -->
-            <h2>Register</h2>
-            <form method="post">
+    <div class="flex items-center justify-center min-h-screen">
+        <div class="bg-white bg-opacity-90 rounded-lg shadow-lg p-8 max-w-sm w-full animate__animated animate__fadeIn">
+            <img src="{% static 'icon/logo.ico' %}" alt="Logo" class="block mx-auto mb-6 w-24"> <!-- Add your logo here -->
+            <h2 class="text-2xl font-bold text-center mb-6">Register</h2>
+            <form method="post" class="space-y-4">
                 {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" class="btn btn-primary btn-block">Register</button>
+                {{ form.as_p|safe }}
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition duration-200">Register</button>
             </form>
-            <div class="text-center mt-3">
-                <p>Already have an account? <a href="{% url 'login' %}" class="btn btn-link">Login</a></p>
-                <p><a href="{% url 'forgot_password' %}" class="btn btn-link">Forgot Password?</a></p>
-                <p><a href="{% url 'home' %}" class="btn btn-link">Return Home</a></p>
+            <div class="text-center mt-4">
+                <p class="text-gray-600">Already have an account? <a href="{% url 'login' %}" class="text-blue-600 hover:underline">Login</a></p>
+                <p class="text-gray-600"><a href="{% url 'forgot_password' %}" class="text-blue-600 hover:underline">Forgot Password?</a></p>
+                <p class="text-gray-600"><a href="{% url 'home' %}" class="text-blue-600 hover:underline">Return Home</a></p>
             </div>
         </div>
     </div>
 
-    <!-- Your custom JavaScript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
 </html>

@@ -1,25 +1,30 @@
-{% extends 'panel/admin/base_admin.html' %}
+{% extends 'panel/base_page/base_admin.html' %}
+
 {% block content %}
-<h1>Manage Documents</h1>
-<div class="table-responsive">
-    <table class="table table-striped">
+<h1 class="text-3xl font-bold mb-6">Manage Documents</h1>
+<div class="overflow-x-auto">
+    <table class="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
         <thead>
-            <tr>
-                <th>ID</th>
-                <th>Document Name</th>
-                <th>Uploaded By</th>
-                <th>Actions</th>
+            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                <th class="py-3 px-4 border-b">ID</th>
+                <th class="py-3 px-4 border-b">Document Name</th>
+                <th class="py-3 px-4 border-b">Uploaded By</th>
+                <th class="py-3 px-4 border-b text-center">Actions</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="text-gray-600 text-sm font-light">
             {% for document in documents %}
-            <tr>
-                <td>{{ document.id }}</td>
-                <td>{{ document.name }}</td>
-                <td>{{ document.user.username }}</td>
-                <td>
-                    <a href="{{ document.file.url }}" class="btn btn-primary btn-sm"><i class="fas fa-eye"></i> View</a>
-                    <a href="{% url 'delete_document' document.id %}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Delete</a>
+            <tr class="hover:bg-gray-100 border-b border-gray-300">
+                <td class="py-3 px-4">{{ document.id }}</td>
+                <td class="py-3 px-4">{{ document.name }}</td>
+                <td class="py-3 px-4">{{ document.user.username }}</td>
+                <td class="py-3 px-4 text-center">
+                    <a href="{{ document.file.url }}" class="text-blue-500 hover:underline">
+                        <i class="fas fa-eye"></i> View
+                    </a>
+                    <a href="{% url 'delete_document' document.id %}" class="text-red-500 hover:underline ml-4">
+                        <i class="fas fa-trash"></i> Delete
+                    </a>
                 </td>
             </tr>
             {% endfor %}

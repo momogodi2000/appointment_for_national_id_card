@@ -1,27 +1,32 @@
-{% extends 'panel/admin/base_admin.html' %}
+{% extends 'panel/base_page/base_admin.html' %}
+
 {% block content %}
-<h1>All communications</h1>
-<div class="table-responsive">
-    <table class="table table-striped">
+<h1 class="text-3xl font-bold mb-6">All Communications</h1>
+<div class="overflow-x-auto">
+    <table class="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
         <thead>
-            <tr>
-                <th>Communication ID</th>
-                <th>Title</th>
-                <th>File</th>
+            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                <th class="py-3 px-4 border-b">Communication ID</th>
+                <th class="py-3 px-4 border-b">Title</th>
+                <th class="py-3 px-4 border-b">Date</th>
+                <th class="py-3 px-4 border-b">Description</th>
+                <th class="py-3 px-4 border-b">File</th>
             </tr>
         </thead>
-        <tbody>
-            <tbody>
-                {% for appointment in communications %}
-                <tr>
-                    <td>{{ appointment.id }}</td>
-                    <td>{{ appointment.title }}</td>
-                    <td>
-                        <a download target="_blank" href="../../../../media/{{ appointment.location }}">{{ appointment.location }}</a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
+        <tbody class="text-gray-600 text-sm font-light">
+            {% for appointment in communications %}
+            <tr class="hover:bg-gray-100 border-b border-gray-300">
+                <td class="py-3 px-4">{{ appointment.id }}</td>
+                <td class="py-3 px-4">{{ appointment.title }}</td>
+                <td class="py-3 px-4">{{ appointment.date|date:"Y-m-d" }}</td>
+                <td class="py-3 px-4">{{ appointment.description }}</td>
+                <td class="py-3 px-4">
+                    <a download target="_blank" href="../../../../media/{{ appointment.location }}" class="text-blue-500 hover:underline">
+                        {{ appointment.location }}
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
         </tbody>
     </table>
 </div>

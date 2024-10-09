@@ -3,29 +3,29 @@
 {% block title %}Payment{% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Payment  Details</h5>
-                    <h1>User Payment Information</h1>
-                    <p>Name: {{ payment_info.name }}</p>
-                    <p>reference:{{payment_info.reference}}</p>
-                    <p>external_reference:{{payment_info.external_reference}}</p>
-                    <p>status:{{payment_info.status}}</p>
-                    <p>amount:{{payment_info.amount}}</p>
-                    <p>currency:{{payment_info.currency}}</p>
-                    <p>operator:{{payment_info.operator}}</p>
-                    <p>code:{{payment_info.code}}</p>
-                    <p>operator_reference:{{payment_info.operator_reference}}</p>
-                    <p>description:{{payment_info.description}}</p>
-                    <p>external_user:{{payment_info.external_user}}</p>
-                    <p>reason:{{payment_info.reason}}</p>
-                    <p>phone_number:{{payment_info.phone_number}}</p>
-                    <a href="#!" class="btn btn-primary" data-mdb-ripple-init>Home</a>
-                    <a href="#!" class="btn btn-info" data-mdb-ripple-init>Print</a>
-                </div>
+<div class="container mx-auto p-6">
+    <div class="max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+        <div class="p-6">
+            <h5 class="text-xl font-bold mb-4">Payment Details</h5>
+            <h1 class="text-2xl font-semibold mb-4">User Payment Information</h1>
+            <div class="space-y-2">
+                <p><strong>Name:</strong> {{ payment_info.name }}</p>
+                <p><strong>Reference:</strong> {{ payment_info.reference }}</p>
+                <p><strong>External Reference:</strong> {{ payment_info.external_reference }}</p>
+                <p><strong>Status:</strong> {{ payment_info.status }}</p>
+                <p><strong>Amount:</strong> {{ payment_info.amount }}</p>
+                <p><strong>Currency:</strong> {{ payment_info.currency }}</p>
+                <p><strong>Operator:</strong> {{ payment_info.operator }}</p>
+                <p><strong>Code:</strong> {{ payment_info.code }}</p>
+                <p><strong>Operator Reference:</strong> {{ payment_info.operator_reference }}</p>
+                <p><strong>Description:</strong> {{ payment_info.description }}</p>
+                <p><strong>External User:</strong> {{ payment_info.external_user }}</p>
+                <p><strong>Reason:</strong> {{ payment_info.reason }}</p>
+                <p><strong>Phone Number:</strong> {{ payment_info.phone_number }}</p>
+            </div>
+            <div class="mt-4">
+                <a href="#!" class="inline-block w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50 mb-2">Home</a>
+                <a href="#!" class="inline-block w-full py-2 px-4 bg-teal-600 text-white font-semibold rounded-lg hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-600 focus:ring-opacity-50">Print</a>
             </div>
         </div>
     </div>

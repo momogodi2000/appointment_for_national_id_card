@@ -1,4 +1,4 @@
-{% extends 'panel/police/base_police.html' %}
+{% extends 'panel/base_page/base_police.html' %}
 {% load static %}
 
 {% block title %}
@@ -6,48 +6,40 @@ User Information
 {% endblock %}
 
 {% block styles %}
-<!-- Bootstrap CSS -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
 <!-- Font Awesome CSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-
-<!-- Custom CSS -->
 {% endblock %}
 
 {% block content %}
-        <div class="dashboard-content">
-            <h1>User Information</h1>
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>User ID</th>
-                        <th>Username</th>
-                        <th>Email</th>
-                        <th>Phone</th>
+<div class="dashboard-content p-6">
+    <h1 class="text-3xl font-bold mb-4">User Information</h1>
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white shadow-md rounded-lg">
+            <thead class="bg-gray-800 text-white">
+                <tr>
+                    <th class="py-2 px-4 border-b">User ID</th>
+                    <th class="py-2 px-4 border-b">Username</th>
+                    <th class="py-2 px-4 border-b">Email</th>
+                    <th class="py-2 px-4 border-b">Phone</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    {% if user.id != request.user.id %}
+                    <tr class="hover:bg-gray-100">
+                        <td class="py-2 px-4 border-b">{{ user.id }}</td>
+                        <td class="py-2 px-4 border-b">{{ user.username }}</td>
+                        <td class="py-2 px-4 border-b">{{ user.email }}</td>
+                        <td class="py-2 px-4 border-b">{{ user.phone }}</td>
                     </tr>
-                </thead>
-                <tbody>
-                    {% for user in users %}
-                        {% if user.id != request.user.id %}
-                        <tr>
-                            <td>{{ user.id }}</td>
-                            <td>{{ user.username }}</td>
-                            <td>{{ user.email }}</td>
-                            <td>{{ user.phone }}</td>
-                        </tr>
-                        {% endif %}
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </main>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock %}
 
 {% block scripts %}
-<!-- Bootstrap JS -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
 <!-- Custom JavaScript -->
 {% endblock %}

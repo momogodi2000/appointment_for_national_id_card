@@ -1,174 +1,243 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Booking Appointment for National ID Card</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{% static 'css/test.css' %}">
-    <!-- Adding animation and custom styles -->
+    <title>National ID Card Booking - Cameroon</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/2.3.0/alpine-ie11.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .animate-fadeIn {
+            animation: fadeIn 1s ease-in-out;
+        }
+    </style>
 </head>
-
-
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <a class="navbar-brand" href="#">National ID Booking</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'register' %}">Register</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'login' %}">Login</a>
-                </li>
-            </ul>
+<body class="bg-gray-100 font-sans">
+    <nav class="bg-blue-800 text-white shadow-lg">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a class="font-bold text-xl" href="#">National ID Booking</a>
+            <div class="hidden md:flex space-x-4">
+                <a href="{% url 'register' %}" class="hover:bg-blue-700 px-3 py-2 rounded transition duration-300">Register</a>
+                <a href="{% url 'login' %}" class="hover:bg-blue-700 px-3 py-2 rounded transition duration-300">Login</a>
+            </div>
+            <button class="md:hidden focus:outline-none" x-data="{ open: false }" @click="open = !open">
+                <svg class="h-6 w-6 fill-current" viewBox="0 0 24 24">
+                    <path x-show="!open" fill-rule="evenodd" clip-rule="evenodd" d="M4 6h16v2H4V6zm0 5h16v2H4v-2zm0 5h16v2H4v-2z"/>
+                    <path x-show="open" fill-rule="evenodd" clip-rule="evenodd" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
         </div>
     </nav>
 
-    <!-- Video Carousel Section (moved to the top) -->
-    <div id="videoCarousel" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <video controls class="d-block w-100">
-                    <source src="{% static 'video/moi.mp4' %}" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-            </div>
-            <div class="carousel-item">
-                <video controls class="d-block w-100">
-                    <source src="{% static 'video/toi.mp4' %}" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-            </div>
+    <header class="bg-blue-900 text-white py-16 animate-fadeIn">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-4xl font-bold mb-4">Welcome to Cameroon's National ID Card Booking System</h1>
+            <p class="text-xl mb-8">Secure, Efficient, and Convenient</p>
+            <a href="#book-appointment" class="bg-yellow-500 text-blue-900 font-bold py-2 px-4 rounded-full hover:bg-yellow-400 transition duration-300">Book Your Appointment</a>
         </div>
-        <a class="carousel-control-prev" href="#videoCarousel" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#videoCarousel" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-    </div>
+    </header>
 
-    <!-- Motto Section -->
-    <div class="container moto text-center">
-        <h2>Moto of Cameroon: "Peace - Work - Fatherland"</h2>
-        <img src="{% static 'img/motto.jpeg' %}" alt="Cameroon Moto" class="img-fluid">
-    </div>
-
-    <!-- Procedure Section -->
-    <div class="container procedure">
-        <h2>Procedure to Establish an Official National ID Card in Cameroon</h2>
-        <ol>
-            <li>
-                <h4>Step 1: Visit the nearest identification office or book online for an appointment</h4>
-                <p>Find the nearest office or use our online system to schedule an appointment at your convenience.</p>
-            </li>
-            <li>
-                <h4>Step 2: Provide the necessary documents</h4>
-                <ul>
-                    <li>Birth Certificate</li>
-                    <li>Proof of Residence</li>
-                    <li>Previous ID card (if applicable)</li>
-                    <li>Passport-size photographs</li>
-                </ul>
-                <img src="{% static 'img/birth.jpeg' %}" alt="Necessary Documents" class="img-fluid">
-            </li>
-            <li>
-                <h4>Step 3: Complete the application form</h4>
-                <p>Fill out the application form available at the identification office or online.</p>
-            </li>
-            <li>
-                <h4>Step 4: Submit the form and documents</h4>
-                <p>Submit the completed form along with the required documents to the designated officer.</p>
-            </li>
-            <li>
-                <h4>Step 5: Biometric data capture</h4>
-                <p>Undergo biometric data capture including fingerprints, photograph, and signature.</p>
-                <img src="{% static 'img/bio.jpeg' %}" alt="Biometric Data Capture" class="img-fluid">
-            </li>
-            <li>
-                <h4>Step 6: Receive acknowledgment slip</h4>
-                <p>Receive an acknowledgment slip with your application number for tracking.</p>
-            </li>
-            <li>
-                <h4>Step 7: Track application status</h4>
-                <p>Track the status of your application online using your application number.</p>
-            </li>
-            <li>
-                <h4>Step 8: Collect the National ID card</h4>
-                <p>Collect your National ID card upon notification from the identification office.</p>
-            </li>
-        </ol>
-    </div>
-
-    <!-- Security Services Section -->
-    <div class="container security-services">
-        <h3>Different Security Level Services in Police</h3>
-        <div class="row">
-            <div class="col-md-4 service-item">
-                <h4>Service 1: Criminal Investigation</h4>
-                <p>Handles investigation of serious crimes and criminal activities.</p>
-                <img src="{% static 'img/police2.jpeg' %}" alt="Criminal Investigation" class="img-fluid">
+    <main class="container mx-auto px-6 py-8">
+        <section id="video-carousel" class="mb-16">
+            <h2 class="text-3xl font-bold text-center text-blue-800 mb-8">Learn About Our Process</h2>
+            <div class="relative" x-data="{ activeSlide: 1 }" x-init="setInterval(() => activeSlide = activeSlide === 2 ? 1 : 2, 10000)">
+                <div class="overflow-hidden relative">
+                    <div class="flex transition-transform duration-500 ease-in-out" :style="{ 'transform': `translateX(-${(activeSlide - 1) * 100}%)` }">
+                        <div class="w-full flex-shrink-0">
+                            <video controls class="w-full">
+                                <source src="{% static 'video/moi.mp4' %}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        <div class="w-full flex-shrink-0">
+                            <video controls class="w-full">
+                                <source src="{% static 'video/toi.mp4' %}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                    </div>
+                </div>
+                <button @click="activeSlide = 1" class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-r">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button @click="activeSlide = 2" class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-l">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
             </div>
-            <div class="col-md-4 service-item">
-                <h4>Service 2: Traffic Control</h4>
-                <p>Ensures the safety and regulation of road traffic.</p>
-                <img src="{% static 'img/inspect.jpeg' %}" alt="Traffic Control" class="img-fluid">
+        </section>
+
+        <section id="motto" class="mb-16 text-center">
+            <h2 class="text-3xl font-bold text-blue-800 mb-4">Motto of Cameroon</h2>
+            <p class="text-xl font-semibold text-gray-700 mb-4">"Peace - Work - Fatherland"</p>
+            <img src="{% static 'img/motto.jpeg' %}" alt="Cameroon Motto" class="mx-auto rounded-lg shadow-lg">
+        </section>
+
+        <section id="procedure" class="mb-16">
+            <h2 class="text-3xl font-bold text-blue-800 mb-8">How to Obtain Your National ID Card</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <ol class="space-y-6">
+                        <li class="flex items-start">
+                            <span class="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-blue-500 text-white rounded-full mr-3">1</span>
+                            <div>
+                                <h4 class="text-xl font-semibold mb-2">Book an Appointment</h4>
+                                <p class="text-gray-600">Use our online system to schedule an appointment at your convenience.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-blue-500 text-white rounded-full mr-3">2</span>
+                            <div>
+                                <h4 class="text-xl font-semibold mb-2">Prepare Documents</h4>
+                                <p class="text-gray-600">Gather required documents: Birth Certificate, Proof of Residence, Previous ID (if applicable), and Passport Photos.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-blue-500 text-white rounded-full mr-3">3</span>
+                            <div>
+                                <h4 class="text-xl font-semibold mb-2">Visit Identification Office</h4>
+                                <p class="text-gray-600">Attend your appointment and submit your documents.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-blue-500 text-white rounded-full mr-3">4</span>
+                            <div>
+                                <h4 class="text-xl font-semibold mb-2">Biometric Capture</h4>
+                                <p class="text-gray-600">Complete the biometric data capture process.</p>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+                <div class="space-y-6">
+                    <img src="{% static 'img/birth.jpeg' %}" alt="Required Documents" class="w-full rounded-lg shadow-lg mb-4">
+                    <img src="{% static 'img/bio.jpeg' %}" alt="Biometric Capture" class="w-full rounded-lg shadow-lg">
+                </div>
             </div>
-            <div class="col-md-4 service-item">
-                <h4>Service 3: Cyber Crime</h4>
-                <p>Investigates and combats cyber-related crimes.</p>
-                <img src="{% static 'img/cyber.jpeg' %}" alt="Cyber Crime" class="img-fluid">
+        </section>
+
+        <section id="security-services" class="mb-16">
+            <h2 class="text-3xl font-bold text-blue-800 mb-8">Our Security Services</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden transition duration-300 transform hover:scale-105">
+                    <img src="{% static 'img/police2.jpeg' %}" alt="Criminal Investigation" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Criminal Investigation</h3>
+                        <p class="text-gray-600">Our expert team handles investigations of serious crimes and criminal activities.</p>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden transition duration-300 transform hover:scale-105">
+                    <img src="{% static 'img/inspect.jpeg' %}" alt="Traffic Control" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Traffic Control</h3>
+                        <p class="text-gray-600">We ensure the safety and regulation of road traffic throughout Cameroon.</p>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden transition duration-300 transform hover:scale-105">
+                    <img src="{% static 'img/cyber.jpeg' %}" alt="Cyber Crime" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Cyber Crime Unit</h3>
+                        <p class="text-gray-600">Our specialized unit investigates and combats cyber-related crimes to keep Cameroon safe online.</p>
+                    </div>
+                </div>
             </div>
-        </div>
+        </section>
+
+        <section id="map" class="mb-16">
+            <h2 class="text-3xl font-bold text-blue-800 mb-8">Find Nearby Police Stations</h2>
+            <div id="google-map" class="w-full h-96 rounded-lg shadow-lg"></div>
+        </section>
+
+        <section id="book-appointment" class="bg-blue-100 rounded-lg shadow-lg p-8 mb-16">
+            <h2 class="text-3xl font-bold text-blue-800 mb-8">Book Your Appointment</h2>
+            <form class="space-y-4">
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
+                    <input type="text" id="name" name="name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                </div>
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                    <input type="email" id="email" name="email" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                </div>
+                <div>
+                    <label for="date" class="block text-sm font-medium text-gray-700">Preferred Date</label>
+                    <input type="date" id="date" name="date" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                </div>
+                <div>
+                    <label for="location" class="block text-sm font-medium text-gray-700">Preferred Location</label>
+                    <select id="location" name="location" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                        <option value="">Select a location</option>
+                        <option value="yaounde">Yaoundé</option>
+                        <option value="douala">Douala</option>
+                        <option value="bamenda">Bamenda</option>
+                        <option value="garoua">Garoua</option>
+                    </select>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-full hover:bg-blue-700 transition duration-300">Book Appointment</button>
+            </form>
+        </section>
+    </main>
+
+    <footer class="bg-blue-900 text-white py-8">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-wrap justify-between">
+                <div class="w-full md:w-1/3 mb-6 md:mb-0">
+                    <h3 class="text-xl font-bold mb-2">National ID Card Booking System</h3>
+                    <p>Ensuring secure and efficient ID management for all Cameroonians.</p>
+                </div>
+                <div class="w-full md:w-1/3 mb-6 md:mb-0">
+                    <h3 class="text-xl font-bold mb-2">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-blue-300">Home</a></li>
+                        <li><a href="#" class="hover:text-blue-300">About Us</a></li>
+                        <li><a href="#" class="hover:text-blue-300">FAQs</a></li>
+                        <li><a href="#" class="hover:text-blue-300">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="w-full md:w-1/3">
+                    <h3 class="text-xl font-bold mb-2">Contact Us</h3>
+                    <ul class="space-y-2">
+                        <li><i class="fas fa-phone mr-2"></i> +237 123 456 789</li>
+                        <li><i class="fas fa-envelope mr-2"></i> info@nationalid.cm</li>
+                        <li><i class="fas fa-map-marker-alt mr-2"></i> Yaoundé, Cameroon</li>
+                    </ul>
+                </div>
+            </div>
+            <button type="submit" class="w-full bg-blue-800 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Submit</button>
+        </form>
+    </section>
+</main>
+
+<footer class="bg-blue-800 text-white py-6">
+    <div class="container mx-auto px-6 text-center">
+        <p>&copy; 2024 National ID Card Booking - Cameroon. All rights reserved.</p>
+        <p>For assistance, contact us at <a href="mailto:support@idbooking.cm" class="underline">support@idbooking.cm</a></p>
     </div>
+</footer>
 
-    <!-- Google Maps Section -->
-    <div class="container map-container">
-        <h3>Find Nearby Police Stations</h3>
-        <div id="map" style="height: 500px;"></div>
-    </div>
+<script>
+    // Initialize Google Map
+    function initMap() {
+        var map = new google.maps.Map(document.getElementById('google-map'), {
+            center: {lat: 3.8480, lng: 11.5021},
+            zoom: 12
+        });
+    }
 
-    <div class="footer">
-        <p>&copy; 2024 National ID Card Booking System. All rights reserved.</p>
-    </div>
+    // Load Google Maps Script
+    function loadGoogleMaps() {
+        var script = document.createElement('script');
+        script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyAOVYRIgupAurZup5y1PRh8Ismb1A3lLao&libraries=places&callback=initMap";
+        script.defer = true;
+        script.async = true;
+        document.head.appendChild(script);
+    }
 
-    <!-- Scripts -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOVYRIgupAurZup5y1PRh8Ismb1A3lLao&libraries=places&callback=initMap" async defer></script>
-    <script src="{% static 'js/home.js' %}"></script>
-    <script>
-        // Initialize the map
-function initMap() {
-  const map = new google.maps.Map(document.getElementById('map'), {
-    center: { lat: 3.8792, lng: 11.5021 }, // Center the map on Yaounde, Cameroon
-    zoom: 12,
-  });
-
-  // Add a marker for each police station
-  const policeStations = [
-    { lat: 3.8792, lng: 11.5021, title: 'Police Station 1' },
-    { lat: 3.8832, lng: 11.5121, title: 'Police Station 2' },
-    { lat: 3.8872, lng: 11.5221, title: 'Police Station 3' },
-  ];
-
-  policeStations.forEach((station) => {
-    const marker = new google.maps.Marker({
-      position: { lat: station.lat, lng: station.lng },
-      map,
-      title: station.title,
+    document.addEventListener("DOMContentLoaded", function() {
+        loadGoogleMaps();
     });
-  });
-}
-    </script>
-</body>
-
-</html>
+</script>

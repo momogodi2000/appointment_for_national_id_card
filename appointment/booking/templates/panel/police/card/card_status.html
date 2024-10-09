@@ -1,4 +1,4 @@
-{% extends 'panel/police/base_police.html' %}
+{% extends 'panel/base_page/base_police.html' %}
 {% load static %}
 
 {% block title %}
@@ -6,47 +6,42 @@ Manager Card
 {% endblock %}
 
 {% block styles %}
-<!-- Bootstrap CSS -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
+<!-- Tailwind CSS -->
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 <!-- Font Awesome CSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-
-<!-- Custom CSS -->
 {% endblock %}
 
 {% block content %}
-        <div class="dashboard-content">
-            <h1>Manage Cards Availability</h1>
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>Appointment ID</th>
-                        <th>User ID</th>
-                        <th>Card Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for card in cards %}
-                    <tr>
-                        <td>{{ card.id }}</td>
-                        <td>{{ card.user }}</td>
-                        <td>{{ card.card_status }}</td>
-                        <td>
-                            <a href="{% url 'edit_card_status' card.id %}" class="btn btn-info btn-sm">Edit</a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </main>
+<div class="container mx-auto p-6">
+    <h1 class="text-3xl font-bold mb-4">Manage Cards Availability</h1>
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
+            <thead>
+                <tr class="bg-gray-200">
+                    <th class="py-3 px-4 border-b border-gray-300 text-left text-sm font-medium text-gray-700">Appointment ID</th>
+                    <th class="py-3 px-4 border-b border-gray-300 text-left text-sm font-medium text-gray-700">User ID</th>
+                    <th class="py-3 px-4 border-b border-gray-300 text-left text-sm font-medium text-gray-700">Card Status</th>
+                    <th class="py-3 px-4 border-b border-gray-300 text-left text-sm font-medium text-gray-700">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for card in cards %}
+                <tr class="hover:bg-gray-100">
+                    <td class="py-2 px-4 border-b border-gray-300">{{ card.id }}</td>
+                    <td class="py-2 px-4 border-b border-gray-300">{{ card.user }}</td>
+                    <td class="py-2 px-4 border-b border-gray-300">{{ card.card_status }}</td>
+                    <td class="py-2 px-4 border-b border-gray-300">
+                        <a href="{% url 'edit_card_status' card.id %}" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">Edit</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock %}
 
 {% block scripts %}
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
 <!-- Custom JavaScript -->
 {% endblock %}

@@ -3,57 +3,63 @@
 {% block title %}Payment{% endblock %}
 
 {% block content %}
-<div class="container">
-    <h2 class="my-4">Payment for Document Upload</h2>
-    <div class="row">
-        <!-- <div class="col-md-6">
-            <h4>Credit Card Payment</h4>
+<div class="container mx-auto p-6">
+    <h2 class="text-2xl font-bold my-4">Payment for Document Upload</h2>
+    <div class="flex flex-col md:flex-row">
+        <!-- 
+        <div class="md:w-1/2 mb-4">
+            <h4 class="text-xl font-semibold mb-2">Credit Card Payment</h4>
             <form id="credit-card-form">
-                Add your credit card form fields here
-                <div class="form-group">
-                    <label for="cardNumber">Card Number</label>
-                    <input type="text" class="form-control" id="cardNumber" placeholder="Enter card number">
+                <div class="mb-4">
+                    <label for="cardNumber" class="block text-gray-700">Card Number</label>
+                    <input type="text" class="w-full p-2 border border-gray-300 rounded-md" id="cardNumber" placeholder="Enter card number">
                 </div>
-                <div class="form-group">
-                    <label for="cardExpiry">Expiry Date</label>
-                    <input type="text" class="form-control" id="cardExpiry" placeholder="MM/YY">
+                <div class="mb-4">
+                    <label for="cardExpiry" class="block text-gray-700">Expiry Date</label>
+                    <input type="text" class="w-full p-2 border border-gray-300 rounded-md" id="cardExpiry" placeholder="MM/YY">
                 </div>
-                <div class="form-group">
-                    <label for="cardCVC">CVC</label>
-                    <input type="text" class="form-control" id="cardCVC" placeholder="CVC">
+                <div class="mb-4">
+                    <label for="cardCVC" class="block text-gray-700">CVC</label>
+                    <input type="text" class="w-full p-2 border border-gray-300 rounded-md" id="cardCVC" placeholder="CVC">
                 </div>
-                <button type="submit" class="btn btn-primary">Pay with Credit Card</button>
+                <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600">Pay with Credit Card</button>
             </form>
-        </div> -->
-        <div class="col-md-6">
-            <h4>Mobile Payment</h4>
-            <form id="mobile-payment-form" method="post">
+        </div>
+        -->
+        <div class="md:w-1/2">
+            <h4 class="text-xl font-semibold mb-2">Mobile Payment</h4>
+            <form id="mobile-payment-form" method="post" class="space-y-4">
                 {% csrf_token %}
                 {% if message %}
-                <div class="alert alert-danger" role="alert">
-                    An error occurred during payment processing.<br>
-                    error:<b>{{message}}</b><br>
-                    Please try again.
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                    <strong class="font-bold">An error occurred!</strong>
+                    <span class="block sm:inline"> {{ message }}. Please try again.</span>
                 </div>
                 {% endif %}
-                <!-- Add your mobile payment form fields here -->
-                <div class="form-group">
-                    <label for="mobileNumber">Mobile Number</label>
-                    <input type="text" name="phone" class="form-control" id="mobileNumber"
-                        placeholder="Enter mobile number">
+                <div class="mb-4">
+                    <label for="mobileNumber" class="block text-gray-700">Mobile Number</label>
+                    <input type="text" name="phone" class="w-full p-2 border border-gray-300 rounded-md" id="mobileNumber" placeholder="Enter mobile number">
                 </div>
-                <!-- <div class="form-group">
-                    <label for="mobileOperator">Mobile Operator</label>
-                    <select class="form-control" id="mobileOperator">
+                <div class="mb-4">
+                    <label for="mobileNumber" class="block text-gray-700">Appointment ID: {{request.session.appointment}}</label>
+                    <input type="text" name="appointment" value="{{request.session.appointment}}" class="w-full p-2 border border-gray-300 rounded-md" id="appointment" placeholder="">
+                </div>
+                <!-- 
+                <div class="mb-4">
+                    <label for="mobileOperator" class="block text-gray-700">Mobile Operator</label>
+                    <select class="w-full p-2 border border-gray-300 rounded-md" id="mobileOperator">
                         <option value="operator1">Operator 1</option>
                         <option value="operator2">Operator 2</option>
                     </select>
-                </div> -->
-                <button id="mobile-payment-form-btn" type="submit" class="btn btn-primary">Pay with Mobile
-                    Payment</button>
+                </div>
+                -->
+                <button id="mobile-payment-form-btn" type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600">Pay with Mobile Payment</button>
             </form>
-            <!-- {% if request.method == 'POST' %}
-            {% if payment_info %} <div class="alert alert-success" role="alert">
+
+            <!-- 
+            {% if request.method == 'POST' %}
+            {% if payment_info %} 
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
                 Payment successful! Details:
                 <ul>
                     <li>Name: {{ payment_info.name }}</li>
@@ -62,97 +68,25 @@
                 </ul>
             </div>
             {% else %}
-            <div class="alert alert-danger" role="alert">
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
                 An error occurred during payment processing. Please try again.
             </div>
             {% endif %}
-            {% endif %} -->
-
-
-
+            {% endif %}
+            -->
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-boQlKlMqShhmPULa5xCjwEVH+kYEIMs+cA9IkczWIzYnDqrQPJ8YhHdMrqNfwEY==="
-    crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-boQlKlMqShhmPULa5xCjwEVH+kYEIMs+cA9IkczWIzYnDqrQPJ8YhHdMrqNfwEY==" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script>
-    // Add JavaScript for form validation and handling submission
-    // console.log("payment start");
     $(document).ready(function () {
         $('#mobile-payment-form').on('submit', function (event) {
             console.log("payment start");
-            // event.preventDefault();
-            var formData = $(this).serialize();
-            let phone = document.getElementById("mobileNumber").value
-            // console.log(phone);
-            // $.ajax({
-            //     url: "{% url 'payment_page' %}",
-            //     type: "POST",
-            //     data: formData,
-            //     dataType: 'json',
-            //     success: function (response) {
-            //         console.log(response);
-            //         const paymentInfo = JSON.parse(response);
-            //         // alert(paymentInfo);
-            //         console.log("paymentInfo: ", paymentInfo);
-            //         // Optionally redirect to another page or perform other actions
-            //         // window.location.href = "{% url 'user_panel' %}"
-            //     },
-            //     error: function (xhr, status, error) {
-            //         // console.error(xhr.responseText);
-            //         // console.error(error);
-            //         // console.error(status);
-            //         alert('Error booking appointment. Please try again.');
-
-            //     }
-            // });
-
         });
     })
-    $('#credit-card-form').on('submit', function (e) {
-        e.preventDefault();
-        alert('Payment successful!');
-        // Redirect to the user panel or another page
-        // window.location.href = "{% url 'user_panel' %}";
-    });
 </script>
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script>
-    $(document).ready(function () {
-        if ($('body').hasClass('payment-success')) { // Check for success class in body
-            alert('Payment successful!');
-        }
-    });
-</script> -->
-<!-- <script>
-    $(document).ready(function () {
-        //   $('#mobile-payment-form').submit(function(e) { // Assuming you have a form with ID "payment-form"
-        $('#mobile-payment-form').on('submit', function (e) {
-            e.preventDefault();  // Prevent default form submission
-
-            // Your AJAX request to submit payment data (replace with your logic)
-            $.ajax({
-                url: "{% url 'payment_page' %}", // Replace with your actual URL
-                type: 'POST',
-                dataType: 'json',
-                success: function (data) {
-                    console.log(data);  // Log data for debugging
-                    if (data.status === 'success') {
-                        $('body').addClass('payment-success');  // Add success class to body
-                    } else {
-                        alert('Payment failed! Please try again.');
-                    }
-                },
-                error: function (error) {
-                    console.error(error);  // Log errors for debugging
-                    alert('An error occurred during payment processing. Please try again.');
-                }
-            });
-        });
-    });
-</script> -->
 {% endblock %}

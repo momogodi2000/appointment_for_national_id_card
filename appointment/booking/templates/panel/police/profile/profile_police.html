@@ -2,38 +2,38 @@
 {% load static %}
 
 {% block content %}
-<div class="container animate__animated animate__fadeIn">
-    <div class="profile-container">
-        <h2 class="text-center">Profile</h2>
-        <div class="text-center">
+<div class="container mx-auto animate__animated animate__fadeIn p-6">
+    <div class="profile-container bg-white shadow-md rounded-lg p-6">
+        <h2 class="text-center text-2xl font-bold mb-4">Profile</h2>
+        <div class="text-center mb-4">
             {% if user.profile_picture %}
-                <img src="{{ user.profile_picture.url }}" alt="Profile Picture" class="profile-picture">
+                <img src="{{ user.profile_picture.url }}" alt="Profile Picture" class="profile-picture w-32 h-32 rounded-full object-cover">
             {% else %}
-                <img src="{% static 'img/why.jpeg' %}" alt="Default Profile Picture" class="profile-picture">
+                <img src="{% static 'img/why.jpeg' %}" alt="Default Profile Picture" class="profile-picture w-32 h-32 rounded-full object-cover">
             {% endif %}
         </div>
-        <div class="form-group">
-            <label for="username">Username:</label>
-            <input type="text" id="username" class="form-control" value="{{ user.username }}" readonly>
+        <div class="mb-4">
+            <label for="username" class="block text-sm font-medium text-gray-700">Username:</label>
+            <input type="text" id="username" class="mt-1 block w-full border border-gray-300 rounded-md p-2" value="{{ user.username }}" readonly>
         </div>
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" id="email" class="form-control" value="{{ user.email }}" readonly>
+        <div class="mb-4">
+            <label for="email" class="block text-sm font-medium text-gray-700">Email:</label>
+            <input type="email" id="email" class="mt-1 block w-full border border-gray-300 rounded-md p-2" value="{{ user.email }}" readonly>
         </div>
-        <div class="form-group">
-            <label for="role">Role:</label>
-            <input type="text" id="role" class="form-control" value="{{ user.get_role_display }}" readonly>
+        <div class="mb-4">
+            <label for="role" class="block text-sm font-medium text-gray-700">Role:</label>
+            <input type="text" id="role" class="mt-1 block w-full border border-gray-300 rounded-md p-2" value="{{ user.get_role_display }}" readonly>
         </div>
-        <div class="form-group">
-            <label for="phone">Phone:</label>
-            <input type="text" id="phone" class="form-control" value="{{ user.phone }}" readonly>
+        <div class="mb-4">
+            <label for="phone" class="block text-sm font-medium text-gray-700">Phone:</label>
+            <input type="text" id="phone" class="mt-1 block w-full border border-gray-300 rounded-md p-2" value="{{ user.phone }}" readonly>
         </div>
-        <div class="form-group">
-            <label for="address">Address:</label>
-            <input type="text" id="address" class="form-control" value="{{ user.address }}" readonly>
+        <div class="mb-4">
+            <label for="address" class="block text-sm font-medium text-gray-700">Address:</label>
+            <input type="text" id="address" class="mt-1 block w-full border border-gray-300 rounded-md p-2" value="{{ user.address }}" readonly>
         </div>
         <div class="text-center">
-            <a href="#" class="btn btn-edit">Edit Profile</a>
+            <a href="#" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Edit Profile</a>
         </div>
     </div>
 </div>

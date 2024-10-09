@@ -3,15 +3,15 @@
 {% block title %}Track Application{% endblock %}
 
 {% block content %}
-<div class="container">
-    <h2>Track Application</h2>
-    <form action="{% url 'track_application' %}" id="track-application-form" method="post">
+<div class="container mx-auto p-6 bg-white shadow-md rounded-lg mt-10">
+    <h2 class="text-2xl font-bold mb-4">Track Application</h2>
+    <form action="{% url 'track_application' %}" id="track-application-form" method="post" class="space-y-4">
         {% csrf_token %}
-        <div class="form-group">
-            <label for="applicationId">Appointment ID</label>
-            <input type="text" class="form-control" id="applicationId" name="applicationId" placeholder="Enter your appointment ID" required>
+        <div>
+            <label for="applicationId" class="block text-sm font-medium text-gray-700">Appointment ID</label>
+            <input type="text" class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-500" id="applicationId" name="applicationId" placeholder="Enter your appointment ID" required>
         </div>
-        <button type="submit" class="btn btn-primary">Track</button>
+        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">Track</button>
     </form>
     <div id="applicationStatus" class="mt-4">
         <!-- Application status will be displayed here -->
@@ -30,10 +30,10 @@ $(document).ready(function(){
             type: 'GET',
             data: { 'applicationId': applicationId },
             success: function(response) {
-                $('#applicationStatus').html('<p class="text-success">Application status: ' + response.status + '</p>');
+                $('#applicationStatus').html('<p class="text-green-600">Application status: ' + response.status + '</p>');
             },
             error: function() {
-                $('#applicationStatus').html('<p class="text-danger">Error retrieving application status. Please try again.</p>');
+                $('#applicationStatus').html('<p class="text-red-600">Error retrieving application status. Please try again.</p>');
             }
         });
     });

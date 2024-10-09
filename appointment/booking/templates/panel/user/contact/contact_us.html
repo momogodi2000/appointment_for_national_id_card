@@ -2,47 +2,38 @@
 {% load static %}
 
 {% block content %}
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="card mt-5">
-                <div class="card-body">
-                    <h2 class="card-title text-center mb-4">Contact Us</h2>
-                    <form method="POST" action="{% url 'contact_us' %}" class="needs-validation" novalidate>
-                        {% csrf_token %}
-                        <div class="form-group">
-                            <label for="name">Your Name</label>
-                            <input type="text" class="form-control" id="name" name="name" required>
-                            <div class="invalid-feedback">
-                                Please enter your name.
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Your Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
-                            <div class="invalid-feedback">
-                                Please enter a valid email address.
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="message">Message</label>
-                            <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
-                            <div class="invalid-feedback">
-                                Please enter your message.
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-block">Send Message</button>
-                    </form>
-                </div>
+<div class="flex justify-center items-center min-h-screen bg-gray-100">
+    <div class="w-full max-w-lg p-8 bg-white rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold text-center mb-6">Contact Us</h2>
+        <form method="POST" action="{% url 'contact_us' %}" class="space-y-4" novalidate>
+            {% csrf_token %}
+            <div>
+                <label for="name" class="block text-sm font-medium text-gray-700">Your Name</label>
+                <input type="text" id="name" name="name" required 
+                       class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring focus:ring-blue-500 focus:outline-none" />
+                <div class="text-red-500 text-sm mt-1 hidden" id="nameFeedback">Please enter your name.</div>
             </div>
-        </div>
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-700">Your Email</label>
+                <input type="email" id="email" name="email" required 
+                       class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring focus:ring-blue-500 focus:outline-none" />
+                <div class="text-red-500 text-sm mt-1 hidden" id="emailFeedback">Please enter a valid email address.</div>
+            </div>
+            <div>
+                <label for="message" class="block text-sm font-medium text-gray-700">Message</label>
+                <textarea id="message" name="message" rows="5" required 
+                          class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring focus:ring-blue-500 focus:outline-none"></textarea>
+                <div class="text-red-500 text-sm mt-1 hidden" id="messageFeedback">Please enter your message.</div>
+            </div>
+            <button type="submit" class="w-full bg-blue-500 text-white rounded-md p-2 hover:bg-blue-600 focus:outline-none">Send Message</button>
+        </form>
     </div>
 </div>
 {% endblock %}
 
 {% block extra_css %}
-<!-- Bootstrap CSS -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<!-- Tailwind CSS -->
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 
 <!-- Font Awesome CSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -51,13 +42,33 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
 <!-- Custom CSS -->
-<link rel="stylesheet" href="{% static 'css/contact2.css' %}">
 {% endblock %}
 
 {% block extra_js %}
-<!-- Bootstrap JS -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
 <!-- Custom JavaScript -->
-<script src="{% static 'js/contact.js' %}"></script>
+<script>
+    // Optional: Add validation feedback functionality
+    document.querySelector('form').addEventListener('submit', function(e) {
+        let valid = true;
+        const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+        const messageInput = document.getElementById('message');
+        
+        if (!nameInput.value) {
+            document.getElementById('nameFeedback').classList.remove('hidden');
+            valid = false;
+        }
+        if (!emailInput.value) {
+            document.getElementById('emailFeedback').classList.remove('hidden');
+            valid = false;
+        }
+        if (!messageInput.value) {
+            document.getElementById('messageFeedback').classList.remove('hidden');
+            valid = false;
+        }
+        if (!valid) {
+            e.preventDefault(); // Prevent form submission if there are validation errors
+        }
+    });
+</script>
 {% endblock %}

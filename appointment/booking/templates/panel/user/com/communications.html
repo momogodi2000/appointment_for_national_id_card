@@ -1,0 +1,56 @@
+{% extends 'panel/user/com/base_communication.html' %}
+{% load static %}
+
+{% block title %}
+Communications
+{% endblock %}
+
+{% block styles %}
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container mx-auto p-6">
+    <h1 class="text-3xl font-bold mb-6 text-gray-800">Communications</h1>
+    <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+        <thead>
+            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                <th class="py-3 px-6 text-left">Title</th>
+                <th class="py-3 px-6 text-left">Date</th>
+                <th class="py-3 px-6 text-center">Actions</th>
+            </tr>
+        </thead>
+        <tbody class="text-gray-600 text-sm font-light">
+            {% for communication in communications %}
+            <tr class="hover:bg-gray-100 border-b border-gray-300">
+                <td class="py-3 px-6">{{ communication.title }}</td>
+                <td class="py-3 px-6">{{ communication.date|date:"Y-m-d H:i" }}</td>
+                <td class="py-3 px-6 text-center">
+                    <button onclick="downloadCommunication('{{ communication.id }}')" class="bg-blue-500 text-white rounded-lg px-4 py-2 hover:bg-blue-700 transition-colors">
+                        Download
+                    </button>
+                    <button onclick="viewCommunication('{{ communication.id }}')" class="ml-2 bg-green-500 text-white rounded-lg px-4 py-2 hover:bg-green-700 transition-colors">
+                        View
+                    </button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function downloadCommunication(communicationId) {
+        const url = `/download/${communicationId}/`; // Adjust based on your download URL
+        window.location.href = url; // Redirect to the download URL
+    }
+
+    function viewCommunication(communicationId) {
+        const url = `/communication/${communicationId}/`; // Adjust based on your view URL
+        window.location.href = url; // Redirect to the view URL
+    }
+</script>
+{% endblock %}

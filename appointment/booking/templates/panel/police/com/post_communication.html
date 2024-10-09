@@ -1,0 +1,44 @@
+<!-- post_communication.html -->
+
+{% extends 'panel/base_page/base_police.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mx-auto p-6">
+    <h1 class="text-2xl font-bold text-center mb-6">Post Communication</h1>
+
+    <form method="post" enctype="multipart/form-data" class="space-y-4">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div>
+            <label for="photo" class="block text-sm font-medium text-gray-700">Upload Photo</label>
+            <input type="file" id="photo" name="photo" accept="image/*" class="block w-full mt-1">
+            <img id="preview" class="mt-4 w-full h-40 object-cover rounded-md hidden">
+        </div>
+        <div class="flex justify-between items-center">
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+                Post Communication
+            </button>
+
+            <!-- View Communications Button -->
+            <a href="{% url 'view_communications' %}" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">
+                View Communications
+            </a>
+        </div>
+    </form>
+</div>
+
+<!-- JavaScript for image preview -->
+<script>
+    const photoInput = document.getElementById('photo');
+    const previewImage = document.getElementById('preview');
+
+    photoInput.addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            previewImage.src = URL.createObjectURL(file);
+            previewImage.classList.remove('hidden');
+        }
+    });
+</script>
+{% endblock %}
