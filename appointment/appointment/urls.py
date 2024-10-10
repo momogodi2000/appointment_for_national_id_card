@@ -52,6 +52,10 @@ urlpatterns = [
 
     path('api/statistics/', api.StatisticsAPIView.as_view(), name='statistics'),
 
+
+    path('api/appointment/history/', api.AppointmentHistoryAPIView.as_view(), name='appointment-history-api'),
+
+
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

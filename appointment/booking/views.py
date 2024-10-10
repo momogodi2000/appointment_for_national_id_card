@@ -581,6 +581,8 @@ def appointment_history(request):
     }
     return render(request, 'panel/user/history/appointment_history.html', context)
 
+
+
 @login_required
 def download_receipt(request, appointment_id):
     try:

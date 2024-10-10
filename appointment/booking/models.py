@@ -16,7 +16,6 @@ class User(AbstractUser):
     profile_picture = models.ImageField(upload_to='profile_pics/', null=True, blank=True) 
 
 
-
 class Office(models.Model):
     name = models.CharField(max_length=100)
     address = models.TextField()
@@ -98,8 +97,6 @@ class Communication(models.Model):
 
     def __str__(self):
         return self.title
-
-
 
 class ContactUs(models.Model):
      message = models.CharField(max_length=255)

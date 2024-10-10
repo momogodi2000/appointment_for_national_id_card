@@ -36,6 +36,8 @@ from django.contrib.auth.hashers import check_password
 from rest_framework.authtoken.models import Token
 from django.utils.crypto import get_random_string
 
+
+
 # Gmail credentials
 username = "yvangodimomo@gmail.com"
 password = "pzls apph esje cgdl"
@@ -50,9 +52,6 @@ campay = CamPayClient({
 
 
 
-
-
-
 class RegistrationView(APIView):
     def post(self, request):
         serializer = UserSerializer(data=request.data)
@@ -60,8 +59,6 @@ class RegistrationView(APIView):
             serializer.save()
             return Response({"message": "User created successfully!"}, status=status.HTTP_201_CREATED)
         return Response({"errors": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
-
-
 
 
 class LoginView(APIView):
@@ -91,7 +88,6 @@ class LoginView(APIView):
             {"data": UserSerializer(user).data, "token": token.key},
             status=status.HTTP_200_OK
         )
-
 
 
 class ForgotPasswordView(APIView):
@@ -130,8 +126,6 @@ class ForgotPasswordView(APIView):
         return Response({"message": "Password reset successful!"}, status=status.HTTP_200_OK)
 
 
-
-
 def send_email(user_email, subject, message):
     username = "yvangodimomo@gmail.com"
     password = "pzls apph esje cgdl"
@@ -156,9 +150,10 @@ class AppointmentView(APIView):
     def post(self,request):
         appointment = AppointmentSerializer(data=request.data)
         if appointment.is_valid():
-            appointment.save()
-            return Response({
-                "message": "Appointment booked successfully !"
+           appointment.save()
+           return Response({
+                "message": "Appointment booked successfully !",
+                "appointment": appointment.data['id']
             }, status=status.HTTP_200_OK)
         return Response({
             "messages": appointment.errors
@@ -191,8 +186,6 @@ class AppointmentView(APIView):
         appointment = Appointment.objects.get(pk=appointmentId)
         appointment.delete()
         return Response({"message": f"Appointment deleted successfully !"}, status=status.HTTP_200_OK)
-
-
 
 
 ## clients panel
@@ -234,10 +227,6 @@ class UserView(APIView):
             user_update.save()
             return Response({"message": "User updated successfully!"}, status=status.HTTP_200_OK)
         return Response({"message": user_update.errors}, status=status.HTTP_400_BAD_REQUEST)
-
-
-
-
 
 
 from rest_framework import status
@@ -437,7 +426,6 @@ class ContactUsReplyView(APIView):
 
 
 
-
 class NotificationsView(APIView):
     def get(self, request, id):
         notifications = Notification.objects.filter(appointment=id)
@@ -461,7 +449,6 @@ class NotificationsView(APIView):
 
 
 
-
 class CommunicationsView(APIView):
     def get(self, request):
         communications = Communication.objects.all()
@@ -473,7 +460,10 @@ class CommunicationsView(APIView):
         title = request.data.get("title")
         communication_dic = {
             "title": title,
-            "location": file
+            "location": file,
+            "photo": request.data["photo"],
+            "description": request.data["description"],
+            "date": request.data["date"]
         }
         communication = CommunicationSerializer(data=communication_dic)
         if communication.is_valid():
@@ -486,7 +476,10 @@ class CommunicationsView(APIView):
         title = request.data.get("title")
         communication_dic = {
             "title": title,
-            "location": file
+            "location": file,
+            "photo": request.data["photo"],
+            "description": request.data["description"],
+            "date": request.data["date"]
         }
         old_communication = Communication.objects.get(pk=id)
         communication = CommunicationSerializer(old_communication, data=communication_dic, partial=True)
@@ -530,10 +523,12 @@ class PaymentView(APIView):
                 'reason': collect.get('reason'),
                 'phone_number': collect.get('phone_number')
             }
+            print(request.data)
+            user = User.objects.get(pk=request.data['user']['id'])
             payment_receipt_info = {
             "amount": "10",  # The amount you want to collect
             "currency": "XAF",
-            "user": request.data.get("user").id,
+            "user": user,
             "date": now(),
             'reference': collect.get('reference'),
             'external_reference': collect.get('external_reference'),
@@ -542,7 +537,7 @@ class PaymentView(APIView):
             "description": "NATIONAL ID CARD FEES",
             "location": "Mendong"
             }
-            userAppointment = Appointment.objects.get(user=request.data.get("user").id)
+            userAppointment = Appointment.objects.get(pk = request.data["appointment"])
             print(f"User appointments: {userAppointment}")
             userAppointment.paid = True
             userAppointment.save()
@@ -552,7 +547,7 @@ class PaymentView(APIView):
             response.headers['Content-Type'] = 'application/pdf'
             return response
         else:
-            userAppointment = Appointment.objects.get(user=request.data.get("user").id)
+            userAppointment = Appointment.objects.get(pk = request.data["appointment"])
             userAppointment.paid = False
             userAppointment.save()
             if collect.get('reason'):
@@ -617,7 +612,11 @@ def generate_pdf_file(
 
 
 
-
+class SingleDocument(APIView):
+    def get(self, request, id):
+        document = Document.objects.get(pk=id)
+        serialized_document =  DocumentSerializer(document)
+        return Response({"data": serialized_document.data}, status=status.HTTP_200_OK)
 
 class DocumentView(APIView):
     def get(self,request):
@@ -637,7 +636,7 @@ class DocumentView(APIView):
         document = DocumentSerializer(data=user_dic)
         if document.is_valid():
             document.save()
-            return Response({"message":"Documents uploaded successfully!"}, status=status.HTTP_201_CREATED)
+            return Response({"message":"Documents uploaded successfully!", "document": document.data['id']}, status=status.HTTP_201_CREATED)
         return Response({"message": document.errors}, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self,request, document_id):
@@ -645,7 +644,10 @@ class DocumentView(APIView):
         document.delete()
         return Response({"message": "Document deleted successfully !"}, status=status.HTTP_200_OK)
 
-
+    def get(self, request, document_id):
+        document = Document.objects.get(pk=document_id)
+        serialized_document =  DocumentSerializer(document)
+        return Response({"data": serialized_document.data}, status=status.HTTP_200_OK)
 
 
 
@@ -680,3 +682,26 @@ class StatisticsAPIView(APIView):
         if serializer.is_valid():
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+from rest_framework import status
+from .models import Appointment
+from .serializers import AppointmentSerializer
+
+
+class AppointmentHistoryAPIView(APIView):
+
+    def get(self, request, *args, **kwargs):
+        # Ensure the user is authenticated
+        if request.user.is_anonymous:
+            return Response({"detail": "Authentication required."}, status=status.HTTP_401_UNAUTHORIZED)
+
+        # Get the appointments for the current authenticated user
+        appointments = Appointment.objects.filter(user=request.user).order_by('-date')
+        
+        # Serialize the appointments
+        serializer = AppointmentSerializer(appointments, many=True)
+        
+        # Return the serialized data as a JSON response
+        return Response(serializer.data, status=status.HTTP_200_OK)

@@ -145,3 +145,11 @@ class StatisticsSerializer(serializers.Serializer):
     communication_count = serializers.IntegerField()
     contact_us_count = serializers.IntegerField()
     password_reset_count = serializers.IntegerField()
+
+
+from .models import Appointment
+
+class AppointmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Appointment
+        fields = ['date', 'Time', 'Office', 'status', 'created_at', 'Paid', 'Receipt']  # Include the fields you need
