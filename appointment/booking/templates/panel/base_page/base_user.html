@@ -31,7 +31,7 @@
         <div class="bg-primary text-white w-64 flex-shrink-0 overflow-y-auto transition-all duration-300 ease-in-out" id="sidebar">
             <div class="p-4">
                 <a href="{% url 'user_panel' %}" class="flex items-center space-x-2 mb-8">
-                    <img src="{% if user.profile_picture %}{{ user.profile_picture.url }}{% else %}{% static 'img/yvan.jpg' %}{% endif %}" alt="Profile Picture" class="w-10 h-10 rounded-full">
+                    <img src="{% if user.profile_picture %}{{ user.profile_picture.url }}{% else %}{% static 'img/why.jpeg' %}{% endif %}" alt="Profile Picture" class="w-10 h-10 rounded-full">
                     <span class="text-lg font-semibold">{{ user.username }}'s Panel</span>
                 </a>
                 <nav class="space-y-2">

@@ -102,5 +102,7 @@ urlpatterns = [
     path('communication/<int:communication_id>/', views.communication_detail, name='communication_detail'),
 
 
+    path('statistic/', views.statistic, name='statistic'),
+
 
 ]

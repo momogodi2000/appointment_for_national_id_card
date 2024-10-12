@@ -8,27 +8,48 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
         body {
-            background-image: url("{% static 'img/auth.jpeg' %}"); /* Add your background image here */
+            background-image: url("{% static 'img/auth.jpeg' %}");
             background-size: cover;
             background-position: center;
             font-family: 'Arial', sans-serif;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+        }
+        .alert-error {
+            animation: shake 0.4s ease-in-out;
         }
     </style>
 </head>
 <body>
     <div class="flex items-center justify-center min-h-screen">
-        <div class="bg-white bg-opacity-90 rounded-lg shadow-lg p-8 max-w-sm w-full animate__animated animate__fadeIn">
-            <img src="{% static 'icon/logo.ico' %}" alt="Logo" class="block mx-auto mb-6 w-24"> <!-- Add your logo here -->
-            <h2 class="text-2xl font-bold text-center mb-6">Register</h2>
+        <div class="bg-white bg-opacity-90 rounded-lg shadow-lg p-8 max-w-md w-full">
+            <img src="{% static 'icon/logo.ico' %}" alt="Logo" class="block mx-auto mb-6 w-24">
+            <h2 class="text-2xl font-bold text-center mb-6 text-gray-800">Register</h2>
+            
+            <!-- Display error messages with animation -->
+            {% if form.errors %}
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative alert-error mb-6" role="alert">
+                    <span class="block sm:inline">{{ form.errors|striptags }}</span>
+                </div>
+            {% endif %}
+            
             <form method="post" class="space-y-4">
                 {% csrf_token %}
-                {{ form.as_p|safe }}
-                <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition duration-200">Register</button>
+                <div class="space-y-2">
+                    {{ form.as_p|safe }}
+                </div>
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition duration-200">
+                    Register
+                </button>
             </form>
-            <div class="text-center mt-4">
-                <p class="text-gray-600">Already have an account? <a href="{% url 'login' %}" class="text-blue-600 hover:underline">Login</a></p>
-                <p class="text-gray-600"><a href="{% url 'forgot_password' %}" class="text-blue-600 hover:underline">Forgot Password?</a></p>
-                <p class="text-gray-600"><a href="{% url 'home' %}" class="text-blue-600 hover:underline">Return Home</a></p>
+            <div class="text-center mt-6 text-gray-600">
+                <p>Already have an account? <a href="{% url 'login' %}" class="text-blue-600 hover:underline">Login</a></p>
+                <p><a href="{% url 'forgot_password' %}" class="text-blue-600 hover:underline">Forgot Password?</a></p>
+                <p><a href="{% url 'home' %}" class="text-blue-600 hover:underline">Return Home</a></p>
             </div>
         </div>
     </div>

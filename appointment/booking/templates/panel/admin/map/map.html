@@ -35,35 +35,27 @@
 </div>
 
 <!-- Google Maps API Script -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOVYRIgupAurZup5y1PRh8Ismb1A3lLao&libraries=places&callback=initMap"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOVYRIgupAurZup5y1PRh8Ismb1A3lLao&libraries=places&callback=initMap" async defer></script>
 
 <script>
     let map;
     let service;
     let infoWindow;
+    let currentLocation;
 
     // Initialize map
-    function initMap(lat, lng) {
-        const location = new google.maps.LatLng(lat, lng);
+    function initMap() {
+        // Initial dummy location (this will be updated by geolocation)
+        const dummyLocation = { lat: -34.397, lng: 150.644 };
         map = new google.maps.Map(document.getElementById('map'), {
-            center: location,
+            center: dummyLocation,
             zoom: 14,
         });
 
         infoWindow = new google.maps.InfoWindow();
-
-        // Call nearby search when map is ready
-        const request = {
-            location: location,
-            radius: '5000', // Search within 5km radius
-            type: [document.getElementById('location-type').value]
-        };
-
-        service = new google.maps.places.PlacesService(map);
-        service.nearbySearch(request, handleResults);
     }
 
-    // Handle search results
+    // Function to handle results from nearby search
     function handleResults(results, status) {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
             results.forEach(place => {
@@ -78,16 +70,39 @@
                     infoWindow.open(map, this);
                 });
             });
+        } else {
+            alert('No places found nearby.');
         }
     }
 
-    // Get current location and initialize map
+    // Perform nearby search based on location type
+    function performSearch(locationType, lat, lng) {
+        const location = new google.maps.LatLng(lat, lng);
+
+        const request = {
+            location: location,
+            radius: '5000', // Search within 5km radius
+            type: [locationType],
+        };
+
+        service = new google.maps.places.PlacesService(map);
+        service.nearbySearch(request, handleResults);
+    }
+
+    // Locate user's position and update the map
     document.getElementById('locate-btn').addEventListener('click', function () {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(position => {
                 const lat = position.coords.latitude;
                 const lng = position.coords.longitude;
-                initMap(lat, lng);
+                currentLocation = { lat, lng };
+
+                // Update map to current location
+                map.setCenter(currentLocation);
+
+                // Perform search based on the selected type (police or hospital)
+                const locationType = document.getElementById('location-type').value;
+                performSearch(locationType, lat, lng);
             }, () => {
                 alert('Geolocation failed. Please try again.');
             });
@@ -98,13 +113,13 @@
 
     // Re-fetch nearby places when location type changes
     document.getElementById('location-type').addEventListener('change', function () {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(position => {
-                const lat = position.coords.latitude;
-                const lng = position.coords.longitude;
-                initMap(lat, lng);
-            });
+        if (currentLocation) {
+            const locationType = document.getElementById('location-type').value;
+            performSearch(locationType, currentLocation.lat, currentLocation.lng);
+        } else {
+            alert('Please click "Locate Me" first to find your location.');
         }
     });
+
 </script>
 {% endblock %}

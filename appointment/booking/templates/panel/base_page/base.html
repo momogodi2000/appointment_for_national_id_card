@@ -73,7 +73,7 @@
                         <span class="sr-only">Toggle sidebar</span>
                     </button>
                     <a href="{% url 'user_panel' %}" class="flex items-center justify-between mr-4">
-                        <img src="{% if user.profile_picture %}{{ user.profile_picture.url }}{% else %}{% static 'img/yvan.jpg' %}{% endif %}" class="mr-3 h-8 rounded-full" alt="{{ user.username }}'s profile picture" />
+                        <img src="{% if user.profile_picture %}{{ user.profile_picture.url }}{% else %}{% static 'img/why.jpeg' %}{% endif %}" class="mr-3 h-8 rounded-full" alt="{{ user.username }}'s profile picture" />
                         <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">{{ user.username }}'s Panel</span>
                     </a>
                 </div>
@@ -125,7 +125,7 @@
                     <li>
                         <a href="{% url 'upload_document' %}" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                             <i class="fas fa-upload w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
-                            <span class="ml-3">Upload Documents</span>
+                            <span class="ml-3">Book Appointment</span>
                         </a>
                     </li>
 

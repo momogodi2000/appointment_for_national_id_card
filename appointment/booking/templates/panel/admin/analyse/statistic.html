@@ -1,0 +1,121 @@
+{% extends 'panel/base_page/base_admin.html' %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-6">
+
+  <!-- Statistics Section -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div class="bg-white shadow-lg rounded-lg p-4 flex items-center justify-between">
+      <div>
+        <p class="text-gray-500">Total Users</p>
+        <p class="text-3xl font-bold text-gray-700">{{ user_count }}</p>
+      </div>
+      <i class="fas fa-users text-4xl text-primary-500"></i>
+    </div>
+    
+    <div class="bg-white shadow-lg rounded-lg p-4 flex items-center justify-between">
+      <div>
+        <p class="text-gray-500">Total Documents</p>
+        <p class="text-3xl font-bold text-gray-700">{{ document_count }}</p>
+      </div>
+      <i class="fas fa-file-alt text-4xl text-primary-500"></i>
+    </div>
+    
+    <div class="bg-white shadow-lg rounded-lg p-4 flex items-center justify-between">
+      <div>
+        <p class="text-gray-500">Appointments</p>
+        <p class="text-3xl font-bold text-gray-700">{{ appointment_count }}</p>
+      </div>
+      <i class="fas fa-calendar-alt text-4xl text-primary-500"></i>
+    </div>
+    
+    <div class="bg-white shadow-lg rounded-lg p-4 flex items-center justify-between">
+      <div>
+        <p class="text-gray-500">Missing ID Cards</p>
+        <p class="text-3xl font-bold text-gray-700">{{ missing_card_count }}</p>
+      </div>
+      <i class="fas fa-id-card text-4xl text-primary-500"></i>
+    </div>
+  </div>
+
+  <!-- Chart Section -->
+  <div class="bg-white shadow-lg rounded-lg p-6 mb-8">
+    <h2 class="text-xl font-semibold mb-4">Statistics Overview</h2>
+    <canvas id="statsChart" class="w-full h-64"></canvas>
+  </div>
+
+  <!-- Table Section -->
+  <div class="bg-white shadow-lg rounded-lg p-6">
+    <h2 class="text-xl font-semibold mb-4">Summary Table</h2>
+    <table class="table-auto w-full text-left">
+      <thead>
+        <tr class="text-gray-500 uppercase text-sm">
+          <th class="px-4 py-2">Category</th>
+          <th class="px-4 py-2">Count</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="border-t">
+          <td class="px-4 py-2">Total Users</td>
+          <td class="px-4 py-2">{{ user_count }}</td>
+        </tr>
+        <tr class="border-t">
+          <td class="px-4 py-2">Total Documents</td>
+          <td class="px-4 py-2">{{ document_count }}</td>
+        </tr>
+        <tr class="border-t">
+          <td class="px-4 py-2">Appointments</td>
+          <td class="px-4 py-2">{{ appointment_count }}</td>
+        </tr>
+        <tr class="border-t">
+          <td class="px-4 py-2">Missing ID Cards</td>
+          <td class="px-4 py-2">{{ missing_card_count }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<!-- Chart.js for generating the chart -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  // Generate Chart from the statistics collected in the cards
+  var ctx = document.getElementById('statsChart').getContext('2d');
+  var statsData = {
+    labels: ['Total Users', 'Total Documents', 'Appointments', 'Missing ID Cards'],
+    datasets: [{
+      label: 'Statistics Overview',
+      data: [{{ user_count }}, {{ document_count }}, {{ appointment_count }}, {{ missing_card_count }}],
+      backgroundColor: [
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(255, 206, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)'
+      ],
+      borderColor: [
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 99, 132, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)'
+      ],
+      borderWidth: 1
+    }]
+  };
+
+  var statsChart = new Chart(ctx, {
+    type: 'bar',
+    data: statsData,
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>
+
+{% endblock %}

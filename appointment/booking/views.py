@@ -1129,3 +1129,30 @@ def analyse_view(request):
     }
 
     return render(request, 'panel/admin/analyse/analyse.html', context)
+
+
+
+from django.shortcuts import render
+from .models import User, Document, Appointment, MissingIDCard, Office
+
+def statistic(request):
+    # Get counts for each model
+    user_count = User.objects.count()
+    document_count = Document.objects.count()
+    appointment_count = Appointment.objects.count()
+    missing_card_count = MissingIDCard.objects.count()
+
+    # Group appointments by status for the graph
+    appointment_stats = Appointment.objects.values('status').annotate(count=models.Count('status'))
+
+    context = {
+        'user_count': user_count,
+        'document_count': document_count,
+        'appointment_count': appointment_count,
+        'missing_card_count': missing_card_count,
+        'appointment_stats': appointment_stats,
+    }
+
+    return render(request, 'panel/admin/analyse/statistic.html', context)
+
+
