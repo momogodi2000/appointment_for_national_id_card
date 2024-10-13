@@ -77,7 +77,7 @@
             </h3>
             <p class="text-gray-600 mb-4 text-center">Schedule and manage appointments.</p>
             <p class="text-gray-600 text-center mb-4">Upcoming Appointments: <span class="font-bold">{{ appointment_count }}</span></p>
-            <a href="#" class="block bg-indigo-500 text-white py-2 rounded text-center hover:bg-indigo-600">
+            <a href="{% url 'manage_appointments' %}" class="block bg-indigo-500 text-white py-2 rounded text-center hover:bg-indigo-600">
                 Manage Appointments
             </a>
         </div>
