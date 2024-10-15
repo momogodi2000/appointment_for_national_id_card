@@ -33,7 +33,9 @@ pycparser==2.22
 pydantic==2.8.2
 pydantic_core==2.20.1
 PyJWT==2.8.0
+python-decouple==3.8
 python3-openid==3.2.0
+qrcode==8.0
 reportlab==4.2.2
 requests==2.32.3
 requests-oauthlib==2.0.0
